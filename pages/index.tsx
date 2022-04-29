@@ -33,13 +33,23 @@ const Home: NextPage = ({
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CHAT_API}/blogs/published`
-  );
-  const blogs: IBlog[] = await res.json();
+  let blogs: IBlog[];
+  let sponsors: ISponsor[];
 
-  const res2 = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API}/sponsors`);
-  const sponsors: ISponsor = await res2.json();
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_CHAT_API}/blogs/published`
+    );
+    blogs = await res.json();
+  } catch (error) {
+    blogs = [];
+  }
+  try {
+    const res2 = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API}/sponsors`);
+    sponsors = await res2.json();
+  } catch (error) {
+    sponsors = [];
+  }
 
   return {
     props: {
