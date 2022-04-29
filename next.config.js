@@ -26,6 +26,11 @@ const nextConfig = {
         destination: "/app/main-hall",
         permanent: true,
       },
+      {
+        source: "/admin",
+        destination: "/admin/dashboard",
+        permanent: true,
+      },
     ];
   },
   async headers() {
