@@ -78,7 +78,7 @@ const Programs: NextPage = () => {
           <div style={{ perspective: "1000px" }}>
             <Image
               fit="contain"
-              src="/seminar-room-frame.png"
+              src="/hef-2022/webinar-series.png"
               alt="About HEF"
               className={classes.imageRight}
             />
@@ -88,7 +88,7 @@ const Programs: NextPage = () => {
           <div style={{ perspective: "1000px" }}>
             <Image
               fit="contain"
-              src="/main-hall-frame.png"
+              src="/hef-2022/main-hall.jpg"
               alt="About HEF"
               className={classes.imageLeft}
             />
@@ -117,7 +117,7 @@ const Programs: NextPage = () => {
           <div style={{ perspective: "1000px" }}>
             <Image
               fit="contain"
-              src="/who-attend.png"
+              src="/hef-2022/product-simulation.png"
               alt="About HEF"
               className={classes.imageRight}
             />

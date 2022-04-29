@@ -252,17 +252,21 @@ const ExhibitorBooth: NextPage = () => {
   const [isLoadingAddContact, setIsLoadingAddContact] = useState(false);
   const queryClient = useQueryClient();
 
-  const { data: exhibitor } = useExhibitor(
+  const { data: exhibitor, isLoading } = useExhibitor(
     router.query.id ? String(router.query.id) : ""
   );
-
-  console.log({ exhibitor });
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
       router.replace("/login");
     }
   }, [router, isInitialized, isAuthenticated]);
+
+  useEffect(() => {
+    if (!exhibitor?.package_id && !isLoading) {
+      router.push("/app/exhibitor");
+    }
+  }, [exhibitor?.package_id, isLoading, router]);
 
   const handleAddContact = async () => {
     if (!user?.id || !exhibitor?.id) return;
@@ -305,7 +309,7 @@ const ExhibitorBooth: NextPage = () => {
     }
   };
 
-  if (!isInitialized || !isAuthenticated) {
+  if (!isInitialized || !isAuthenticated || isLoading) {
     return null;
   }
 
@@ -347,17 +351,17 @@ const ExhibitorBooth: NextPage = () => {
       )}
       <div className={classes.container}>
         <div className={classes.logoContainer}>
-          {exhibitor?.company_logo ? (
-            <img
-              src={
-                exhibitor?.company_logo
-                  ? getFileUrl(exhibitor.company_logo, "companies")
-                  : ""
-              }
-              alt="Panasonic"
-              className={classes.logo}
-            />
-          ) : null}
+          {/* {exhibitor?.company_logo ? ( */}
+          <img
+            src={
+              exhibitor?.company_logo
+                ? getFileUrl(exhibitor.company_logo, "companies")
+                : "/hef-2022/logoipsum.svg"
+            }
+            alt="Panasonic"
+            className={classes.logo}
+          />
+          {/* ) : null} */}
         </div>
         <div className={classes.catalogContainer}>
           <UnstyledButton
@@ -394,17 +398,17 @@ const ExhibitorBooth: NextPage = () => {
           </Marquee>
         </div> */}
         <div className={classes.deskContainer}>
-          {exhibitor?.company_logo ? (
-            <Image
-              className={classes.deskLogo}
-              src={
-                exhibitor?.company_logo
-                  ? getFileUrl(exhibitor.company_logo, "companies")
-                  : ""
-              }
-              alt="Desk logo"
-            />
-          ) : null}
+          {/* {exhibitor?.company_logo ? ( */}
+          <Image
+            className={classes.deskLogo}
+            src={
+              exhibitor?.company_logo
+                ? getFileUrl(exhibitor.company_logo, "companies")
+                : "/hef-2022/logoipsum.svg"
+            }
+            alt="Desk logo"
+          />
+          {/* ) : null} */}
         </div>
         {user?.role === "visitor" && (
           <div className={classes.addContactContainer}>

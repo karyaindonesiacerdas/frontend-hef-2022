@@ -81,7 +81,7 @@ const Exhibitor = () => {
   const router = useRouter();
   const { isAuthenticated, isInitialized } = useAuth();
   const { classes } = useStyles();
-  const { data } = useExhibitors({});
+  const { data } = useExhibitors({ showAll: false });
   const exhibitors = data?.slice(0, 1);
   console.log({ exhibitors });
 

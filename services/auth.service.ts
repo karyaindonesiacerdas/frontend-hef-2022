@@ -326,7 +326,7 @@ export type UpdateExhibitorPayload = {
 
 export const updateExhibitor = async (payload: UpdateExhibitorPayload) => {
   const accessToken = Cookies.get("accessToken");
-  const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/update/`;
+  const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/update`;
   const {
     company_logo,
     company_name,

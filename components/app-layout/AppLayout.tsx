@@ -34,6 +34,7 @@ import { getFileUrl } from "utils/file-storage";
 import MyBooth from "icons/MyBooth";
 import { useLocalStorage } from "@mantine/hooks";
 import { ContactIconsList } from "../home/ContactIcons";
+import { useExhibitor } from "services/exhibitor/hooks";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -161,6 +162,7 @@ export default function AppLayout() {
     key: "open",
     defaultValue: "true",
   });
+  const { data: exhibitor } = useExhibitor(user?.id ? String(user?.id) : "");
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
@@ -210,7 +212,7 @@ export default function AppLayout() {
         <Navbar.Section grow mt={50}>
           <Group direction="column" align="center" spacing={0}>
             {links}
-            {user?.role === "exhibitor" && (
+            {user?.role === "exhibitor" && exhibitor?.package_id && (
               <Tooltip
                 label="My Booth"
                 position="right"

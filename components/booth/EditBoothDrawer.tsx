@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
+  createStyles,
   Drawer,
   Group,
   Image,
+  Input,
+  InputWrapper,
+  LoadingOverlay,
   Paper,
   SimpleGrid,
+  Tabs,
   Text,
   TextInput,
   Title,
@@ -22,6 +27,7 @@ import {
 import { getFileUrl } from "utils/file-storage";
 import { useNotifications } from "@mantine/notifications";
 import { uploadBanner, UploadBannerPayload } from "services/banner";
+import { useQueryClient } from "react-query";
 
 type Props = {
   opened: boolean;
@@ -51,43 +57,70 @@ const EditBoothDrawer = ({ exhibitor, opened, setOpened }: Props) => {
         },
       }}
     >
-      <Title order={2} style={{ fontSize: theme.fontSizes.lg }}>
-        Company Info
-      </Title>
-      <SimpleGrid mt="md" mb="xl" cols={2} style={{ alignItems: "start" }}>
-        <Paper shadow="xs" withBorder p="md">
-          <CompanyInfoForm exhibitor={exhibitor} />
-        </Paper>
-        <SimpleGrid cols={2}>
-          <Paper shadow="xs" withBorder p="md">
-            <NameCardForm
-              banner={exhibitor?.banners?.find((banner) => banner.order === 11)}
-            />
+      <Tabs>
+        <Tabs.Tab label="Company Info">
+          <Title
+            order={2}
+            mb="md"
+            mt="sm"
+            style={{ fontSize: theme.fontSizes.lg }}
+          >
+            Company Info
+          </Title>
+          <Paper shadow="xs" withBorder p="md" style={{ maxWidth: 800 }}>
+            <CompanyInfoForm exhibitor={exhibitor} />
           </Paper>
-          <Paper shadow="xs" withBorder p="md">
-            <CatalogForm
-              banner={exhibitor?.banners?.find((banner) => banner.order === 12)}
-            />
-          </Paper>
-        </SimpleGrid>
-      </SimpleGrid>
-
-      <Title order={2} style={{ fontSize: theme.fontSizes.lg }}>
-        Poster
-      </Title>
-      <SimpleGrid mt="md" cols={5}>
-        {[1, 2, 3, 4, 5].map((order) => (
-          <Paper key={order} shadow="xs" withBorder p="md">
-            <PosterForm
-              banner={exhibitor?.banners?.find(
-                (banner) => banner.order === order
-              )}
-              order={order}
-              label={`Poster ${order}`}
-            />
-          </Paper>
-        ))}
-      </SimpleGrid>
+        </Tabs.Tab>
+        <Tabs.Tab label="Name Card & Catalog">
+          <Title
+            order={2}
+            mb="md"
+            mt="sm"
+            style={{ fontSize: theme.fontSizes.lg }}
+          >
+            Name Card & Catalog
+          </Title>
+          <SimpleGrid cols={2} style={{ maxWidth: 800 }}>
+            <Paper shadow="xs" withBorder p="md">
+              <NameCardForm
+                banner={exhibitor?.banners?.find(
+                  (banner) => banner.order === 11
+                )}
+              />
+            </Paper>
+            <Paper shadow="xs" withBorder p="md">
+              <CatalogForm
+                banner={exhibitor?.banners?.find(
+                  (banner) => banner.order === 12
+                )}
+              />
+            </Paper>
+          </SimpleGrid>
+        </Tabs.Tab>
+        <Tabs.Tab label="Poster">
+          <Title
+            order={2}
+            mb="md"
+            mt="sm"
+            style={{ fontSize: theme.fontSizes.lg }}
+          >
+            Poster
+          </Title>
+          <SimpleGrid mt="md" cols={5}>
+            {[1, 2, 3, 4, 5].map((order) => (
+              <Paper key={order} shadow="xs" withBorder p="md">
+                <PosterForm
+                  banner={exhibitor?.banners?.find(
+                    (banner) => banner.order === order
+                  )}
+                  order={order}
+                  label={`Poster ${order}`}
+                />
+              </Paper>
+            ))}
+          </SimpleGrid>
+        </Tabs.Tab>
+      </Tabs>
     </Drawer>
   );
 };
@@ -150,7 +183,11 @@ const PosterForm = ({ order, label, banner }: PosterFormProps) => {
       <Title order={3} style={{ fontSize: theme.fontSizes.md }}>
         {label}
       </Title>
-      <form>
+      <form
+        onSubmit={form.onSubmit(handleSubmit)}
+        style={{ position: "relative" }}
+      >
+        <LoadingOverlay visible={visible} />
         <ImageInput
           image={image}
           setImage={setImage}
@@ -175,20 +212,50 @@ const NameCardForm = ({ banner }: { banner?: Banner }) => {
   const [image, setImage] = useState<File>();
   const [imageError, setImageError] = useState("");
   const theme = useMantineTheme();
+  const [visible, setVisible] = useState(false);
+  const notifications = useNotifications();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const payload: UploadBannerPayload = {
+      display_name: "Name Card",
+      image: image,
+      order: 11,
+    };
+    try {
+      setVisible(true);
+      await uploadBanner(payload);
+      notifications.showNotification({
+        title: "Success",
+        message: "Name card updated",
+        color: "green",
+      });
+      setVisible(false);
+    } catch (error: any) {
+      setVisible(false);
+      notifications.showNotification({
+        title: "Error",
+        message: error?.message || "Error update name card",
+        color: "red",
+      });
+    }
+  };
 
   return (
     <>
       <Title order={3} style={{ fontSize: theme.fontSizes.md }}>
         Name Card
       </Title>
-      <form>
+      <form onSubmit={handleSubmit} style={{ position: "relative" }}>
+        <LoadingOverlay visible={visible} />
         <ImageInput
           image={image}
           setImage={setImage}
           imageError={imageError}
           setImageError={setImageError}
+          currentImage={banner?.image && getFileUrl(banner.image, "banner")}
         />
-        <Button fullWidth mt="md" type="submit">
+        <Button disabled={!image} fullWidth mt="md" type="submit">
           Save
         </Button>
       </form>
@@ -197,23 +264,63 @@ const NameCardForm = ({ banner }: { banner?: Banner }) => {
 };
 
 const CatalogForm = ({ banner }: { banner?: Banner }) => {
-  const [image, setImage] = useState<File>();
+  const [image, setImage] = useState<File | null>();
   const [imageError, setImageError] = useState("");
   const theme = useMantineTheme();
+  const [visible, setVisible] = useState(false);
+  const notifications = useNotifications();
+
+  console.log({ banner });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!image) return;
+    const payload: UploadBannerPayload = {
+      display_name: "Catalog",
+      image: image,
+      order: 12,
+    };
+    try {
+      setVisible(true);
+      await uploadBanner(payload);
+      notifications.showNotification({
+        title: "Success",
+        message: "Catalog updated",
+        color: "green",
+      });
+      setVisible(false);
+    } catch (error: any) {
+      setVisible(false);
+      notifications.showNotification({
+        title: "Error",
+        message: error?.message || "Error update catalog",
+        color: "red",
+      });
+    }
+  };
 
   return (
     <>
       <Title order={3} style={{ fontSize: theme.fontSizes.md }}>
         Catalog
       </Title>
-      <form>
-        <ImageInput
+      <form onSubmit={handleSubmit} style={{ position: "relative" }}>
+        <LoadingOverlay visible={visible} />
+        <InputWrapper mt="md">
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => setImage(e.target.files && e.target.files[0])}
+          />
+        </InputWrapper>
+
+        {/* <ImageInput
           image={image}
           setImage={setImage}
           imageError={imageError}
           setImageError={setImageError}
-        />
-        <Button fullWidth mt="md" type="submit">
+        /> */}
+        <Button fullWidth mt="md" type="submit" disabled={!image}>
           Save
         </Button>
       </form>
@@ -226,6 +333,7 @@ const CompanyInfoForm = ({ exhibitor }: { exhibitor: Exhibitor }) => {
   const [imageError, setImageError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const notifications = useNotifications();
+  const queryClient = useQueryClient();
 
   const form = useForm({
     initialValues: {
@@ -259,6 +367,7 @@ const CompanyInfoForm = ({ exhibitor }: { exhibitor: Exhibitor }) => {
     try {
       setIsLoading(true);
       await updateExhibitor(payload);
+      await queryClient.invalidateQueries("exhibitors");
       notifications.showNotification({
         title: "Success",
         message: "Company info updated",
@@ -276,7 +385,11 @@ const CompanyInfoForm = ({ exhibitor }: { exhibitor: Exhibitor }) => {
   };
 
   return (
-    <form onSubmit={form.onSubmit(handleSubmit)}>
+    <form
+      onSubmit={form.onSubmit(handleSubmit)}
+      style={{ position: "relative" }}
+    >
+      <LoadingOverlay visible={isLoading} />
       <SimpleGrid cols={2}>
         <TextInput
           label="Company Name"
@@ -304,7 +417,11 @@ const CompanyInfoForm = ({ exhibitor }: { exhibitor: Exhibitor }) => {
           setImageError={setImageError}
         />
         <Image
-          src={getFileUrl(exhibitor.company_logo, "companies")}
+          src={
+            exhibitor.company_logo
+              ? getFileUrl(exhibitor.company_logo, "companies")
+              : "/hef-2022/logoipsum.svg"
+          }
           alt={exhibitor.company_name}
           height={100}
           fit="contain"

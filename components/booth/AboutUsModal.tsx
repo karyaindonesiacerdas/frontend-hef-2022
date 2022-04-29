@@ -43,7 +43,7 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
             src={
               exhibitor?.company_logo
                 ? getFileUrl(exhibitor?.company_logo, "companies")
-                : ""
+                : "/hef-2022/logoipsum.svg"
             }
             alt="Logo"
           />
@@ -96,44 +96,65 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
           <Text mt="lg" mb="sm" align="center" weight={500}>
             Name Card
           </Text>
-          <a
-            download
-            target="_blank"
-            rel="noopener noreferrer"
-            href={nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""}
-          >
-            <Image
-              src={nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""}
-              alt="Name card"
-              height={200}
-              // fit="contain"
-            />
-          </a>
-          <Group position="center">
-            <Button
-              component="a"
-              pl="xs"
-              size="xs"
-              mt="md"
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-              leftIcon={<Download size={16} />}
-              href={
-                nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""
-              }
+          {!!nameCard?.image ? (
+            <>
+              <a
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                href={
+                  nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""
+                }
+              >
+                <Image
+                  src={
+                    nameCard?.image
+                      ? getFileUrl(nameCard?.image, "banner")
+                      : "/hef-2022/logoipsum.svg"
+                  }
+                  alt="Name card"
+                  height={200}
+                  fit="contain"
+                />
+              </a>
+              <Group position="center">
+                <Button
+                  component="a"
+                  pl="xs"
+                  size="xs"
+                  mt="md"
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  leftIcon={<Download size={16} />}
+                  href={
+                    nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""
+                  }
+                >
+                  Download Name Card
+                </Button>
+              </Group>
+            </>
+          ) : (
+            <Center
+              style={{
+                height: 120,
+                borderWidth: "2px",
+                border: "1px solid #ddd",
+              }}
             >
-              Download Name Card
-            </Button>
-          </Group>
+              <Text size="xl" weight={600}>
+                Empty
+              </Text>
+            </Center>
+          )}
         </div>
         <div>
+          <Text mt="lg" mb="sm" align="center" weight={500}>
+            Catalog
+          </Text>
           {catalog ? (
             <div>
-              <Text mt="lg" mb="sm" align="center" weight={500}>
-                Catalog
-              </Text>
-
               <Group position="center">
                 <Button
                   component="a"
@@ -149,7 +170,19 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
                 </Button>
               </Group>
             </div>
-          ) : null}
+          ) : (
+            <Center
+              style={{
+                height: 120,
+                borderWidth: "2px",
+                border: "1px solid #ddd",
+              }}
+            >
+              <Text size="xl" weight={600}>
+                Empty
+              </Text>
+            </Center>
+          )}
         </div>
       </SimpleGrid>
     </Modal>

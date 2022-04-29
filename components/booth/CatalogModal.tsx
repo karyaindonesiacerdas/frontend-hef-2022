@@ -83,6 +83,13 @@ const CatalogModal = ({ opened, setOpened, posters, catalog }: Props) => {
           </div>
         ))}
       </Carousel>
+      {!posters?.length && (
+        <Center style={{ height: 400 }}>
+          <Text size="xl" weight={600}>
+            Empty
+          </Text>
+        </Center>
+      )}
     </Modal>
   );
 };
