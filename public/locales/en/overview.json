@@ -1,0 +1,67 @@
+{
+  "about-hef": {
+    "tag": "About",
+    "title": "Hospital Engineering Forum 2022",
+    "content": "Hospital Engineering Forum is the first virtual national seminar and international fair by Indonesian Association of Hospital Engineering (IAHE) which will be held on 21 May, 28 May, and 4 Juny 2022. This year, 8 topics will be discussed in hospital engineering: SPA for Fire Management and Hospital Evacuation, SPA for Hospital Energy Supply and Distribution, SPA for Supporting Smart Hospitals and Inpatients, SPA for Infection Control, Room and Air Conditioning, SPA for Radiology and Radiotherapy, SPA in ICU, OK and CL, SPA Medical Rehabilitation, SPA Waste Treatment (liquid and solid) and Hospital Water. More than 40 speakers from the government, association, hospital and industry sectors are invited. We also provide stands for around 100 local and international exhibitors. This event will be co-organised with Karya Indonesia Cerdas."
+  },
+  "about-ihea": {
+    "tag": "About",
+    "title": "Indonesian Association of Hospital Engineering",
+    "overview": "The Indonesian Association of Hospital Engineering (IAHE) is a professional organization of technical experts and corporations engaged in the construction, operation, and maintenance of hospitals in Indonesia. The association was established on October 3, 2019 in Jakarta, and was ratified by the Ministry of Law and Human Rights with the number AHU-0011147.AH.01.07. The organization vision is to become the leading organization that encourages the realization of hospitals in Indonesia that are Safe, environMentally friendly, Affordable, secuRe, and worThwhile (SMART).",
+    "why-tag": "Why IAHE?",
+    "why-1": "IAHE is an association of hospital engineering experts who are capable of designing, analyzing and maintaining hospital master plan and infrastructure. IAHE is able to give expert opinions on suitable products for hospitals in accordance with their needs and conditions.",
+    "why-2": "IAHE has 6 main fields: Hospital Buildings, Hospital Mechanics, Hospital Electrics, Hospital Environments, Hospital Informatics, and Hospital Devices.",
+    "why-3": "IAHE partners up with relevant ministries to discuss and disseminate regulations related to the field of hospital engineering. Ministry of Public Works and Public Housing for building and mechanical system, Ministry of Energy and Mineral Resources for electrical system, Ministry of Environment and Forestry for environmental sustainability, Ministry of Communication and Information for information system, and Ministry of Health for medical equipment.",
+    "why-4": "IAHE partners with the National Hospital Accreditation Committee and the National Standardization Agency to ensure the quality of products, services and management systems meet national standards and regulations.",
+    "why-5": "IAHE builds relationships with other non-technical organizations of hospital and healthcare such as Indonesian Hospital Association, Indonesia Health Consultant Association, Indonesian Public Health Association, Association of Indonesian Teaching Hospitals, Association of Public University Hospitals, Indonesian Private Hospitals Association, Indonesian Medical Association.",
+    "why-6": "IAHE has more than 600 corporate members registered in the SEHAT-RI  digital platform. They are hospitals and healthcare from various provinces in Indonesia.",
+    "why-7": "IAHE has more than 10000 individual members registered in the SEHAT-RI digital platform. They are hospital directors, managers, medical staff and engineers.",
+    "why-8": "IAHE regularly organizes monthly seminars and workshops which have been attended by more than 9000 people over the last year.",
+    "why-9": "IAHE was established 2 years ago on 3rd October 2019 and was initiated by the Ministry of Health and hospital engineering experts in Indonesia.",
+    "why-10": "Although the association has only been established for 2 years, IAHE has the highest member growth (in terms of viewers, followers, and number of training) compared to other similar organizations in Indonesia.",
+    "why-11": "IAHE's mission is to realize as much as possible hospitals in Indonesia that are safer, environmentally friendly, affordable, secure and beneficial in accordance with the 2009 Hospital Law. For this reason, IAHE continues to disseminate best practices that adhere to the standard of planning and managing hospitals. The association also continues to encourage the industries and various stakeholders to make this happen.",
+    "why-12": "IAHE continues to work together with relevant ministries to provide suggestions and feedback relating to the existing and future regulations in order to push for safer, environmentally friendly and affordable hospitals."
+  },
+  "our-programs": "Our Programs",
+  "programs": {
+    "program-1": {
+      "title": "Webinar Series",
+      "tag": "Sharing Best Practices",
+      "content": "A series of seminars with more than 40 speakers from government, hospitals, experts and industry in 6 areas of hospital engineering with live question and answer sessions at each seminar."
+    },
+    "program-2": {
+      "title": "Virtual Exhibition",
+      "tag": "National & International Hospital Engineering Products Exhibition",
+      "content": "Exhibition of products from around 100 local and international  companies in 6 areas of hospital engineering and products related to COVID-19. Opportunity to meet potential buyers in 1 on 1 business matching and product exposure to 10000 IAHE members."
+    },
+    "program-3": {
+      "title": "Product Simulation",
+      "tag": "Product simulation from several local and international companies",
+      "content": "Product simulation from several local and international companies. Product simulation activities consist of product demos, simulations, the acquisition process, use and maintenance as well as consultations regarding the products being demonstrated."
+    }
+  },
+  "webinar-rundown": "Webinar Rundown",
+  "news": {
+    "header": "News",
+    "read-more": "Read More"
+  },
+  "important-dates": {
+    "header": "Important Dates",
+    "date-1": {
+      "date": "25 February 2022",
+      "event": "Registration Started"
+    },
+    "date-2": {
+      "date": "4 June 2022",
+      "event": "Event Day 1"
+    },
+    "date-3": {
+      "date": "11 June 2022",
+      "event": "Event Day 2"
+    },
+    "date-4": {
+      "date": "18 June 2022",
+      "event": "Event Day 3"
+    }
+  }
+}

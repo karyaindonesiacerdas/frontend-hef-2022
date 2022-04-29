@@ -1,0 +1,37 @@
+{
+  "countdown": {
+    "tag": "Are you ready for HEF 2022?",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "event-tag": "Virtual",
+    "event-title": "Hospital Engineering Forum",
+    "event-date": "11, 18, and 25 June 2022"
+  },
+  "blog": {
+    "header": "Blog & News",
+    "subheader": "Latest Article",
+    "read-more": "Read More"
+  },
+  "topic": {
+    "tag": "Topic",
+    "header": "6 Topics of Webinars"
+  },
+  "cta": {
+    "tag": "I'd like to be",
+    "register-here": "Register Here",
+    "exhibitor-content": "Capture the immense growth of the healthcare market by being an Exhibitor at First Asia's National Seminar and International Fair, HEF 2022.",
+    "visitor-content": "Learn, network and do business as a Visitor at Hospital Engineering Forum 2022, The First Asia's National Seminar and International Fair in Healthcare Engineering."
+  },
+  "organized-by": "Organized by",
+  "sponsored-by": "Sponsored by",
+  "contact": {
+    "tag": "Contact",
+    "title": "Contact Us",
+    "address": "Gedung Wisma NH Lantai 1, Jl. Raya Pasar Minggu No.2B-C RT 002 / RW 002, Pancoran, Kec. Pancoran, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12780",
+    "whatsapp1": "+62 858 9377 7283 (Adrian)",
+    "whatsapp2": "+62 877 7889 9087 (Jordy)",
+    "email": "hospital.engineering.expo@gmail.com"
+  }
+}

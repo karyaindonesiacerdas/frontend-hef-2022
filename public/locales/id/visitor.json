@@ -1,0 +1,42 @@
+{
+  "visitor-guideline": {
+    "tag": "Guideline",
+    "title": "Pedoman Visitor",
+    "guideline-1": "Buka halaman pendaftaran untuk visitor di",
+    "guideline-2": "Kemudian masukkan data diri Anda",
+    "guideline-3": "Masukkan email aktif Anda. Informasi dan notifikasi akan kami kirim melalui email.",
+    "guideline-4": "Masukkan nomor hp yang yang terhubung dengan WhatsApp Anda",
+    "guideline-5": "Masukkan nama lengkap beserta gelar. Nama ini akan kami gunakan untuk sertifikat.",
+    "guideline-6": "Pilih jenis pekerjaan anda. Jika anda tidak menemukan jenis pekerjaan yang sesuai, Anda dapat pilih 'Lainnya'",
+    "guideline-7": "Masukkan password Anda dan ketikkan kembali password Anda dalam 'Konfirmasi Kata Sandi'",
+    "guideline-8": "Masukkan Nama perusahaan/ institusi Anda",
+    "guideline-9": "Pilih tipe institusi yang sesuai. Apabila Anda tidak menemukan tipe institusi yang sesuai, Anda dapat pilih 'Lainnya'",
+    "guideline-10": "Pilih asal negara Anda",
+    "guideline-11": "Apabila Anda memilih Indonesia, silahkan pilih provinsi Anda",
+    "guideline-12": "Pilih Tipe visitor yang paling sesuai dengan Anda",
+    "guideline-13": "Centang  produk yang Anda minati (Anda dapat mencentang lebih dari satu)",
+    "guideline-14": "Centang alasan anda ingin mengikuti FTP 2022",
+    "guideline-15": "Pilih apakah Anda sudah teregistrasi di SEHAT RI atau belum. Jika Anda lupa atau tidak yakin, anda dapat memilih 'Saya Lupa' ",
+    "guideline-16": "Pilih 'Saya mengerti dan setuju'",
+    "guideline-17": "Apabila semua sudah terisi, Anda dapat klik 'Daftar’.Anda telah terdaftar dan dapat login"
+  },
+  "who-attend": {
+    "title": "Siapa yang Hadir?",
+    "overview": "Dengan lebih dari 10000 anggota terdaftar dari Indonesia, PTPI diakui secara nasional dalam penyelenggaraan webinar yang berfokus pada teknik perumahsakitan. Profil visitor kami terdiri dari berbagai macam tenaga ahli dari berbagai sektor industri kesehatan, sebagai berikut:",
+    "attendee-1": "Tim Manajemen Rumah Sakit",
+    "attendee-2": "Staf Teknik Rumah Sakit",
+    "attendee-3": "Dokter",
+    "attendee-4": "Dosen Universitas",
+    "attendee-5": "Staf Klinis Rumah Sakit",
+    "attendee-6": "Teknik Biomedis",
+    "attendee-7": "Staf Pemerintah"
+  },
+  "why-attend": {
+    "title": "Mengapa Hadir?",
+    "overview": "Visitor FTP 2022 dapat bergabung dalam acara online selama 3 hari secara gratis, mulai dari serangkaian webinar hingga peluang networking dengan exhibitor kami.",
+    "profit-1": "Serangkaian seminar dengan lebih dari 20 pembicara dari sektor pemerintah, asosiasi, industri dan rumah sakit dengan sesi tanya jawab langsung di setiap seminar untuk memfasilitasi kebutuhan rumah sakit yang sesuai standar dan terjangkau.",
+    "profit-2": "Presentasi, demo dan simulasi produk dari exhibitor dilanjutkan dengan tanya jawab langsung ",
+    "profit-3": "Networking dengan lebih dari 10000 anggota PTPI.",
+    "profit-4": "Bersertifikat dan berkesempatan memenangkan hadiah-hadiah menarik selama acara berlangsung."
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "exhibitor-guideline": {
+    "tag": "Guideline",
+    "title": "Exhibitor Guideline",
+    "guideline-1": "Go to the exhibitors’s registration page at",
+    "guideline-2": "Enter your company’s representative information.",
+    "guideline-3": "Enter an active email address. We will send information and notifications to your email.",
+    "guideline-4": "Enter a phone number that’s connected to WhatsApp",
+    "guideline-5": "Enter the representative full name and title.",
+    "guideline-6": "Select the representative job function. If you did not find a suitable one, you can select 'Other'",
+    "guideline-7": "Enter a password and retype your password in 'Confirm Password'",
+    "guideline-8": "Enter your company information",
+    "guideline-9": "Enter your company/ institution name",
+    "guideline-10": "Enter your company’s website. If your company doesn’t have a website, you can enter dash (-)",
+    "guideline-11": "Choose your company’s country of origin",
+    "guideline-12": "If you choose Indonesia, please select the province of your company",
+    "guideline-13": "Tick the field(s) that best describes your company",
+    "guideline-14": "Once you have finished filling in the registration form, click __Register__. You'll be registered in our system and may login to our website. Further guidelines will be informed later."
+  },
+  "who-exhibit": {
+    "title": "Who Exhibits?",
+    "overview": "There will be Medical Devices Manufacturer & Distributor, Hospital Equipment and Material Manufacturer & Distributor, Hospital Consultant, and Hospital Facility Contractor divided in 6 Industry Areas:",
+    "area-1": {
+      "name": "Hospital Buildings",
+      "sub-area": "Architecture & Structure"
+    },
+    "area-2": {
+      "name": "Hospital Electrics",
+      "sub-area": "Power & Signaling"
+    },
+    "area-3": {
+      "name": "Hospital Environments",
+      "sub-area": "Waste & Sanitation"
+    },
+    "area-4": {
+      "name": "Hospital Informatics",
+      "sub-area": "IOT, AI, Big Data, Smart Hospital"
+    },
+    "area-5": {
+      "name": "Hospital Mechanics",
+      "sub-area": "Plumbing, Lift & AC, Medical Gas, Steam, Fire Fighting Installation, Ambulance"
+    },
+    "area-6": {
+      "name": "Hospital Devices",
+      "sub-area": "Diagnostics, Surgery, Rehabilitation"
+    },
+    "area-7": {
+      "name": "COVID-19 Produts",
+      "sub-area": "PCR Equipment, Antigen Equipment, Isolation Chamber, Ventilator, Oxygen Equipment, Personal Protective Equipment (PPE)"
+    }
+  },
+  "why-exhibit": {
+    "title": "Why Exhibit?",
+    "overview": "In HEF 2022 you get the chance to meet potential clients in a one one meeting through our online booking system and business matching.",
+    "profit-1": "A joint forum between regulators (government), academics (experts/universities), and industries to facilitate the hospital needs that’s up to standards and financial conditions of the hospital.",
+    "profit-2": "Increase exposure towards your products by demonstrating it during selected webinars and in our exhibition hall. (Products presented must meet the national or international standards",
+    "profit-3": "Connect with potential buyers (up to 40 potential buyers in 3 days)",
+    "profit-4": "The opportunity to be recommended by the association as a company with technically appropriate products and services (based on assessment results by IAHE) to all IAHE members.",
+    "profit-5": "The opportunity to partner with IAHE to continuously encourage and build hospitals in Indonesia that are safer, more environmentally friendly, affordable, secure and beneficial."
+  },
+  "packages": {
+    "tag": "Packages",
+    "title": "Virtual Exhibition Package List",
+    "content": "Companies that are interested in marketing their products at the exhibition can contact our Whatsapp at +62 858 9377 7283 (Adrian).",
+    "help-text": "For more information about the price, you can contact our WhatsApp at +62 858 9377 7283 (Adrian)."
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "about-hef": {
+    "tag": "Tentang",
+    "title": "Forum Teknik Perumahsakitan 2022",
+    "content": "Forum Teknik Perumahsakitan merupakan forum nasional dan pameran  internasional virtual kedua yang diselenggarakan oleh Perkumpulan  Teknik Perumahsakitan Indonesia (PTPI). Pada tahun ini, HEF 2022 mengangkat 6 topik pembahasan terkait  dengan Sarana, Prasarana dan Alat (SPA) untuk: Penyediaan dan Distribusi Energi  Rumah Sakit, Pendukung Smart Hospital dan Rawat Inap, Pengendali  Infeksi, Ruang dan Tata Udara, Radiologi dan Radioterapi, di ICU, OK  dan Cathlab, Rehabilitasi Medis. Lebih dari 20 pembicara dari pemerintah, asosiasi,  rumah sakit dan industri diundang. Kami juga menyediakan lebih dari 100  stand pameran lokal dan internasional."
+  },
+  "about-ihea": {
+    "tag": "Tentang",
+    "title": "Perkumpulan Teknik Perumahsakitan Indonesia",
+    "overview": "Perkumpulan Teknik Perumahsakitan Indonesia (PTPI) adalah organisasi yang  didirikan pada tanggal 3 Oktober 2019, yang mewadahi  para ahli teknik dari berbagai  bidang ilmu dengan tujuan untuk mendorong terwujudnya  SMART Hospital atau rumah  sakit yang S.M.A.R.T (Selamat, berManfaat, Aman,  Ramah Lingkungan dan Terjangkau) di Indonesia. Dalam upaya untuk mencapai  tujuan diatas, maka PTPI bekerjasama dengan Kementerian Kesehatan dan  Institusi lainnya, telah menyelenggarakan berbagai  kegiatan online yang dihadiri oleh lebih dari 10000 peserta  dari rumah sakit, lembaga pendidikan kesehatan, industri kesehatan dan dinas kesehatan dari Aceh hingga  Papua.",
+    "why-tag": "Kenapa PTPI?",
+    "why-1": "PTPI adalah perkumpulan para ahli teknik perumahsakitan yang mampu untuk membuat master plan rumah sakit, merancang sarana, prasarana dan alat (S.P.A.) di rumah sakit; mampu menganalisis (S.P.A.) di rumah sakit; serta mampu memelihara, mengevaluasi dan mengelola S.P.A. di rumah sakit. Pendapat para ahli teknik perumahsakitan memainkan peranan sangat penting bagi rumah sakit dalam pemilihan produk yang paling sesuai dengan kebutuhan dan kondisi infrastruktur di rumah sakit.",
+    "why-2": "PTPI memiliki 6 bidang utama: Bangunan Rumah Sakit (arsitektur dan teknik sipil), Mekanika Rumah Sakit (teknik mesin), Elektrika Rumah Sakit (teknik elektro), Lingkungan Rumah Sakit (teknik lingkungan dan kesehatan), Informatika Rumah Sakit (teknik informatika), dan Alat Kesehatan Rumah Sakit (teknik biomedis dan instrumentasi).",
+    "why-3": "PTPI bekerja sama dengan kementerian terkait untuk membahas dan mensosialisasikan regulasi terkait teknik perumahsakitan. Kemen PUPR untuk bangunan dan mekanika, Kemen ESDM untuk kelistrikan, Kemen LKH untuk lingkungan, KOMINFO untuk informatika dan KEMENKES untuk alat kesehatan.",
+    "why-4": "PTPI bekerja sama dengan Komisi Akreditasi Rumah Sakit dan Badan Standarisasi Nasional untuk memastikan kualitas produk, layanan dan sistem manajemen memenuhi standar dan peraturan nasional.",
+    "why-5": "PTPI juga terus menerus bekerjasama dengan organisasi non-teknik perumahsakitan dan kesehatan lainnya seperti Perhimpunan Rumah Sakit Seluruh Indonesia (PERSI), Ikatan Konsultan Kesehatan Indonesia (IKKESINDO), Ikatan Ahli Kesehatan Masyarakat Indonesia (IAKMI), Asosiasi RS Pendidikan Indonesia (ARSPI), Asosiasi RS Perguruan Tinggi Negeri (ARSPTN), dan Asosiasi RS Swasta Indonesia (ARSSI).",
+    "why-6": "PTPI memiliki 600 anggota korporat yaitu rumah sakit yang terdaftar dalam platform digital SEHAT-RI.",
+    "why-7": " PTPI memiliki 10000 anggota individu mulai dari direktur, manajer, staf medis dan teknisi rumah sakit yang terdaftar dalam platform digital SEHAT-RI.",
+    "why-8": "PTPI secara rutin menyelenggarakan seminar dan workshop bulanan yang telah dihadiri oleh lebih dari 9000 orang selama setahun terakhir.",
+    "why-9": " PTPI berdiri sejak 2 tahun yang lalu yaitu pada 3 Oktober 2019 dan diprakarsai oleh Kementerian Kesehatan dan para ahli teknik perumahsakitan di Indonesia.",
+    "why-10": "Meski baru berdiri selama 2 tahun, PTPI memiliki pertumbuhan anggota tertinggi (viewers, followers, dan jumlah pelatihan) dibandingkan organisasi sejenis lainnya di Indonesia.",
+    "why-11": "Misi PTPI adalah mewujudkan sebanyak mungkin rumah sakit di Indonesia yang lebih selamat, ramah lingkungan, terjangkau, aman dan bermanfaat sesuai dengan UU Rumah Sakit 2009. Untuk itu, PTPI terus mensosialisasikan berbagai tatacara yang baik yang sesuai standar dalam merencanakan dan mengelola rumah sakit. PTPI juga terus mendorong industri dan pemangku kepentingan lainnya untuk mewujudkan ini.",
+    "why-12": "PTPI terus bekerja sama dengan kementerian terkait untuk memberikan usulan dan tanggapan terkait regulasi yang ada dan yang akan datang untuk mendorong terwujudnya rumah sakit yang LEBIH SELAMAT, LEBIH BERMANFAAT, LEBIH AMAN, LEBIH RAMAH LINGKUNGAN DAN LEBIH TERJANGKAU."
+  },
+  "our-programs": "Program Kami",
+  "programs": {
+    "program-1": {
+      "title": "Serial Webinar",
+      "tag": "Berbagi Wawasan dan Praktik Terbaik",
+      "content": "Serangkaian seminar  dengan lebih dari 20  pembicara dari  pemerintah, rumah sakit,  perguruan tinggi dan  industri di 6 topik yang  sangat penting untuk  dibahas dalam acara ini."
+    },
+    "program-2": {
+      "title": "Pameran Virtual",
+      "tag": "Berbagi informasi  tentang produk dan  layanan perusahaan  secara virtual",
+      "content": "Persembahan produk  dari sekitar 100  perusahaan lokal dan  internasional di 6 topik  teknik perumahsakitan  kepada lebih 10000  anggota PTPI."
+    },
+    "program-3": {
+      "title": "Simulasi Produk",
+      "tag": "Mendemonstrasikan  produk secara lebih live",
+      "content": "Simulasi produk terdiri  dari produk demo,  penjelasan proses  akuisisi, pengunaan dan  pemeliharaan serta  konsultasi terkait  produk yang didemokan"
+    }
+  },
+  "webinar-rundown": "Rundown Webinar",
+  "news": {
+    "header": "Berita",
+    "read-more": "Baca Selengkapnya"
+  },
+  "important-dates": {
+    "header": "Tanggal Penting",
+    "date-1": {
+      "date": "25 Februari 2022",
+      "event": "Pendaftaran Dimulai"
+    },
+    "date-2": {
+      "date": "4 Juni 2022",
+      "event": "Acara Hari Ke-1"
+    },
+    "date-3": {
+      "date": "11 Juni 2022",
+      "event": "Acara Hari Ke-2"
+    },
+    "date-4": {
+      "date": "18 Juni 2022",
+      "event": "Acara Hari Ke-3"
+    }
+  }
+}

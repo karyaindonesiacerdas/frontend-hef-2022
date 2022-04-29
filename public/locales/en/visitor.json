@@ -1,0 +1,42 @@
+{
+  "visitor-guideline": {
+    "tag": "Guideline",
+    "title": "Visitor Guideline",
+    "guideline-1": "Go to the visitor’s registration page at",
+    "guideline-2": "Enter your account information.",
+    "guideline-3": "Enter your active email address. We will send information and notifications to your email.",
+    "guideline-4": "Enter a phone number that’s connected to WhatsApp",
+    "guideline-5": "Enter your full name and title. We will use this for the certificate.",
+    "guideline-6": "Select your job function. If you did not find a suitable one, you can select 'Other'",
+    "guideline-7": "Enter a password and retype your password in 'Confirm Password'",
+    "guideline-8": "Enter your institution/ company name",
+    "guideline-9": "Select the type of institution that best describes your company/institution. If you did not found a suitable one, select 'Other'",
+    "guideline-10": "Select your country of origin",
+    "guideline-11": "If you choose Indonesia, please select your province",
+    "guideline-12": "Select the visitor type that best suits you",
+    "guideline-13": "Tick the products you are interested in (You can tick as much as possible)",
+    "guideline-14": "Tick your purpose of visiting HEF 2022",
+    "guideline-15": "Select if you have registered in SEHAT RI or not. If you forget or are unsure, you may select 'I Forget'",
+    "guideline-16": "Select I understand and accept the condition.",
+    "guideline-17": "Once you have finished filling in the registration form, click 'Register'. You'll be registered in our system and may login to our website. Further guidelines will be informed later."
+  },
+  "who-attend": {
+    "title": "Who Attend?",
+    "overview": "With over 10000 registered members from Indonesia, IAHE is recognised nationally for conducting webinars focusing on hospital engineering. Healthcare professionals across the following industry sectors are represented within our visitor profiles:",
+    "attendee-1": "Hospital Management Team",
+    "attendee-2": "Hospital Engineering Staff",
+    "attendee-3": "Medical Doctor",
+    "attendee-4": "University Lecturer",
+    "attendee-5": "Hospital Clinical Staff",
+    "attendee-6": "Biomedical Engineer",
+    "attendee-7": "Government Staff"
+  },
+  "why-attend": {
+    "title": "Why Attend?",
+    "overview": "Visitors of HEF 2022 can look forward to joining a free of charge 3 days online event, ranging from a series of webinars to networking opportunities with our exhibitors.",
+    "profit-1": "A series of seminars with over 20 speakers from the government, association, industry and hospital sectors with a live Q&A session in each seminar to facilitate the hospital needs that’s up to standards and affordable.",
+    "profit-2": "Product presentation from exhibitors and 1 on 1 business matching between exhibitors and prospective buyers.",
+    "profit-3": "Networking with over 10000 members of IHEA",
+    "profit-4": "Certificate and win attractive prizes and rewards throughout the event."
+  }
+}

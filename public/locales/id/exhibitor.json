@@ -1,0 +1,67 @@
+{
+  "exhibitor-guideline": {
+    "tag": "Guideline",
+    "title": "Pedoman Exhibitor",
+    "guideline-1": "Buka halaman pendaftaran untuk exhibitor di",
+    "guideline-2": "Kemudian masukkan data diri perwakilan perusahaan Anda",
+    "guideline-3": "Masukkan email aktif Anda. Informasi dan notifikasi akan kami kirim melalui email.",
+    "guideline-4": "Masukkan nomor hp yang yang terhubung dengan WhatsApp Anda",
+    "guideline-5": "Masukkan nama lengkap dan gelar Anda.",
+    "guideline-6": "Pilih jenis pekerjaan anda. Jika anda tidak menemukan jenis pekerjaan yang sesuai, Anda dapat pilih 'Lainnya'",
+    "guideline-7": "Masukkan password Anda dan ketikkan kembali password Anda dalam 'Konfirmasi Kata Sandi'",
+    "guideline-8": "Kemudian masukkan data perusahaan Anda",
+    "guideline-9": "Masukkan Nama perusahaan/ institusi Anda.",
+    "guideline-10": "Masukkan alamat website perusahaan Anda. Jika perusahaan anda tidak memiliki website Anda dapat menuliskan strip (-)",
+    "guideline-11": "Pilih asal negara perusahaan Anda",
+    "guideline-12": "Apabila Anda memilih Indonesia, silahkan pilih provinsi perusahaan Anda",
+    "guideline-13": "Centang bidang perusahaan yang menggambarkan perusahaan Anda",
+    "guideline-14": "Apabila semua sudah terisi, Anda dapat klik “Daftar”. Anda telah terdaftar dan dapat login ke sistem kami. Untuk pedoman lebih lanjut, akan kami beritahukan kemudian."
+  },
+  "who-exhibit": {
+    "title": "Siapa Exhibitor Kami?",
+    "overview": "Dalam FTP 2022, akan ada produsen dan distributor alat kesehatan, peralatan dan material rumah sakit, konsultan rumah sakit dan kontraktor sarana rumah sakit yang terbagi dalam 6 bidang industri:",
+    "area-1": {
+      "name": "Bangunan Rumah Sakit",
+      "sub-area": "Struktur & Arsitektur"
+    },
+    "area-2": {
+      "name": "Elektrika Rumah Sakit",
+      "sub-area": "Daya & Sinyal"
+    },
+    "area-3": {
+      "name": "Lingkungan Rumah Sakit",
+      "sub-area": "Limbah & Sanitasi"
+    },
+    "area-4": {
+      "name": "Informatika Rumah Sakit",
+      "sub-area": "IOT, AI, Big Data, Smart Hospital"
+    },
+    "area-5": {
+      "name": "Mekanika Rumah Sakit",
+      "sub-area": "Pipa, Lift & AC, Gas Medis, Uap, Instalasi Pemadam Kebakaran, Ambulans"
+    },
+    "area-6": {
+      "name": "Alat Rumah Sakit",
+      "sub-area": "Diagnostik, Pembedahan, Rehabilitasi"
+    },
+    "area-7": {
+      "name": "COVID-19 Produts",
+      "sub-area": "Peralatan PCR, Peralatan Antigen, Ruang Isolasi, Ventilator, Peralatan Oksigen, Alat Pelindung Diri (APD)"
+    }
+  },
+  "why-exhibit": {
+    "title": "Mengapa Bergabung?",
+    "overview": "Di FTP 2022, Exhibitor mendapatkan kesempatan untuk berinteraksi dengan Rumah Sakit sebagai calon klien, dalam Webinar, Simulasi Produk dan Pameran Virtual.",
+    "profit-1": "Forum bersama antara regulator (pemerintah), akademisi (pakar/perguruan tinggi), dan industri untuk memfasilitasi kebutuhan rumah sakit yang sesuai dengan standar dan kondisi keuangan rumah sakit",
+    "profit-2": "Kesempatan untuk memperkenalkan produk yang memenuhi regulasi atau standar nasional atau internasional (produk yang tidak memenuhi standar atau membahayakan keselamatan pasien dilarang untuk dipresentasikan).",
+    "profit-3": "Kesempatan untuk bertemu dengan calon pembeli (lebih dari 20 jadwal pertemuan dalam 3 hari).",
+    "profit-4": "Kesempatan untuk direkomendasikan oleh PTPI sebagai perusahaan yang memiliki produk dan layanan yang memenuhi standar atau pedoman teknis (berdasarkan hasil penilaian PTPI) kepada seluruh anggota PTPI.",
+    "profit-5": "Kesempatan bermitra dengan PTPI untuk terus mendorong dan membangun rumah sakit di Indonesia yang lebih aman, ramah lingkungan, terjangkau, selamat dan bermanfaat."
+  },
+  "packages": {
+    "tag": "Paket",
+    "title": "Paket Pameran Virtual",
+    "content": "Perusahaan yang tertarik untuk memasarkan produknya di pameran dapat menghubungi Whatsapp kami di +62 858 9377 7283 (Adrian).",
+    "help-text": "Untuk informasi lebih lanjut mengenai harga, Anda dapat menghubungi Whatsapp kami di +62 858 9377 7283 (Adrian)."
+  }
+}
