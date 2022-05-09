@@ -30,7 +30,7 @@ export default async function handler(
     //   return res.status(400).json({ message: "Bad request (page url)" });
     // }
 
-    await res.unstable_revalidate("/");
+    await res.unstable_revalidate("/en");
     // console.log({ response });
     return res.json({ revalidated: true });
   } catch (err) {
