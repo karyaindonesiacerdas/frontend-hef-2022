@@ -44,6 +44,7 @@ export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
   } catch (error) {
     blogs = [];
   }
+
   try {
     const res2 = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API}/sponsors`);
     sponsors = await res2.json();
