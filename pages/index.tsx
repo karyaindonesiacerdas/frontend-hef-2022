@@ -58,6 +58,7 @@ export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
       sponsors,
       ...(await serverSideTranslations(locale, ["common", "home", "seo"])),
     },
+    revalidate: 60,
   };
 };
 
