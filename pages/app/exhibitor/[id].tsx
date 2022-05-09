@@ -440,7 +440,7 @@ const ExhibitorBooth: NextPage = () => {
           </div>
         )}
       </div>
-      <ChatButton />
+      {/* <ChatButton /> */}
     </SocketProvider>
   );
 };
