@@ -12,19 +12,19 @@ export default async function handler(
     // if (req.query.secret !== process.env.REVALIDATE_TOKEN) {
     //   return res.status(401).json({ message: "Invalid token" });
     // }
-    const accessToken = req.cookies?.accessToken;
-    if (!accessToken) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+    // const accessToken = req.cookies?.accessToken;
+    // if (!accessToken) {
+    //   return res.status(401).json({ message: "Unauthorized" });
+    // }
 
-    const decoded = jwt.verify(
-      accessToken,
-      process.env.WEB_API_JWT_SECRET || ""
-    ) as any;
+    // const decoded = jwt.verify(
+    //   accessToken,
+    //   process.env.WEB_API_JWT_SECRET || ""
+    // ) as any;
 
-    if (decoded?.sub !== 1) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+    // if (decoded?.sub !== 1) {
+    //   return res.status(401).json({ message: "Unauthorized" });
+    // }
 
     if (!pageUrl) {
       return res.status(400).json({ message: "Bad request (page url)" });
