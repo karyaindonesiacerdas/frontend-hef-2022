@@ -20,8 +20,9 @@ import AdminSidebar from "components/admin-layout/AdminSidebar";
 import { useAuth } from "contexts/auth.context";
 import { useBlogs } from "services/blog/hooks";
 import { TableSkeleton } from "components/TableSkeleton";
-import { Plus } from "tabler-icons-react";
+import { Plus, Send } from "tabler-icons-react";
 import NoContent from "components/NoContent";
+import { useNotifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -62,6 +63,8 @@ const AdminBlog: NextPage = () => {
   const { isAuthenticated, isInitialized, user } = useAuth();
   const { classes, cx } = useStyles();
   const [scrolled, setScrolled] = useState(false);
+  const [revalidating, setRevalidating] = useState(false);
+  const notifications = useNotifications();
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -72,6 +75,33 @@ const AdminBlog: NextPage = () => {
   }, [router, isInitialized, isAuthenticated, user?.role]);
 
   const { data: blogs, isLoading } = useBlogs();
+
+  const handleRevalidate = async () => {
+    try {
+      setRevalidating(true);
+      const res = await fetch(`/api/revalidate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pageUrl: "/" }),
+      });
+      setRevalidating(false);
+      notifications.showNotification({
+        title: "Published",
+        message: "New web published",
+        color: "green",
+      });
+    } catch (error) {
+      console.log({ error });
+      setRevalidating(false);
+      notifications.showNotification({
+        title: "Failed",
+        message: "Error publishing new website",
+        color: "red",
+      });
+    }
+  };
 
   const ths = (
     <tr>
@@ -145,13 +175,23 @@ const AdminBlog: NextPage = () => {
           <Title order={2} px={3}>
             Blog
           </Title>
-          {blogs?.length ? (
-            <Link href="/admin/blog/add" passHref>
-              <Button component="a" leftIcon={<Plus size={16} />}>
-                Add New Blog
-              </Button>
-            </Link>
-          ) : null}
+          <Group>
+            <Button
+              onClick={handleRevalidate}
+              loading={revalidating}
+              variant="light"
+              leftIcon={<Send size={16} />}
+            >
+              Publish Changes
+            </Button>
+            {blogs?.length ? (
+              <Link href="/admin/blog/add" passHref>
+                <Button component="a" leftIcon={<Plus size={16} />}>
+                  Add New Blog
+                </Button>
+              </Link>
+            ) : null}
+          </Group>
         </Group>
         <div className={classes.root}>
           {!blogs?.length ? (

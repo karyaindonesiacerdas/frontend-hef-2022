@@ -16,7 +16,7 @@ import {
   UnstyledButton,
   useMantineTheme,
 } from "@mantine/core";
-import { Archive, Plus } from "tabler-icons-react";
+import { Archive, Plus, Send } from "tabler-icons-react";
 
 import AdminSidebar from "components/admin-layout/AdminSidebar";
 import { useAuth } from "contexts/auth.context";
@@ -24,6 +24,7 @@ import { useSponsors } from "services/sponsor/hooks";
 import AddSponsorModal from "components/admin/sponsor/AddSponsorModal";
 import EditAndDeleteSponsorModal from "components/admin/sponsor/EditAndDeleteSponsorModal";
 import NoContent from "components/NoContent";
+import { useNotifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -60,7 +61,8 @@ const AdminSponsor: NextPage = () => {
   const [openedEditAndDeleteModal, setOpenedEditAndDeleteModal] =
     useState(false);
   const [selectedSponsor, setSelectedSponsor] = useState<Sponsor>();
-  const theme = useMantineTheme();
+  const [revalidating, setRevalidating] = useState(false);
+  const notifications = useNotifications();
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -71,6 +73,33 @@ const AdminSponsor: NextPage = () => {
   }, [router, isInitialized, isAuthenticated, user?.role]);
 
   const { data: sponsors } = useSponsors();
+
+  const handleRevalidate = async () => {
+    try {
+      setRevalidating(true);
+      const res = await fetch(`/api/revalidate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pageUrl: "/" }),
+      });
+      setRevalidating(false);
+      notifications.showNotification({
+        title: "Published",
+        message: "New web published",
+        color: "green",
+      });
+    } catch (error) {
+      console.log({ error });
+      setRevalidating(false);
+      notifications.showNotification({
+        title: "Failed",
+        message: "Error publishing new website",
+        color: "red",
+      });
+    }
+  };
 
   if (!isInitialized || !isAuthenticated) {
     return null;
@@ -94,16 +123,26 @@ const AdminSponsor: NextPage = () => {
           <Title order={2} px={3}>
             Sponsor
           </Title>
-          {sponsors?.length ? (
+          <Group>
             <Button
-              onClick={() => {
-                setOpenedAddModal(true);
-              }}
-              leftIcon={<Plus size={16} />}
+              onClick={handleRevalidate}
+              loading={revalidating}
+              variant="light"
+              leftIcon={<Send size={16} />}
             >
-              Add New Sponsor
+              Publish Changes
             </Button>
-          ) : null}
+            {sponsors?.length ? (
+              <Button
+                onClick={() => {
+                  setOpenedAddModal(true);
+                }}
+                leftIcon={<Plus size={16} />}
+              >
+                Add New Sponsor
+              </Button>
+            ) : null}
+          </Group>
         </Group>
         <AddSponsorModal
           opened={openedAddModal}
