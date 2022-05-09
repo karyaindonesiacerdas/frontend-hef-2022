@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const body = req.body;
-    const pageUrl = body.pageUrl;
+    // const body = req.body;
+    // const pageUrl = body.pageUrl;
     // Check for secret to confirm this is a valid request
     // if (req.query.secret !== process.env.REVALIDATE_TOKEN) {
     //   return res.status(401).json({ message: "Invalid token" });
@@ -26,12 +26,12 @@ export default async function handler(
     //   return res.status(401).json({ message: "Unauthorized" });
     // }
 
-    if (!pageUrl) {
-      return res.status(400).json({ message: "Bad request (page url)" });
-    }
+    // if (!pageUrl) {
+    //   return res.status(400).json({ message: "Bad request (page url)" });
+    // }
 
-    const response = await res.unstable_revalidate(pageUrl);
-    console.log({ response });
+    await res.unstable_revalidate("/");
+    // console.log({ response });
     return res.json({ revalidated: true });
   } catch (err) {
     // If there was an error, Next.js will continue
