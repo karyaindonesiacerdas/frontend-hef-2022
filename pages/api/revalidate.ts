@@ -6,8 +6,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    // const body = req.body;
-    // const pageUrl = body.pageUrl;
+    const body = req.body;
+    const pageUrl = body.pageUrl;
     // Check for secret to confirm this is a valid request
     // if (req.query.secret !== process.env.REVALIDATE_TOKEN) {
     //   return res.status(401).json({ message: "Invalid token" });
@@ -26,11 +26,11 @@ export default async function handler(
     //   return res.status(401).json({ message: "Unauthorized" });
     // }
 
-    // if (!pageUrl) {
-    //   return res.status(400).json({ message: "Bad request (page url)" });
-    // }
+    if (!pageUrl) {
+      return res.status(400).json({ message: "Bad request (page url)" });
+    }
 
-    await res.unstable_revalidate("/en");
+    await res.unstable_revalidate(pageUrl);
     // console.log({ response });
     return res.json({ revalidated: true });
   } catch (err) {
