@@ -25,7 +25,7 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.xl * 2.5,
 
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-      padding: theme.spacing.xl * 1.5,
+      padding: theme.spacing.xl * 1.2,
     },
   },
 
@@ -88,7 +88,7 @@ export const ContactUs = () => {
         <SimpleGrid
           cols={2}
           spacing={50}
-          breakpoints={[{ maxWidth: "sm", cols: 1 }]}
+          breakpoints={[{ maxWidth: "lg", cols: 1 }]}
           style={{ alignItems: "start" }}
         >
           <div>
@@ -128,9 +128,10 @@ export const ContactUs = () => {
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.1407117932863!2d106.84116471529533!3d-6.245180562891369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3b85bf3e09d%3A0x160234e756fdf17b!2sWisma%20NH!5e0!3m2!1sid!2sid!4v1631966539831!5m2!1sid!2sid"
             title="Address"
-            width="550"
-            height="400"
-            style={{ border: 0, borderRadius: 10 }}
+            // width="550"
+            // height="400"
+            width={"100%"}
+            style={{ border: 0, borderRadius: 10, aspectRatio: "3/2" }}
             loading="lazy"
           ></iframe>
         </SimpleGrid>

@@ -43,12 +43,20 @@ const useStyles = createStyles((theme, _params, getRef) => {
       background: theme.colors["gray"][1],
       borderRadius: theme.radius.md,
       minHeight: 100,
+      [theme.fn.smallerThan("sm")]: {
+        paddingTop: theme.spacing.sm,
+        paddingBottom: theme.spacing.sm,
+        minHeight: 70,
+      },
     },
 
     cardText: {
       fontSize: theme.fontSizes.lg,
       textAlign: "center",
       fontWeight: 500,
+      [theme.fn.smallerThan("sm")]: {
+        fontSize: theme.fontSizes.md,
+      },
     },
   };
 });
@@ -70,8 +78,8 @@ export const Topic = () => {
           spacing="md"
           mb={60}
           breakpoints={[
-            { maxWidth: theme.breakpoints.xs, cols: 1 },
-            { maxWidth: theme.breakpoints.md, cols: 2 },
+            { maxWidth: theme.breakpoints.xs, cols: 1, spacing: 4 },
+            { maxWidth: theme.breakpoints.md, cols: 2, spacing: "sm" },
           ]}
         >
           <Center className={classes.card}>
