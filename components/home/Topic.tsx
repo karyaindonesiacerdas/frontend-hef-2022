@@ -7,6 +7,7 @@ import {
   Title,
   Card,
   Center,
+  useMantineTheme,
 } from "@mantine/core";
 import { useTranslation } from "next-i18next";
 
@@ -55,6 +56,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 export const Topic = () => {
   const { classes } = useStyles();
   const { t } = useTranslation("home");
+  const theme = useMantineTheme();
 
   return (
     <Box className={classes.root}>
@@ -63,7 +65,15 @@ export const Topic = () => {
         <Title order={3} className={classes.heading}>
           {t("topic.header")}
         </Title>
-        <SimpleGrid cols={3} spacing="md" mb={60}>
+        <SimpleGrid
+          cols={3}
+          spacing="md"
+          mb={60}
+          breakpoints={[
+            { maxWidth: theme.breakpoints.xs, cols: 1 },
+            { maxWidth: theme.breakpoints.md, cols: 2 },
+          ]}
+        >
           <Center className={classes.card}>
             <Text className={classes.cardText}>
               SPA* Penyediaan dan Distribusi Energi RS
