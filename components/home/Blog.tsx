@@ -6,6 +6,7 @@ import {
   createStyles,
   Title,
   Card,
+  useMantineTheme,
 } from "@mantine/core";
 import { useTranslation } from "next-i18next";
 import { IBlog } from "types/blog";
@@ -102,6 +103,7 @@ type Props = {
 export const Blog = ({ blogs }: Props) => {
   const { classes } = useStyles();
   const { t } = useTranslation("home");
+  const theme = useMantineTheme();
 
   return (
     <Box className={classes.root}>
@@ -110,7 +112,14 @@ export const Blog = ({ blogs }: Props) => {
         <Title order={3} className={classes.heading}>
           {t("blog.subheader")}
         </Title>
-        <SimpleGrid cols={4}>
+        <SimpleGrid
+          cols={4}
+          breakpoints={[
+            { maxWidth: theme.breakpoints.xs, cols: 1 },
+            { maxWidth: theme.breakpoints.sm, cols: 2 },
+            { maxWidth: theme.breakpoints.lg, cols: 3 },
+          ]}
+        >
           {blogs?.map((blog) => (
             <Card
               key={blog._id}

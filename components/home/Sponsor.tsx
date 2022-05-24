@@ -6,6 +6,7 @@ import {
   Title,
   Image,
   Center,
+  useMantineTheme,
 } from "@mantine/core";
 import { useTranslation } from "next-i18next";
 import { ISponsor } from "types";
@@ -31,6 +32,14 @@ const useStyles = createStyles((theme) => {
     logoItem: {
       height: 200,
       padding: theme.spacing.xl,
+      [theme.fn.smallerThan("md")]: {
+        height: 160,
+        padding: theme.spacing.md,
+      },
+      [theme.fn.smallerThan("sm")]: {
+        height: 120,
+        padding: theme.spacing.sm,
+      },
     },
   };
 });
@@ -42,6 +51,7 @@ type Props = {
 export const Sponsor = ({ sponsors }: Props) => {
   const { classes } = useStyles();
   const { t } = useTranslation("home");
+  const theme = useMantineTheme();
 
   return (
     <Box className={classes.root}>
@@ -49,7 +59,14 @@ export const Sponsor = ({ sponsors }: Props) => {
         <Title order={3} className={classes.heading}>
           {t("sponsored-by")}
         </Title>
-        <SimpleGrid cols={4} className={classes.logoContainer}>
+        <SimpleGrid
+          cols={4}
+          className={classes.logoContainer}
+          breakpoints={[
+            { maxWidth: theme.breakpoints.sm, cols: 2 },
+            { maxWidth: theme.breakpoints.lg, cols: 3 },
+          ]}
+        >
           {sponsors?.map((sponsor) => (
             <Center key={sponsor._id} className={classes.logoItem}>
               <Image src={sponsor?.logo?.src} alt={sponsor?.name} fit="cover" />
