@@ -20,6 +20,7 @@ import {
   ThemeIcon,
   Image,
   LoadingOverlay,
+  useMantineTheme,
 } from "@mantine/core";
 import { NextLink } from "@mantine/next";
 import { CircleCheck } from "tabler-icons-react";
@@ -50,10 +51,16 @@ const useStyles = createStyles((theme) => ({
     backgroundImage: `linear-gradient(to bottom right, ${
       theme.colors[theme.primaryColor][6]
     },${theme.colors[theme.primaryColor][3]})`,
+    [theme.fn.smallerThan("sm")]: {
+      padding: theme.spacing.sm,
+    },
   },
 
   infoContainer: {
     padding: theme.spacing.xl * 2,
+    [theme.fn.smallerThan("lg")]: {
+      display: "none",
+    },
   },
 
   infoTitle: {
@@ -75,12 +82,12 @@ const useStyles = createStyles((theme) => ({
     // }`,
     height: "100vh",
     maxWidth: 600,
-    paddingTop: 80,
     overflow: "auto",
-
+    padding: theme.spacing.xl,
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       maxWidth: "100%",
     },
+    margin: "0 auto",
   },
 
   title: {
@@ -160,6 +167,7 @@ export default function RegisterVisitor() {
   const [visible, setVisible] = useState(false);
   const notifications = useNotifications();
   const { t } = useTranslation("auth");
+  const theme = useMantineTheme();
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -216,10 +224,13 @@ export default function RegisterVisitor() {
 
   return (
     <div className={classes.wrapper}>
-      <Container size="xl">
-        <SimpleGrid cols={2}>
+      <Container size="xl" style={{ padding: 0 }}>
+        <SimpleGrid
+          cols={2}
+          breakpoints={[{ maxWidth: theme.breakpoints.lg, cols: 1 }]}
+        >
           <div className={classes.infoContainer}>
-            <div style={{ position: "fixed", maxWidth: "25%" }}>
+            <div style={{ position: "fixed", maxWidth: 500 }}>
               <div style={{ display: "flex" }}>
                 <Image
                   width={42}
@@ -269,7 +280,6 @@ export default function RegisterVisitor() {
             withBorder
             className={classes.form}
             radius={0}
-            p={30}
             style={{ height: "100%", position: "relative" }}
           >
             <LoadingOverlay visible={visible} />
