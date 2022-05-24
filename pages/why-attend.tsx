@@ -3,6 +3,7 @@ import { GetStaticPropsContext, NextPage } from "next";
 import WebLayout from "components/web-layout/WebLayout";
 import {
   Box,
+  Center,
   Container,
   createStyles,
   Image,
@@ -24,12 +25,7 @@ import { useTranslation } from "next-i18next";
 //   "Certificate worth 24 points And win attractive prizes and rewards throughout the event.",
 // ];
 
-const reasons = [
-  "profit-1",
-  "profit-2",
-  "profit-3",
-  "profit-4",
-];
+const reasons = ["profit-1", "profit-2", "profit-3", "profit-4"];
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -48,11 +44,14 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.xl * 2,
     fontWeight: 700,
     textAlign: "center",
+    [theme.fn.smallerThan("lg")]: {
+      fontSize: theme.fontSizes.xl * 1.5,
+    },
   },
-  container: {
-    // alignItems: "center",
-    gap: theme.spacing.xl * 3,
-  },
+  // container: {
+  //   // alignItems: "center",
+  //   gap: theme.spacing.xl * 3,
+  // },
   paragraph: {
     lineHeight: 2.2,
   },
@@ -63,6 +62,7 @@ const useStyles = createStyles((theme) => ({
     "&:hover": {
       transform: "rotateY(-15deg) rotateX(5deg)",
     },
+    maxWidth: 700,
   },
   imageLeft: {
     borderRadius: 6,
@@ -70,6 +70,21 @@ const useStyles = createStyles((theme) => ({
     transition: "all 1s",
     "&:hover": {
       transform: "rotateY(15deg) rotateX(5deg)",
+    },
+  },
+  container: {
+    display: "flex",
+    gap: theme.spacing.md,
+    [theme.fn.smallerThan("lg")]: {
+      flexDirection: "column-reverse",
+    },
+    paddingLeft: theme.spacing.md,
+    paddingRight: theme.spacing.md,
+  },
+  content: {
+    width: "50%",
+    [theme.fn.smallerThan("lg")]: {
+      width: "100%",
     },
   },
 }));
@@ -83,8 +98,8 @@ const WhyAttend: NextPage = () => {
       <Container size="xl" className={classes.root}>
         <Text className={classes.tag}>Visitor</Text>
         <Text className={classes.title}>{t("why-attend.title")}</Text>
-        <SimpleGrid mt={60} cols={2} className={classes.container}>
-          <Box>
+        <Box mt={60} className={classes.container}>
+          <Box className={classes.content}>
             <Text size="lg" mt={10} className={classes.paragraph}>
               {t("why-attend.overview")}
             </Text>
@@ -110,20 +125,24 @@ const WhyAttend: NextPage = () => {
             </List>
           </Box>
 
-          <div>
-            <Image
-              fit="contain"
-              src="/why-attend-and-exhibit-1.png"
-              alt="About HEF"
-            />
-            <Image
-              mt="lg"
-              fit="contain"
-              src="/why-attend-and-exhibit-2.png"
-              alt="About HEF"
-            />
-          </div>
-        </SimpleGrid>
+          <Center className={classes.content}>
+            <div>
+              <Image
+                fit="contain"
+                src="/why-attend-and-exhibit-1.png"
+                alt="About HEF"
+                className={classes.imageRight}
+              />
+              <Image
+                mt="lg"
+                fit="contain"
+                src="/why-attend-and-exhibit-2.png"
+                alt="About HEF"
+                className={classes.imageRight}
+              />
+            </div>
+          </Center>
+        </Box>
       </Container>
     </WebLayout>
   );
