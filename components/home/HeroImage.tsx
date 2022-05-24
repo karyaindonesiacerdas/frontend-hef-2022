@@ -15,6 +15,10 @@ const useStyles = createStyles((theme) => ({
     backgroundImage: "url(/hef-2022/main-hall.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "center",
+    height: 700,
+    [theme.fn.smallerThan("sm")]: {
+      height: 350,
+    },
   },
 
   container: {
@@ -28,7 +32,7 @@ const useStyles = createStyles((theme) => ({
     position: "relative",
 
     [theme.fn.smallerThan("sm")]: {
-      height: 500,
+      height: 450,
       paddingBottom: theme.spacing.xl * 3,
     },
   },
