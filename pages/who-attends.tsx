@@ -3,6 +3,7 @@ import { GetStaticPropsContext, NextPage } from "next";
 import WebLayout from "components/web-layout/WebLayout";
 import {
   Box,
+  Center,
   Container,
   createStyles,
   Image,
@@ -10,6 +11,7 @@ import {
   SimpleGrid,
   Text,
   ThemeIcon,
+  useMantineTheme,
 } from "@mantine/core";
 import { CircleCheck } from "tabler-icons-react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -52,11 +54,14 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.xl * 2,
     fontWeight: 700,
     textAlign: "center",
+    [theme.fn.smallerThan("lg")]: {
+      fontSize: theme.fontSizes.xl * 1.5,
+    },
   },
-  container: {
-    // alignItems: "center",
-    gap: theme.spacing.xl * 3,
-  },
+  // container: {
+  //   // alignItems: "center",
+  //   gap: theme.spacing.xl * 3,
+  // },
   paragraph: {
     lineHeight: 2.2,
   },
@@ -67,6 +72,7 @@ const useStyles = createStyles((theme) => ({
     "&:hover": {
       transform: "rotateY(-15deg) rotateX(5deg)",
     },
+    maxWidth: 600,
   },
   imageLeft: {
     borderRadius: 6,
@@ -76,19 +82,35 @@ const useStyles = createStyles((theme) => ({
       transform: "rotateY(15deg) rotateX(5deg)",
     },
   },
+  container: {
+    display: "flex",
+    gap: theme.spacing.md,
+    [theme.fn.smallerThan("lg")]: {
+      flexDirection: "column-reverse",
+    },
+    paddingLeft: theme.spacing.md,
+    paddingRight: theme.spacing.md,
+  },
+  content: {
+    width: "50%",
+    [theme.fn.smallerThan("lg")]: {
+      width: "100%",
+    },
+  },
 }));
 
 const WhoAttends: NextPage = () => {
   const { classes } = useStyles();
   const { t } = useTranslation("visitor");
+  const theme = useMantineTheme();
 
   return (
     <WebLayout>
       <Container size="xl" className={classes.root}>
         <Text className={classes.tag}>Visitor</Text>
         <Text className={classes.title}>{t("who-attend.title")}</Text>
-        <SimpleGrid mt={60} cols={2} className={classes.container}>
-          <Box>
+        <Box mt={60} className={classes.container}>
+          <Box className={classes.content}>
             <Text size="lg" mt={10} className={classes.paragraph}>
               {t("who-attend.overview")}
             </Text>
@@ -108,7 +130,10 @@ const WhoAttends: NextPage = () => {
                 },
               }}
             >
-              <SimpleGrid cols={2}>
+              <SimpleGrid
+                cols={2}
+                breakpoints={[{ maxWidth: theme.breakpoints.xs, cols: 1 }]}
+              >
                 {attendances.map((attendance) => (
                   <List.Item
                     style={{
@@ -123,15 +148,15 @@ const WhoAttends: NextPage = () => {
             </List>
           </Box>
 
-          <div style={{ perspective: "1000px" }}>
+          <Center style={{ perspective: "1000px" }} className={classes.content}>
             <Image
               fit="contain"
               src="/who-attend.png"
               alt="About HEF"
               className={classes.imageRight}
             />
-          </div>
-        </SimpleGrid>
+          </Center>
+        </Box>
       </Container>
     </WebLayout>
   );
