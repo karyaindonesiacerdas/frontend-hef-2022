@@ -12,12 +12,21 @@ import {
   Button,
   Image,
   useMantineTheme,
+  Transition,
+  Paper,
+  SimpleGrid,
+  Divider,
 } from "@mantine/core";
-import { useBooleanToggle } from "@mantine/hooks";
+import { useBooleanToggle, useMediaQuery } from "@mantine/hooks";
 import { ChevronDown } from "tabler-icons-react";
 import Link from "next/link";
 import { LanguagePicker } from "./LanguagePicker";
 import { useTranslation } from "next-i18next";
+import { LinksGroup } from "../admin-layout/NavbarLinksGroup";
+import { useRouter } from "next/router";
+import { MobileLinksGroup } from "./MobileLinksGroup";
+
+const HEADER_HEIGHT = 60;
 
 const links = [
   {
@@ -163,6 +172,12 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
+  tagline: {
+    [theme.fn.smallerThan("sm")]: {
+      display: "none",
+    },
+  },
+
   link: {
     display: "block",
     lineHeight: 1,
@@ -208,6 +223,22 @@ const useStyles = createStyles((theme) => ({
   linkLabel: {
     marginRight: 5,
   },
+
+  dropdown: {
+    position: "absolute",
+    top: HEADER_HEIGHT,
+    left: 0,
+    right: 0,
+    zIndex: 100,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopWidth: 0,
+    overflow: "hidden",
+
+    [theme.fn.largerThan("sm")]: {
+      display: "none",
+    },
+  },
 }));
 
 export interface HeaderSearchProps {
@@ -219,10 +250,12 @@ export interface HeaderSearchProps {
 }
 
 export function HeaderMenu() {
+  const { pathname } = useRouter();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const { t } = useTranslation("common");
+  const largerThanSm = useMediaQuery(`(min-width: ${theme.breakpoints.sm}px)`);
 
   const itemsLeft = links.map((link) => {
     const menuItems = link.links?.map((item) => (
@@ -306,8 +339,18 @@ export function HeaderMenu() {
     );
   });
 
+  const mobileLinks = links.map((item) => (
+    <MobileLinksGroup
+      mini={false}
+      {...item}
+      key={item.label}
+      active={pathname === item.link}
+      initiallyOpened={false}
+    />
+  ));
+
   return (
-    <Header height={112}>
+    <Header height={largerThanSm ? 112 : HEADER_HEIGHT}>
       <Container size="xl">
         <div className={classes.inner}>
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -321,14 +364,48 @@ export function HeaderMenu() {
 
             <Box ml="md">
               <Text size="xl" weight={700} style={{ whiteSpace: "nowrap" }}>
-                {theme.breakpoints.lg
-                  ? t("event-title")
-                  : t("event-title-short")}
+                {largerThanSm ? t("event-title") : t("event-title-short")}
               </Text>
-              <Text size="sm">{t("event-tagline")}</Text>
+              <Text size="sm" className={classes.tagline}>
+                {t("event-tagline")}
+              </Text>
             </Box>
           </div>
-          <LanguagePicker />
+          <Group spacing={4}>
+            <LanguagePicker />
+            <Burger
+              opened={opened}
+              onClick={() => toggleOpened()}
+              className={classes.burger}
+              size="sm"
+              ml="sm"
+            />
+            <Transition
+              transition="pop-top-right"
+              duration={200}
+              mounted={opened}
+            >
+              {(styles) => (
+                <Paper className={classes.dropdown} withBorder style={styles}>
+                  {mobileLinks}
+                  <Divider mt="sm" />
+                  <Box p="md">
+                    <SimpleGrid cols={2}>
+                      <Button variant="outline">
+                        {t("register-as-visitor")}
+                      </Button>
+                      <Button variant="outline">
+                        {t("register-as-exhibitor")}
+                      </Button>
+                    </SimpleGrid>
+                    <Button mt="sm" fullWidth>
+                      {t("login")}
+                    </Button>
+                  </Box>
+                </Paper>
+              )}
+            </Transition>
+          </Group>
         </div>
         <div className={classes.inner}>
           <Group spacing={theme.spacing.xl * 2} className={classes.links}>
@@ -340,12 +417,6 @@ export function HeaderMenu() {
               <Button component="a">{t("login")}</Button>
             </Link>
           </Group>
-          <Burger
-            opened={opened}
-            onClick={() => toggleOpened()}
-            className={classes.burger}
-            size="sm"
-          />
         </div>
       </Container>
     </Header>
