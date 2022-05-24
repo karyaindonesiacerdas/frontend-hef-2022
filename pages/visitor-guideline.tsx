@@ -3,6 +3,7 @@ import { GetStaticPropsContext, NextPage } from "next";
 import WebLayout from "components/web-layout/WebLayout";
 import {
   Anchor,
+  Box,
   Container,
   createStyles,
   Image,
@@ -35,9 +36,9 @@ const useStyles = createStyles((theme) => ({
       fontSize: theme.fontSizes.xl * 1.5,
     },
   },
-  container: {
-    gap: theme.spacing.xl * 3,
-  },
+  // container: {
+  //   gap: theme.spacing.xl * 3,
+  // },
   paragraph: {
     lineHeight: 2.2,
   },
@@ -47,6 +48,21 @@ const useStyles = createStyles((theme) => ({
     transition: "all 1s",
     "&:hover": {
       transform: "rotateY(-15deg) rotateX(5deg)",
+    },
+  },
+  container: {
+    display: "flex",
+    gap: theme.spacing.xl * 2,
+    [theme.fn.smallerThan("lg")]: {
+      flexDirection: "column",
+    },
+    paddingLeft: theme.spacing.md,
+    paddingRight: theme.spacing.md,
+  },
+  content: {
+    width: "50%",
+    [theme.fn.smallerThan("lg")]: {
+      width: "100%",
     },
   },
 }));
@@ -60,8 +76,8 @@ const VisitorGuideline: NextPage = () => {
       <Container size="xl" className={classes.root}>
         <Text className={classes.tag}>{t("visitor-guideline.tag")}</Text>
         <Text className={classes.title}>{t("visitor-guideline.title")}</Text>
-        <SimpleGrid cols={2} className={classes.container}>
-          <div>
+        <Box className={classes.container}>
+          <Box className={classes.content}>
             <Image
               fit="contain"
               src="/visitor-guideline-1.png"
@@ -82,8 +98,13 @@ const VisitorGuideline: NextPage = () => {
               src="/visitor-guideline-4.png"
               alt="Visitor Guideline"
             />
-          </div>
-          <List type="ordered" spacing="md" size="lg">
+          </Box>
+          <List
+            type="ordered"
+            spacing="md"
+            size="lg"
+            className={classes.content}
+          >
             <List.Item className={classes.paragraph}>
               {t("visitor-guideline.guideline-1")}{" "}
               <Link href="/register/visitor" passHref>
@@ -141,7 +162,7 @@ const VisitorGuideline: NextPage = () => {
               {t("visitor-guideline.guideline-17")}
             </List.Item>
           </List>
-        </SimpleGrid>
+        </Box>
       </Container>
     </WebLayout>
   );
