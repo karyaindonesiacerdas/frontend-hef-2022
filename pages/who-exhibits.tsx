@@ -42,6 +42,9 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.xl * 2,
     fontWeight: 700,
     textAlign: "center",
+    [theme.fn.smallerThan("lg")]: {
+      fontSize: theme.fontSizes.xl * 1.5,
+    },
   },
   container: {
     // alignItems: "center",
