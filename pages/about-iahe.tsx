@@ -22,12 +22,17 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.xl * 2,
     fontWeight: 700,
     textAlign: "center",
+    [theme.fn.smallerThan("lg")]: {
+      fontSize: theme.fontSizes.xl * 1.5,
+    },
   },
   container: {
     gap: theme.spacing.xl * 3,
   },
   paragraph: {
     lineHeight: 2.2,
+    paddingLeft: theme.spacing.md,
+    paddingRight: theme.spacing.md,
   },
 }));
 
