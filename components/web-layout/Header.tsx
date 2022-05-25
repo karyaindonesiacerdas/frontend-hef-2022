@@ -153,6 +153,12 @@ const authLinks = [
 ];
 
 const useStyles = createStyles((theme) => ({
+  header: {
+    height: HEADER_HEIGHT,
+    [theme.fn.largerThan("sm")]: {
+      height: 112,
+    },
+  },
   inner: {
     height: 56,
     display: "flex",
@@ -349,8 +355,10 @@ export function HeaderMenu() {
     />
   ));
 
+  console.log({ largerThanSm });
+
   return (
-    <Header height={largerThanSm ? 112 : HEADER_HEIGHT}>
+    <Header className={classes.header} height={112}>
       <Container size="xl">
         <div className={classes.inner}>
           <div style={{ display: "flex", alignItems: "center" }}>
