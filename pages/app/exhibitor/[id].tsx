@@ -197,7 +197,7 @@ const useStyles = createStyles((theme) => ({
     zIndex: 10,
     position: "fixed",
     top: 20,
-    left: 20,
+    left: 100,
     fontWeight: 600,
     color: theme.colors.dark,
     background: "rgba( 255, 255, 255, 0.5  )",
@@ -315,9 +315,9 @@ const ExhibitorBooth: NextPage = () => {
 
   return (
     <SocketProvider>
-      {/* <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
+      <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
         <AppLayout />
-      </div> */}
+      </div>
       <NextLink className={classes.backButton} href="/app/exhibitor">
         <ArrowLeft size={15} style={{ marginRight: 4 }} />
         <span>Back to Exhibitor Hall</span>

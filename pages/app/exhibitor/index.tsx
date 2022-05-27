@@ -54,7 +54,7 @@ const useStyles = createStyles((theme) => ({
     zIndex: 10,
     position: "fixed",
     top: 20,
-    left: 20,
+    right: 40,
     fontWeight: 600,
     fontSize: theme.fontSizes.xl,
     color: theme.colors.dark,
@@ -97,9 +97,9 @@ const Exhibitor = () => {
 
   return (
     <div>
-      {/* <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
+      <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
         <AppLayout />
-      </div> */}
+      </div>
       <NextLink className={classes.backButton} href="/app/exit-exhibitor">
         <DoorExit size={28} style={{ marginRight: 8 }} />
         <span>Exit</span>
