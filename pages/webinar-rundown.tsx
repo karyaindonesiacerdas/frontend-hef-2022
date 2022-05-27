@@ -10,6 +10,7 @@ import {
   Table,
   Text,
   Title,
+  useMantineTheme,
 } from "@mantine/core";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -467,6 +468,7 @@ const rundowns3: Rundown[] = [
 const WebinarRundown: NextPage = () => {
   const { classes, cx } = useStyles();
   const { t } = useTranslation("overview");
+  const theme = useMantineTheme();
 
   const ths = (
     <tr>
@@ -478,22 +480,30 @@ const WebinarRundown: NextPage = () => {
 
   const rows1 = rundowns1?.map((rundown, i) => (
     <tr key={i}>
-      <td>{rundown.time}</td>
+      <td
+        style={{
+          fontFamily: "monospace",
+          fontSize: theme.fontSizes.md,
+          fontWeight: 500,
+        }}
+      >
+        {rundown.time}
+      </td>
       <td style={{ maxWidth: 250 }}>
-        <Text size="sm" weight={600}>
+        <Text size="md" weight={600}>
           {rundown.title}
         </Text>
-        <Text size="sm" color="gray">
+        <Text size="md" color="gray">
           {rundown.subtitle}
         </Text>
       </td>
       <td style={{ maxWidth: 250 }}>
         {rundown.speakers?.map((speaker, idx) => (
-          <Text key={idx} size="sm" weight={600}>
+          <Text key={idx} size="md" weight={500}>
             {speaker}
           </Text>
         ))}
-        <Text size="sm" color="gray">
+        <Text size="md" color="gray">
           {rundown.position}
         </Text>
       </td>
@@ -502,22 +512,30 @@ const WebinarRundown: NextPage = () => {
 
   const rows2 = rundowns2?.map((rundown, i) => (
     <tr key={i}>
-      <td>{rundown.time}</td>
+      <td
+        style={{
+          fontFamily: "monospace",
+          fontSize: theme.fontSizes.md,
+          fontWeight: 500,
+        }}
+      >
+        {rundown.time}
+      </td>
       <td style={{ maxWidth: 250 }}>
-        <Text size="sm" weight={600}>
+        <Text size="md" weight={600}>
           {rundown.title}
         </Text>
-        <Text size="sm" color="gray">
+        <Text size="md" color="gray">
           {rundown.subtitle}
         </Text>
       </td>
       <td style={{ maxWidth: 250 }}>
         {rundown.speakers?.map((speaker, idx) => (
-          <Text key={idx} size="sm" weight={600}>
+          <Text key={idx} size="md" weight={500}>
             {speaker}
           </Text>
         ))}
-        <Text size="sm" color="gray">
+        <Text size="md" color="gray">
           {rundown.position}
         </Text>
       </td>
@@ -526,22 +544,30 @@ const WebinarRundown: NextPage = () => {
 
   const rows3 = rundowns3?.map((rundown, i) => (
     <tr key={i}>
-      <td>{rundown.time}</td>
+      <td
+        style={{
+          fontFamily: "monospace",
+          fontSize: theme.fontSizes.md,
+          fontWeight: 500,
+        }}
+      >
+        {rundown.time}
+      </td>
       <td style={{ maxWidth: 250 }}>
-        <Text size="sm" weight={600}>
+        <Text size="md" weight={600}>
           {rundown.title}
         </Text>
-        <Text size="sm" color="gray">
+        <Text size="md" color="gray">
           {rundown.subtitle}
         </Text>
       </td>
       <td style={{ maxWidth: 250 }}>
         {rundown.speakers?.map((speaker, idx) => (
-          <Text key={idx} size="sm" weight={600}>
+          <Text key={idx} size="md" weight={500}>
             {speaker}
           </Text>
         ))}
-        <Text size="sm" color="gray">
+        <Text size="md" color="gray">
           {rundown.position}
         </Text>
       </td>
