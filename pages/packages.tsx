@@ -99,7 +99,15 @@ const Packages: NextPage = () => {
               <tr>
                 <th>Group</th>
                 <th>Tipe</th>
-                {/* <th style={{ whiteSpace: "nowrap" }}>Tarif (Juta)</th> */}
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                    width: 200,
+                    textAlign: "center",
+                  }}
+                >
+                  Tarif (Juta)
+                </th>
                 <th
                   style={{
                     backgroundColor: theme.colors.gray[4],
@@ -146,7 +154,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td style={{ fontWeight: 600 }}>Serial Webinar</td>
                 <td>Presentasi selama 10 menit di Industry Talk</td>
-                {/* <td align="center">10</td> */}
+                <td align="center">10</td>
                 <td align="center"></td>
                 <td align="center">
                   <CircleCheck size={30} color={theme.colors.red[7]} />
@@ -158,7 +166,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Presentasi selama 20 menit di Industry Talk</td>
-                {/* <td align="center">20</td> */}
+                <td align="center">20</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center">
@@ -170,7 +178,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Presentasi selama 30 menit di Industry Talk</td>
-                {/* <td align="center">30</td> */}
+                <td align="center">30</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -182,7 +190,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Presentasi selama 60 menit di Industry Talk</td>
-                {/* <td align="center">60</td> */}
+                <td align="center">60</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -194,7 +202,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Logo di Poster / Flyer</td>
-                {/* <td align="center">5</td> */}
+                <td align="center">5</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -209,7 +217,7 @@ const Packages: NextPage = () => {
                   Logo di Background Zoom (Logo pada saat narasumber berbicara,
                   kecuali pada saat narasumber dari kementerian
                 </td>
-                {/* <td align="center">3</td> */}
+                <td align="center">3</td>
                 <td align="center"></td>
                 <td align="center">
                   <CircleCheck size={30} color={theme.colors.red[7]} />
@@ -227,7 +235,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Ad libs oleh MC</td>
-                {/* <td align="center">3</td> */}
+                <td align="center">3</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center">
@@ -243,7 +251,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Video iklan 1 menit</td>
-                {/* <td align="center">5</td> */}
+                <td align="center">5</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -258,7 +266,7 @@ const Packages: NextPage = () => {
                   Produk demo; Simulasi proses akuisisi, penggunaan dan
                   pemeliharaan; Konsultasi terkait dengan produk selama 30 menit
                 </td>
-                {/* <td align="center">22,5</td> */}
+                <td align="center">22,5</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -273,7 +281,7 @@ const Packages: NextPage = () => {
                   Produk demo; Simulasi proses akuisisi, penggunaan dan
                   pemeliharaan; Konsultasi terkait dengan produk selama 60 menit
                 </td>
-                {/* <td align="center">45</td> */}
+                <td align="center">45</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -287,7 +295,7 @@ const Packages: NextPage = () => {
                 <td>
                   Basic (Website) untuk 3 hari (5 poster + 1 video 5 menit)
                 </td>
-                {/* <td align="center">6</td> */}
+                <td align="center">6</td>
                 <td align="center"></td>
                 <td align="center">
                   <CircleCheck size={30} color={theme.colors.red[7]} />
@@ -305,7 +313,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Tambahan 1 Poster</td>
-                {/* <td align="center">0,75</td> */}
+                <td align="center">0,75</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -315,7 +323,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Tambahan video 1 menit</td>
-                {/* <td align="center">0,75</td> */}
+                <td align="center">0,75</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -325,7 +333,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Katalog Produk 1 Halaman</td>
-                {/* <td align="center">2</td> */}
+                <td align="center">2</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center">
@@ -341,7 +349,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Live Chat</td>
-                {/* <td align="center">2</td> */}
+                <td align="center">2</td>
                 <td align="center"></td>
                 <td align="center">
                   <CircleCheck size={30} color={theme.colors.red[7]} />
@@ -359,7 +367,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Kartu Nama</td>
-                {/* <td align="center">2</td> */}
+                <td align="center">2</td>
                 <td align="center"></td>
                 <td align="center">
                   <CircleCheck size={30} color={theme.colors.red[7]} />
@@ -377,7 +385,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Hadiah doorprize untuk pengunjung @ Rp.3.000.000</td>
-                {/* <td align="center">5</td> */}
+                <td align="center">5</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center">1</td>
@@ -397,7 +405,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td style={{ fontWeight: 600 }}>Website</td>
                 <td>Logo di halaman utama (untuk 1 bulan)</td>
-                {/* <td align="center">1,5</td> */}
+                <td align="center">1,5</td>
                 <td align="center"></td>
                 <td align="center">
                   <CircleCheck size={30} color={theme.colors.red[7]} />
@@ -411,7 +419,7 @@ const Packages: NextPage = () => {
                 <td>
                   Running Text di halama utama (10 detik/jam selama 1 bulan)
                 </td>
-                {/* <td align="center">1,5</td> */}
+                <td align="center">1,5</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -421,7 +429,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>1 halaman News atau display (1 bulan)</td>
-                {/* <td align="center">1,5</td> */}
+                <td align="center">1,5</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -433,7 +441,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Iklan video 1 menit (1 bulan)</td>
-                {/* <td align="center">2</td> */}
+                <td align="center">2</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -445,7 +453,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Logo di halaman utama (untuk 3 bulan)</td>
-                {/* <td align="center">3</td> */}
+                <td align="center">3</td>
                 <td align="center">
                   <CircleCheck size={30} color={theme.colors.gray[7]} />
                 </td>
@@ -465,7 +473,7 @@ const Packages: NextPage = () => {
                 <td>
                   Running Text di halaman utama (10 detik/jam selama 3 bulan)
                 </td>
-                {/* <td align="center">3</td> */}
+                <td align="center">3</td>
                 <td align="center">
                   <CircleCheck size={30} color={theme.colors.gray[7]} />
                 </td>
@@ -483,7 +491,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>1 halaman News atau display (3 bulan)</td>
-                {/* <td align="center">3</td> */}
+                <td align="center">3</td>
                 <td align="center"></td>
                 <td align="center"></td>
                 <td align="center"></td>
@@ -493,7 +501,7 @@ const Packages: NextPage = () => {
               <tr>
                 <td></td>
                 <td>Iklan video 1 menit (3 bulan)</td>
-                {/* <td align="center">5</td> */}
+                <td align="center">5</td>
                 <td align="center">
                   <CircleCheck size={30} color={theme.colors.gray[7]} />
                 </td>
