@@ -378,7 +378,7 @@ export function HeaderMenu() {
               <Text size="xl" weight={700} style={{ whiteSpace: "nowrap" }}>
                 {largerThanSm ? t("event-title") : t("event-title-short")}
               </Text>
-              <Text size="sm" className={classes.tagline}>
+              <Text mt={-6} size="sm" className={classes.tagline}>
                 {t("event-tagline")}
               </Text>
             </Box>

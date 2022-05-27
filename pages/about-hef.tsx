@@ -95,7 +95,7 @@ const AboutHEF: NextPage = () => {
           <Center style={{ perspective: "1000px" }} className={classes.image}>
             <Image
               fit="contain"
-              src="/main-hall-frame.png"
+              src="/hef-2022/main-hall.jpg"
               alt="About HEF"
               className={classes.imageRight}
             />
