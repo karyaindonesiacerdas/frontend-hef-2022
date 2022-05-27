@@ -278,8 +278,9 @@ export function HeaderMenu() {
           trigger="hover"
           delay={0}
           transitionDuration={0}
-          placement="end"
+          placement="center"
           gutter={1}
+          size="lg"
           control={
             <a
               href={link.link}
@@ -308,7 +309,9 @@ export function HeaderMenu() {
   const itemsRight = authLinks.map((link) => {
     const menuItems = link.links?.map((item) => (
       <Link key={item.link} href={item.link} passHref>
-        <Menu.Item key={item.link}>{t(`${item.label}`)}</Menu.Item>
+        <Menu.Item py="md" key={item.link} className={classes.link}>
+          {t(`${item.label}`)}
+        </Menu.Item>
       </Link>
     ));
 

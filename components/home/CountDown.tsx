@@ -21,10 +21,11 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 700,
   },
   count: {
-    fontSize: theme.fontSizes.xl * 1.7,
+    fontSize: theme.fontSizes.xl * 2,
     fontWeight: 700,
   },
   countLabel: {
+    fontSize: theme.fontSizes.xl,
     fontWeight: 600,
   },
 }));

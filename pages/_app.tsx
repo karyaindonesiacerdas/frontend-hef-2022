@@ -41,6 +41,7 @@ function App(props: AppProps) {
             /** Put your mantine theme override here */
             // colorScheme: "light",
             primaryColor: "teal",
+            fontFamily: "Inter var, sans-serif",
           }}
           defaultProps={{
             Container: {
