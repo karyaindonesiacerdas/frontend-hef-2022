@@ -182,6 +182,7 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan("sm")]: {
       display: "none",
     },
+    fontSize: theme.fontSizes.md,
   },
 
   link: {
@@ -194,7 +195,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.dark[0]
         : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
+    fontSize: theme.fontSizes.md,
     fontWeight: 500,
 
     "&:hover": {
@@ -215,7 +216,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.dark[0]
         : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
+    fontSize: theme.fontSizes.md,
     fontWeight: 500,
 
     "&:hover, &:focus": {
@@ -418,7 +419,16 @@ export function HeaderMenu() {
           <Group spacing={5} className={classes.links}>
             {itemsRight}
             <Link href="/login" passHref>
-              <Button component="a">{t("login")}</Button>
+              <Button
+                component="a"
+                styles={{
+                  label: {
+                    fontSize: theme.fontSizes.md,
+                  },
+                }}
+              >
+                {t("login")}
+              </Button>
             </Link>
           </Group>
         </div>
