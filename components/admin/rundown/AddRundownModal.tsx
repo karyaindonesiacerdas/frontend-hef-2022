@@ -1,9 +1,11 @@
 import { useState } from "react";
 import {
   Button,
+  InputWrapper,
   LoadingOverlay,
   Modal,
   SimpleGrid,
+  Switch,
   TextInput,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
@@ -49,6 +51,7 @@ export const AddRundownModal = ({
   const [visible, setVisible] = useState(false);
   const queryClient = useQueryClient();
   const notifications = useNotifications();
+  const [lastRundown, setLastRundown] = useState(false);
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -71,6 +74,7 @@ export const AddRundownModal = ({
       time: `${dayjs(values.start_time).format("HH.mm")} - ${dayjs(
         values.end_time
       ).format("HH.mm")}`,
+      is_end: lastRundown ? 1 : 0,
     };
 
     setVisible(true);
@@ -83,6 +87,7 @@ export const AddRundownModal = ({
         message: "Rundown added!",
         color: "green",
       });
+      form.reset();
       setOpened(false);
     } catch (error: any) {
       setVisible(false);
@@ -160,6 +165,14 @@ export const AddRundownModal = ({
             {...form.getInputProps("end_time")}
           />
         </SimpleGrid>
+
+        <InputWrapper label="Last rundown?">
+          <Switch
+            aria-label="Last rundown"
+            checked={lastRundown}
+            onChange={(e) => setLastRundown(e.currentTarget.checked)}
+          />
+        </InputWrapper>
 
         <Button type="submit" fullWidth mt="md">
           Add Rundown

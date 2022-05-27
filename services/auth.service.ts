@@ -55,11 +55,11 @@ export type RegisterInputs = {
   email: string;
   mobile: string;
   name: string;
-  job_function: string;
   password: string;
   password_confirmation: string;
-  country: string;
-  province: string;
+  job_function?: string;
+  country?: string;
+  province?: string;
   institution_name?: string; //Visitor
   institution_type?: string; //Visitor
   visitor_type?: string; //Visitor

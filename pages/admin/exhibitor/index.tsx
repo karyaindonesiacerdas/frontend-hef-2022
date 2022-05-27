@@ -89,6 +89,7 @@ const AdminExhibitor: NextPage = () => {
     isSuccess: isSuccessExhibitors,
     isLoading: isLoadingExhibitors,
   } = useExhibitors({});
+  console.log({ exhibitors });
 
   const filteredExhibitors =
     exhibitors?.filter((e: any) =>
@@ -127,6 +128,7 @@ const AdminExhibitor: NextPage = () => {
       <th>Name</th>
       <th>Company</th>
       <th>Package</th>
+      <th>Booth Position</th>
       {mode === "action" && <th>Action</th>}
     </tr>
   );
@@ -161,6 +163,8 @@ const AdminExhibitor: NextPage = () => {
             {exhibitor.package?.name || "No package"}
           </Badge>
         </td>
+
+        <td>{exhibitor.position}</td>
 
         {mode === "action" && (
           <td>

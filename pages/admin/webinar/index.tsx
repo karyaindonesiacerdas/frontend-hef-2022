@@ -1,12 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import {
   AppShell,
+  Button,
+  Center,
   Container,
   createStyles,
   Paper,
   SimpleGrid,
+  Stack,
   Text,
   Title,
 } from "@mantine/core";
@@ -16,6 +19,7 @@ import AdminSidebar from "components/admin-layout/AdminSidebar";
 import { useAuth } from "contexts/auth.context";
 import { useRundowns } from "services/rundown/hooks";
 import { formatDate } from "utils/date";
+import AddRundownModal from "@/components/admin/rundown/AddRundownModal";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -43,6 +47,7 @@ const AdminWebinar: NextPage = () => {
   const { classes } = useStyles();
   const router = useRouter();
   const { isAuthenticated, isInitialized, user } = useAuth();
+  const [openedAddModal, setOpenedAddModal] = useState(false);
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -95,6 +100,7 @@ const AdminWebinar: NextPage = () => {
         },
       })}
     >
+      <AddRundownModal opened={openedAddModal} setOpened={setOpenedAddModal} />
       <Container size={1700}>
         <Title order={2} px={3}>
           Webinar
@@ -102,6 +108,26 @@ const AdminWebinar: NextPage = () => {
         <SimpleGrid cols={3} className={classes.root}>
           {items}
         </SimpleGrid>
+        {webinarDates.length === 0 && (
+          <Center
+            sx={(theme) => ({
+              height: 400,
+              border: 2,
+              borderStyle: "dashed",
+              borderRadius: theme.radius.md,
+              borderColor: theme.colors[theme.primaryColor][6],
+            })}
+          >
+            <Stack align="center">
+              <Text weight={600} size="xl">
+                No Rundown
+              </Text>
+              <Button onClick={() => setOpenedAddModal(true)}>
+                Add Rundown
+              </Button>
+            </Stack>
+          </Center>
+        )}
       </Container>
     </AppShell>
   );

@@ -19,28 +19,28 @@ import { useNotifications } from "@mantine/notifications";
 const packages = [
   {
     image: "/mercury.png",
-    label: "Mercury",
+    label: "Meteorite",
     value: "1",
   },
 
   {
     image: "/mars.png",
-    label: "Mars",
+    label: "Satellite",
     value: "2",
   },
   {
     image: "/venus.png",
-    label: "Venus",
+    label: "Planet",
     value: "3",
   },
   {
     image: "/uranus.png",
-    label: "Uranus",
+    label: "Star",
     value: "4",
   },
   {
     image: "/jupiter.png",
-    label: "Jupiter",
+    label: "Galaxy",
     value: "5",
   },
 ];
@@ -139,7 +139,7 @@ export const UpdatePackageModal = ({
           clearable
           label="Choose package"
           placeholder="Pick one"
-          itemComponent={SelectItem}
+          // itemComponent={SelectItem}
           data={packages}
           searchable
           maxDropdownHeight={400}
@@ -157,21 +157,21 @@ export const UpdatePackageModal = ({
   );
 };
 
-interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
-  image: string;
-  label: string;
-}
+// interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
+//   image: string;
+//   label: string;
+// }
 
-const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ image, label, ...others }: ItemProps, ref) => (
-    <div ref={ref} {...others}>
-      <Group noWrap>
-        <Avatar src={image} />
+// const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
+//   ({ image, label, ...others }: ItemProps, ref) => (
+//     <div ref={ref} {...others}>
+//       <Group noWrap>
+//         <Avatar src={image} />
 
-        <div>
-          <Text size="sm">{label}</Text>
-        </div>
-      </Group>
-    </div>
-  )
-);
+//         <div>
+//           <Text size="sm">{label}</Text>
+//         </div>
+//       </Group>
+//     </div>
+//   )
+// );

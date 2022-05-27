@@ -398,7 +398,7 @@ const Packages: NextPage = () => {
                   Product Exhibition for Software House and Health Apps
                   Provider*
                 </td>
-                <td colSpan={5} align="center">
+                <td colSpan={6} align="center">
                   *Silahkan hubungi kami
                 </td>
               </tr>

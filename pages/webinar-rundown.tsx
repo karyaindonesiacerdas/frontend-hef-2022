@@ -584,7 +584,7 @@ const WebinarRundown: NextPage = () => {
         <Container>
           <Title order={2}>Hari ke-1</Title>
           <Text weight={500} color="dimmed">
-            04 Juni 2022
+            11 Juni 2022
           </Text>
           <Paper mt="lg" withBorder>
             <Table striped highlightOnHover>
@@ -596,7 +596,7 @@ const WebinarRundown: NextPage = () => {
         <Container mt={50}>
           <Title order={2}>Hari ke-2</Title>
           <Text weight={500} color="dimmed">
-            11 Juni 2022
+            18 Juni 2022
           </Text>
           <Paper mt="lg" withBorder>
             <Table striped highlightOnHover>
@@ -608,7 +608,7 @@ const WebinarRundown: NextPage = () => {
         <Container mt={50}>
           <Title order={2}>Hari ke-3</Title>
           <Text weight={500} color="dimmed">
-            18 Juni 2022
+            25 Juni 2022
           </Text>
           <Paper mt="lg" withBorder>
             <Table striped highlightOnHover>

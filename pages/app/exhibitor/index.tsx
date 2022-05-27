@@ -113,7 +113,8 @@ const Exhibitor = () => {
                 href={`/app/exhibitor/${exhibitor.id}`}
                 style={{ textAlign: "center" }}
               >
-                <BuildingStore size={52} />
+                <div style={{ width: 60, height: 60 }} />
+                {/* <BuildingStore size={52} /> */}
               </NextLink>
             </Tooltip>
           ))}

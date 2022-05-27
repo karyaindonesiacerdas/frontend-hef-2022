@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import {
   Button,
+  InputWrapper,
   LoadingOverlay,
   Modal,
   Select,
   SimpleGrid,
+  Switch,
   TextInput,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
@@ -49,6 +51,7 @@ export type Rundown = {
   status: 1 | 2 | 3;
   embedd_link: string | null;
   attachment_link: string | null;
+  is_end: number;
 };
 
 type UpdateRundownModalProps = {
@@ -65,6 +68,7 @@ export const UpdateRundownModal = ({
   const [visible, setVisible] = useState(false);
   const queryClient = useQueryClient();
   const notifications = useNotifications();
+  const [lastRundown, setLastRundown] = useState(false);
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -109,6 +113,7 @@ export const UpdateRundownModal = ({
           .format()
       ),
     });
+    setLastRundown(selectedRundown?.is_end === 1 ? true : false);
   }, [selectedRundown, setValues]);
 
   const handleSubmit = async (values: typeof form.values) => {
@@ -123,6 +128,7 @@ export const UpdateRundownModal = ({
       time: `${dayjs(values.start_time).format("HH.mm")} - ${dayjs(
         values.end_time
       ).format("HH.mm")}`,
+      is_end: lastRundown ? 1 : 0,
     };
 
     setVisible(true);
@@ -237,6 +243,12 @@ export const UpdateRundownModal = ({
           mb="sm"
           {...form.getInputProps("attachment_link")}
         />
+        <InputWrapper label="Last rundown">
+          <Switch
+            checked={lastRundown}
+            onChange={(e) => setLastRundown(e.currentTarget.checked)}
+          />
+        </InputWrapper>
 
         <Button type="submit" fullWidth mt="md">
           Update Rundown

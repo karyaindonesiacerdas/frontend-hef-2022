@@ -26,6 +26,7 @@ export type AddRundownPayload = {
   position: string;
   date: string;
   time: string;
+  is_end: number;
 };
 
 export const addRundown = async (payload: AddRundownPayload) => {
@@ -65,6 +66,7 @@ export type UpdateRundownPayload = {
   status: number;
   embedd_link: string;
   attachment_link: string;
+  is_end: number;
 };
 
 export const updateRundown = async (

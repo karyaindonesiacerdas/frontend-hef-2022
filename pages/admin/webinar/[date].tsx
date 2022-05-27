@@ -18,9 +18,16 @@ import {
   Table,
   Text,
   Title,
+  useMantineTheme,
 } from "@mantine/core";
 import { NextLink } from "@mantine/next";
-import { ChevronRight, Edit, Search, Trash } from "tabler-icons-react";
+import {
+  ChevronRight,
+  CircleCheck,
+  Edit,
+  Search,
+  Trash,
+} from "tabler-icons-react";
 import Fuse from "fuse.js";
 import debounce from "lodash.debounce";
 
@@ -91,6 +98,7 @@ const AdminWebinarDate: NextPage = () => {
   const [selectedRundown, setSelectedRundown] = useState<Rundown>();
   const [mode, setMode] = useState<"print" | "action">("action");
   const [querySearch, setQuerySearch] = useState("");
+  const theme = useMantineTheme();
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -129,6 +137,7 @@ const AdminWebinarDate: NextPage = () => {
         status: rundown.status,
         embedd_link: rundown.embedd_link,
         attachment_link: rundown.attachment_link,
+        is_end: rundown.is_end,
       })) || [];
 
   const fuse = new Fuse(currentRundowns, {
@@ -187,9 +196,14 @@ const AdminWebinarDate: NextPage = () => {
     <TableSkeleton rows={3} cols={8} />
   ) : (
     rundownResults?.map((rundown) => (
-      <tr key={rundown.id}>
+      <tr
+        key={rundown.id}
+        style={{
+          backgroundColor: rundown.is_end === 1 ? theme.colors.red[1] : "white",
+        }}
+      >
         <td>{rundown.date}</td>
-        <td>{rundown.time}</td>
+        <td style={{ fontFamily: "monospace" }}>{rundown.time}</td>
         <td style={{ maxWidth: 250 }}>
           <Text size="sm" weight={600}>
             {rundown.title}

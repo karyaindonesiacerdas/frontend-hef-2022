@@ -3,9 +3,18 @@ import { useRouter } from "next/router";
 
 import AppLayout from "@/components/app-layout/AppLayout";
 import { useAuth } from "contexts/auth.context";
-import { createStyles, keyframes, UnstyledButton } from "@mantine/core";
+import {
+  Center,
+  createStyles,
+  keyframes,
+  Stack,
+  Text,
+  UnstyledButton,
+  useMantineTheme,
+} from "@mantine/core";
 import SeminarScreen from "@/components/seminar/SeminarScreen";
 import SeminarRundown from "@/components/seminar/SeminarRundown";
+import { Award, Trophy } from "tabler-icons-react";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -46,8 +55,16 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+export const bounce = keyframes({
+  "from, 20%, 53%, 80%, to": { transform: "translate3d(0, 0, 0)" },
+  "40%, 43%": { transform: "translate3d(0, -20px, 0)" },
+  "70%": { transform: "translate3d(0, -10px, 0)" },
+  "90%": { transform: "translate3d(0, -2px, 0)" },
+});
+
 const Seminar = () => {
   const router = useRouter();
+  const theme = useMantineTheme();
   const { isAuthenticated, isInitialized } = useAuth();
   const { classes } = useStyles();
   const [openRundown, setOpenRundown] = useState(true);
@@ -79,6 +96,30 @@ const Seminar = () => {
           </UnstyledButton>
         </div>
       </div>
+      {/* <UnstyledButton
+        sx={{
+          position: "absolute",
+          bottom: 50,
+          right: 50,
+          width: 80,
+          height: 80,
+          backgroundColor: theme.colors.orange[5],
+          borderRadius: 80,
+          animation: `${bounce} 3s ease-in-out infinite`,
+          "&:hover": {
+            backgroundColor: theme.colors.orange[3],
+          },
+        }}
+      >
+        <Center>
+          <Stack spacing={0} align="center">
+            <Trophy size={30} />
+            <Text align="center" size="xs" weight={600}>
+              Collect Reward
+            </Text>
+          </Stack>
+        </Center>
+      </UnstyledButton> */}
     </div>
   );
 };

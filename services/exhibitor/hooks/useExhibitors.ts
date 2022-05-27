@@ -19,6 +19,7 @@ type Exhibitor = {
   package_id: number;
   package: Package;
   published: 0 | 1;
+  position: number;
 };
 
 export const useExhibitors = (params: GetExhibitorsParams) => {
