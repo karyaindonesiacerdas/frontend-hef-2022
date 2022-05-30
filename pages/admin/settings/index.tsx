@@ -19,6 +19,7 @@ const AdminSettings: NextPage = () => {
     company: string;
     package_id: number;
     package_name: string;
+    position: number;
   }>();
 
   useEffect(() => {
@@ -44,7 +45,8 @@ const AdminSettings: NextPage = () => {
         company: exhibitor.company_name,
         package_id: String(exhibitor?.package?.id),
         package_name: exhibitor?.package?.name,
-        ala_carte: exhibitor?.ala_carter,
+        ala_carte: exhibitor?.ala_carte,
+        position: exhibitor?.position,
       })),
     [exhibitors, isSuccessExhibitors]
   );
