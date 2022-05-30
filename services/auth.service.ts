@@ -172,11 +172,15 @@ export const me = async () => {
 export type UpdatePackagePayload = {
   package_id: number;
   user_id: number;
+  position?: number;
+  role: "visitor" | "exhibitor";
 };
 
 export const updatePackage = async ({
   package_id,
   user_id,
+  position,
+  role,
 }: UpdatePackagePayload) => {
   const cookies = Cookies.get("accessToken");
 
@@ -188,6 +192,8 @@ export const updatePackage = async ({
     _method: "PUT",
     package_id,
     user_id,
+    position,
+    role,
   };
 
   const res = await fetch(

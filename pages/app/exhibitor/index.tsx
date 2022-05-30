@@ -24,28 +24,6 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
     aspectRatio: "2 / 1",
   },
-  exhibitorContainer: {
-    position: "absolute",
-    top: "69%",
-    right: "39%",
-    perspective: "600px",
-    width: "5vw",
-    height: "5vw",
-    // height: "31.2%",
-    ":hover": {
-      backgroundColor: "rgba(0, 0, 0, 0.2)",
-      ":svg": {
-        color: "rgba(255,0,0, 1)",
-      },
-    },
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 9999,
-    "&:svg": {
-      color: "rgba(255,0,0, 0.3)",
-    },
-  },
   exhibitor: {
     // width: "100%",
     // height: "100%",
@@ -75,6 +53,28 @@ const useStyles = createStyles((theme) => ({
       color: theme.colors[theme.primaryColor][6],
     },
   },
+  exhibitorContainer: {
+    position: "absolute",
+    top: "69%",
+    right: "39%",
+    perspective: "600px",
+    width: "5vw",
+    height: "5vw",
+    // height: "31.2%",
+    ":hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      ":svg": {
+        color: "rgba(255,0,0, 1)",
+      },
+    },
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 9999,
+    "&:svg": {
+      color: "rgba(255,0,0, 0.3)",
+    },
+  },
 }));
 
 const Exhibitor = () => {
@@ -91,6 +91,13 @@ const Exhibitor = () => {
     }
   }, [router, isInitialized, isAuthenticated]);
 
+  const exhibitor1 = exhibitors?.find((exhibitor) => exhibitor.position === 1);
+  const exhibitor2 = exhibitors?.find((exhibitor) => exhibitor.position === 2);
+  const exhibitor3 = exhibitors?.find((exhibitor) => exhibitor.position === 3);
+  const exhibitor4 = exhibitors?.find((exhibitor) => exhibitor.position === 4);
+  const exhibitor5 = exhibitors?.find((exhibitor) => exhibitor.position === 5);
+  const exhibitor6 = exhibitors?.find((exhibitor) => exhibitor.position === 6);
+
   if (!isInitialized || !isAuthenticated) {
     return null;
   }
@@ -105,20 +112,20 @@ const Exhibitor = () => {
         <span>Exit</span>
       </NextLink>
       <div className={classes.container}>
-        <div className={classes.exhibitorContainer}>
-          {exhibitors?.map((exhibitor) => (
-            <Tooltip label={exhibitor.company_name} key={exhibitor.id}>
+        {exhibitor1 && (
+          <div className={classes.exhibitorContainer}>
+            <Tooltip label={exhibitor1.company_name}>
               <NextLink
                 className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor.id}`}
+                href={`/app/exhibitor/${exhibitor1.id}`}
                 style={{ textAlign: "center" }}
               >
                 <div style={{ width: 60, height: 60 }} />
                 {/* <BuildingStore size={52} /> */}
               </NextLink>
             </Tooltip>
-          ))}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -6,7 +6,9 @@ import {
   Group,
   LoadingOverlay,
   Modal,
+  NumberInput,
   Select,
+  Stack,
   Text,
   TextInput,
 } from "@mantine/core";
@@ -60,6 +62,7 @@ type UpdatePackageModalProps = {
     company: string;
     package_id: number;
     package_name: string;
+    position: number;
   };
 };
 
@@ -76,13 +79,17 @@ export const UpdatePackageModal = ({
     schema: zodResolver(schema),
     initialValues: {
       package_id: String(selectedExhibitor?.package_id),
+      position: selectedExhibitor?.position || 0,
     },
   });
   const { setValues } = form;
 
   useEffect(() => {
-    setValues({ package_id: String(selectedExhibitor?.package_id) });
-  }, [selectedExhibitor?.package_id, setValues]);
+    setValues({
+      package_id: String(selectedExhibitor?.package_id),
+      position: selectedExhibitor?.position || 0,
+    });
+  }, [selectedExhibitor?.package_id, selectedExhibitor?.position, setValues]);
 
   const handleSubmit = async (values: typeof form.values) => {
     if (!selectedExhibitor) return;
@@ -90,6 +97,8 @@ export const UpdatePackageModal = ({
     const payload: UpdatePackagePayload = {
       package_id: Number(values.package_id),
       user_id: selectedExhibitor?.id,
+      position: values.position,
+      role: "exhibitor",
     };
 
     setVisible(true);
@@ -129,26 +138,33 @@ export const UpdatePackageModal = ({
     >
       <LoadingOverlay visible={visible} />
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput
-          readOnly
-          label="Company"
-          value={selectedExhibitor?.company}
-          mb="sm"
-        />
-        <Select
-          clearable
-          label="Choose package"
-          placeholder="Pick one"
-          // itemComponent={SelectItem}
-          data={packages}
-          searchable
-          maxDropdownHeight={400}
-          nothingFound="Nobody here"
-          filter={(value, item) =>
-            !!item?.label?.toLowerCase().includes(value.toLowerCase().trim())
-          }
-          {...form.getInputProps("package_id")}
-        />
+        <Stack>
+          <TextInput
+            readOnly
+            label="Company"
+            value={selectedExhibitor?.company}
+          />
+          <Select
+            required
+            clearable
+            label="Choose package"
+            placeholder="Pick one"
+            // itemComponent={SelectItem}
+            data={packages}
+            searchable
+            maxDropdownHeight={400}
+            nothingFound="Nobody here"
+            filter={(value, item) =>
+              !!item?.label?.toLowerCase().includes(value.toLowerCase().trim())
+            }
+            {...form.getInputProps("package_id")}
+          />
+          <NumberInput
+            required
+            label="Position"
+            {...form.getInputProps("position")}
+          />
+        </Stack>
         <Button type="submit" fullWidth mt="md">
           Update Package
         </Button>

@@ -12,11 +12,12 @@ import {
   ScrollArea,
   Switch,
   Table,
+  Text,
   Title,
 } from "@mantine/core";
 import Fuse from "fuse.js";
 import debounce from "lodash.debounce";
-import { Search } from "tabler-icons-react";
+import { Search, Trophy } from "tabler-icons-react";
 
 import { useAuth } from "contexts/auth.context";
 import AdminSidebar from "components/admin-layout/AdminSidebar";
@@ -24,6 +25,7 @@ import { UpdatePackageModal } from "components/admin/exhibitor/UpdatePackageModa
 import { TableSkeleton } from "components/TableSkeleton";
 import ReactHTMLTableToExcel from "components/table/ReactHTMLTableToExcel";
 import { useExhibitors } from "services/exhibitor/hooks";
+import { useActivityList } from "services/activity/hooks";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -59,7 +61,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const AdminExhibitor: NextPage = () => {
+const AdminAward: NextPage = () => {
   const router = useRouter();
   const { isAuthenticated, isInitialized, user } = useAuth();
   const { classes, cx } = useStyles();
@@ -71,7 +73,6 @@ const AdminExhibitor: NextPage = () => {
     company: string;
     package_id: number;
     package_name: string;
-    position: number;
   }>();
   const [confirm, setConfirm] = useState<"confirm" | "all">("all");
   const [mode, setMode] = useState<"print" | "action">("action");
@@ -85,17 +86,15 @@ const AdminExhibitor: NextPage = () => {
     }
   }, [router, isInitialized, isAuthenticated, user?.role]);
 
-  const {
-    data: exhibitors,
-    isSuccess: isSuccessExhibitors,
-    isLoading: isLoadingExhibitors,
-  } = useExhibitors({});
-  console.log({ exhibitors });
+  // const {
+  //   data: exhibitors,
+  //   isSuccess: isSuccessExhibitors,
+  //   isLoading: isLoadingExhibitors,
+  // } = useExhibitors({});
+  // console.log({ exhibitors });
 
-  const filteredExhibitors =
-    exhibitors?.filter((e: any) =>
-      confirm === "confirm" ? e.package_id : true
-    ) || [];
+  const { data: activities, isLoading: isLoadingActivities } =
+    useActivityList();
 
   // ==== Handle Search ====
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -112,84 +111,42 @@ const AdminExhibitor: NextPage = () => {
   }, [debounceHandleSearchChange]);
   // ==== End Handle Search ====
 
-  const fuse = new Fuse(filteredExhibitors, {
-    keys: ["name", "company_name"],
+  const fuse = new Fuse(activities || [], {
+    keys: ["name", "email"],
     includeScore: true,
     isCaseSensitive: false,
   });
 
   const results = fuse.search(querySearch);
-  const exhibitorResults = querySearch
+  const activitiesResult = querySearch
     ? results.map((result) => result.item)
-    : filteredExhibitors;
+    : activities;
 
   const ths = (
     <tr>
       {mode === "action" && <th>ID</th>}
       <th>Name</th>
-      <th>Company</th>
-      <th>Package</th>
-      <th>Booth Position</th>
-      {mode === "action" && <th>Action</th>}
+      <th>Email</th>
+      <th>Total Award</th>
     </tr>
   );
 
-  const rows = isLoadingExhibitors ? (
+  const rows = isLoadingActivities ? (
     <TableSkeleton rows={3} cols={5} />
   ) : (
-    exhibitorResults?.map((exhibitor) => (
-      <tr key={exhibitor.id}>
-        {mode === "action" && <td>{exhibitor.id}</td>}
-        <td>{exhibitor.name}</td>
-        <td>{exhibitor.company_name}</td>
-
+    activitiesResult?.map((activity: any) => (
+      <tr key={activity.id}>
+        {mode === "action" && <td>{activity.id}</td>}
+        <td>{activity.name}</td>
+        <td>{activity.email}</td>
         <td>
-          <Badge
-            radius="sm"
-            color={
-              exhibitor.package?.name === "mercury"
-                ? "gray"
-                : exhibitor.package?.name === "mars"
-                ? "red"
-                : exhibitor.package?.name === "venus"
-                ? "yellow"
-                : exhibitor.package?.name === "uranus"
-                ? "blue"
-                : exhibitor.package?.name === "jupiter"
-                ? "orange"
-                : "gray"
-            }
-            variant={exhibitor.package?.name ? "filled" : "light"}
-          >
-            {exhibitor.package?.name || "No package"}
-          </Badge>
+          <Group spacing={4}>
+            <Text sx={{ fontFamily: "monospace" }}>
+              {activity.total_reward}
+            </Text>
+            <Trophy size={20} color="	#FFD700" />
+          </Group>
         </td>
-
-        <td>{exhibitor.position}</td>
-
-        {mode === "action" && (
-          <td>
-            <Group>
-              <Button
-                onClick={() => {
-                  setSelectedExhibitor({
-                    id: exhibitor.id,
-                    name: exhibitor.name,
-                    company: exhibitor.company_name,
-                    package_id: exhibitor.package_id,
-                    package_name: exhibitor.package?.name,
-                    position: exhibitor.position,
-                  });
-                  setOpenedUpdateModal(true);
-                }}
-                variant="light"
-                color="blue"
-              >
-                Update Status
-              </Button>
-            </Group>
-          </td>
-        )}
       </tr>
     ))
   );
@@ -248,13 +205,8 @@ const AdminExhibitor: NextPage = () => {
     >
       <Container size={1700}>
         <Title order={2} px={3}>
-          Exhibitors
+          Award
         </Title>
-        <UpdatePackageModal
-          opened={openedUpdateModal}
-          setOpened={setOpenedUpdateModal}
-          selectedExhibitor={selectedExhibitor}
-        />
         <div className={classes.root}>
           {action}
           <ScrollArea
@@ -276,4 +228,4 @@ const AdminExhibitor: NextPage = () => {
   );
 };
 
-export default AdminExhibitor;
+export default AdminAward;

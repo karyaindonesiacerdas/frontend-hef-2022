@@ -33,6 +33,7 @@ import { useExhibitor } from "services/exhibitor/hooks";
 import { useQueryClient } from "react-query";
 import { getFileUrl } from "utils/file-storage";
 import EditBoothDrawer from "@/components/booth/EditBoothDrawer";
+import { postActivity } from "services/activity/activity";
 
 export const pulse = keyframes({
   "from, to": { opacity: 1 },
@@ -251,6 +252,7 @@ const ExhibitorBooth: NextPage = () => {
   const notifications = useNotifications();
   const [isLoadingAddContact, setIsLoadingAddContact] = useState(false);
   const queryClient = useQueryClient();
+  const [postingActivity, setPostingActivity] = useState(false);
 
   const { data: exhibitor, isLoading } = useExhibitor(
     router.query.id ? String(router.query.id) : ""
@@ -306,6 +308,22 @@ const ExhibitorBooth: NextPage = () => {
         message: error?.message || "Error add contact",
         color: "red",
       });
+    }
+  };
+
+  const handleClickPoster = async () => {
+    if (!exhibitor?.id || !user?.id) return;
+    try {
+      setPostingActivity(true);
+      await postActivity({
+        subject_id: exhibitor?.id,
+        subject_type: "reward",
+        subject_name: `view_poster`,
+        causer_id: user?.id,
+      });
+      setPostingActivity(false);
+    } catch (error) {
+      setPostingActivity(false);
     }
   };
 
@@ -366,7 +384,10 @@ const ExhibitorBooth: NextPage = () => {
         <div className={classes.catalogContainer}>
           <UnstyledButton
             className={classes.catalog}
-            onClick={() => setIsOpenCatalog(true)}
+            onClick={() => {
+              setIsOpenCatalog(true);
+              handleClickPoster();
+            }}
           >
             Poster
           </UnstyledButton>
