@@ -19,6 +19,7 @@ const AdminChats: NextPage = () => {
     company: string;
     package_id: number;
     package_name: string;
+    position: number;
   }>();
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const AdminChats: NextPage = () => {
         package_id: String(exhibitor?.package?.id),
         package_name: exhibitor?.package?.name,
         ala_carte: exhibitor?.ala_carter,
+        position: exhibitor?.position,
       })),
     [exhibitors, isSuccessExhibitors]
   );
