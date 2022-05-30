@@ -42,7 +42,7 @@ const mockdata = [
       { label: "Visitor Info", link: "/admin/visitor/info" },
     ],
   },
-  { label: "Award", icon: Trophy, link: "/admin/award" },
+  { label: "Reward", icon: Trophy, link: "/admin/reward" },
   // { label: "Consultation", icon: Video, link: "/admin/consultation" },
   { label: "Webinar", icon: CalendarEvent, link: "/admin/webinar" },
   { label: "Sponsor", icon: Award, link: "/admin/sponsor" },

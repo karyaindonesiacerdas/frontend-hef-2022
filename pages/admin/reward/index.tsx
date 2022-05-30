@@ -127,7 +127,7 @@ const AdminAward: NextPage = () => {
       {mode === "action" && <th>ID</th>}
       <th>Name</th>
       <th>Email</th>
-      <th>Total Award</th>
+      <th>Total Reward</th>
     </tr>
   );
 
@@ -205,7 +205,7 @@ const AdminAward: NextPage = () => {
     >
       <Container size={1700}>
         <Title order={2} px={3}>
-          Award
+          Reward
         </Title>
         <div className={classes.root}>
           {action}
