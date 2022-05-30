@@ -24,6 +24,7 @@ import { UpdatePackageModal } from "components/admin/exhibitor/UpdatePackageModa
 import { TableSkeleton } from "components/TableSkeleton";
 import ReactHTMLTableToExcel from "components/table/ReactHTMLTableToExcel";
 import { useExhibitors } from "services/exhibitor/hooks";
+import DeleteFromExhibitorModal from "@/components/admin/exhibitor/DeleteFromExhibitorModal";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -65,6 +66,7 @@ const AdminExhibitor: NextPage = () => {
   const { classes, cx } = useStyles();
   const [scrolled, setScrolled] = useState(false);
   const [openedUpdateModal, setOpenedUpdateModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedExhibitor, setSelectedExhibitor] = useState<{
     id: number;
     name: string;
@@ -171,6 +173,7 @@ const AdminExhibitor: NextPage = () => {
           <td>
             <Group>
               <Button
+                size="xs"
                 onClick={() => {
                   setSelectedExhibitor({
                     id: exhibitor.id,
@@ -186,6 +189,24 @@ const AdminExhibitor: NextPage = () => {
                 color="blue"
               >
                 Update Status
+              </Button>
+              <Button
+                size="xs"
+                onClick={() => {
+                  setSelectedExhibitor({
+                    id: exhibitor.id,
+                    name: exhibitor.name,
+                    company: exhibitor.company_name,
+                    package_id: exhibitor.package_id,
+                    package_name: exhibitor.package?.name,
+                    position: exhibitor.position,
+                  });
+                  setOpenDeleteModal(true);
+                }}
+                variant="light"
+                color="red"
+              >
+                Remove
               </Button>
             </Group>
           </td>
@@ -254,6 +275,12 @@ const AdminExhibitor: NextPage = () => {
           opened={openedUpdateModal}
           setOpened={setOpenedUpdateModal}
           selectedExhibitor={selectedExhibitor}
+        />
+        <DeleteFromExhibitorModal
+          opened={openDeleteModal}
+          setOpened={setOpenDeleteModal}
+          id={selectedExhibitor?.id || 0}
+          name={selectedExhibitor?.name || ""}
         />
         <div className={classes.root}>
           {action}

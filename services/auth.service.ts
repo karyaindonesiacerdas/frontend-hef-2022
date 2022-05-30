@@ -170,7 +170,7 @@ export const me = async () => {
 };
 
 export type UpdatePackagePayload = {
-  package_id: number;
+  package_id?: number;
   user_id: number;
   position?: number;
   role: "visitor" | "exhibitor";
