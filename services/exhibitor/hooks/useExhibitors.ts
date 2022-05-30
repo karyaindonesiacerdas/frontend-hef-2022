@@ -27,7 +27,7 @@ export const useExhibitors = (params: GetExhibitorsParams) => {
     ["exhibitors", params],
     () => getExhibitors(params),
     {
-      staleTime: 1000 * 60 * 1,
+      staleTime: 1000 * 30,
     }
   );
 };

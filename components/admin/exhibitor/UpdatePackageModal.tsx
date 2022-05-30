@@ -51,6 +51,7 @@ const schema = z.object({
   package_id: z
     .string({ invalid_type_error: "Required" })
     .nonempty({ message: "Required" }),
+  position: z.number().min(0).max(24),
 });
 
 type UpdatePackageModalProps = {
@@ -162,6 +163,8 @@ export const UpdatePackageModal = ({
           <NumberInput
             required
             label="Position"
+            min={0}
+            max={24}
             {...form.getInputProps("position")}
           />
         </Stack>
