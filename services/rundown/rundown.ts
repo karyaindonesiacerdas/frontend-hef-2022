@@ -123,3 +123,22 @@ export const deleteRundown = async (rundownId: number) => {
 
   return json;
 };
+
+export const getRundownClosing = async () => {
+  const accessToken = Cookies.get("accessToken");
+  const URL = `${process.env.NEXT_PUBLIC_API_URL}/rundown/closing/event`;
+
+  const res = await fetch(URL, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  const json = await res.json();
+
+  if (!res.ok) {
+    throw Error(json.message);
+  }
+
+  return json.data;
+};

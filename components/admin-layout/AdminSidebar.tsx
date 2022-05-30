@@ -41,7 +41,7 @@ const mockdata = [
       { label: "Visitor Info", link: "/admin/visitor/info" },
     ],
   },
-  { label: "Consultation", icon: Video, link: "/admin/consultation" },
+  // { label: "Consultation", icon: Video, link: "/admin/consultation" },
   { label: "Webinar", icon: CalendarEvent, link: "/admin/webinar" },
   { label: "Sponsor", icon: Award, link: "/admin/sponsor" },
   { label: "Blog", icon: FileText, link: "/admin/blog" },
