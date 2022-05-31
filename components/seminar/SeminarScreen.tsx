@@ -6,11 +6,13 @@ import { matchYoutubeUrl } from "utils/youtube";
 const useStyles = createStyles((theme) => ({
   seminarContainer: {
     position: "absolute",
-    top: "48.5%",
-    left: "29%",
+    // top: "48.5%",
+    top: "42.7%",
+    left: "28.9%",
     perspective: "600px",
-    width: "40.2%",
-    height: "34%",
+    width: "40.3%",
+    // height: "34%",
+    height: "41%",
   },
   seminar: {
     width: "100%",

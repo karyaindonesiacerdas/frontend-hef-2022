@@ -4,8 +4,11 @@ import { useRouter } from "next/router";
 import AppLayout from "@/components/app-layout/AppLayout";
 import { useAuth } from "contexts/auth.context";
 import {
+  Box,
   Center,
   createStyles,
+  Group,
+  Image,
   keyframes,
   Stack,
   Text,
@@ -19,6 +22,7 @@ import { useRundownClosing } from "services/rundown/hooks";
 import { postActivity } from "services/activity/activity";
 import { useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
+import RunningText from "@/components/RunningText";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -38,7 +42,7 @@ const useStyles = createStyles((theme) => ({
     width: 85,
     height: 85,
     position: "fixed",
-    top: 40,
+    top: 50,
     right: 55,
     borderRadius: 1000,
     backgroundColor: theme.colors[theme.primaryColor][0],
@@ -116,6 +120,20 @@ const Seminar = () => {
       <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
         <AppLayout />
       </div>
+
+      <Box
+        style={{
+          position: "absolute",
+          // inset: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 20,
+        }}
+      >
+        <RunningText />
+      </Box>
+
       <div className={classes.container}>
         <SeminarScreen />
         <SeminarRundown opened={openRundown} setOpened={setOpenRundown} />

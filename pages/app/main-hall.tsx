@@ -3,12 +3,24 @@ import { useRouter } from "next/router";
 
 import AppLayout from "@/components/app-layout/AppLayout";
 import { useAuth } from "contexts/auth.context";
-import { createStyles, keyframes } from "@mantine/core";
+import {
+  Box,
+  createStyles,
+  Group,
+  Image,
+  keyframes,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
 import { NextLink } from "@mantine/next";
 import { DoorEnter } from "tabler-icons-react";
+import { useLocalStorage } from "@mantine/hooks";
+import Marquee from "react-fast-marquee";
+
 import { useSettings } from "services/settings/hooks";
 import LeftAdvertisement from "@/components/main-hall/LeftAdvertisement";
 import RightAdvertisement from "@/components/main-hall/RightAdvertisement";
+import RunningText from "@/components/RunningText";
 // import ChatButton from "@/components/chat/ChatButton";
 
 export const pulse = keyframes({
@@ -91,8 +103,13 @@ const useStyles = createStyles((theme) => ({
 
 const MainHall = () => {
   const router = useRouter();
+  const theme = useMantineTheme();
   const { isAuthenticated, isInitialized } = useAuth();
   const { classes } = useStyles();
+  const [value, setValue] = useLocalStorage({
+    key: "skip-enter",
+    defaultValue: false,
+  });
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -111,13 +128,27 @@ const MainHall = () => {
       <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
         <AppLayout />
       </div>
+
+      <Box
+        style={{
+          position: "absolute",
+          // inset: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 20,
+        }}
+      >
+        <RunningText />
+      </Box>
+
       <div className={classes.container}>
         <LeftAdvertisement url={settings?.ads1_link} />
         <RightAdvertisement url={settings?.ads2_link} />
         <div className={classes.virtualExhibitionLinkContainer}>
           <NextLink
             className={classes.virtualExhibitionLink}
-            href="/app/enter-exhibitor"
+            href={value ? "/app/exhibitor" : "/app/enter-exhibitor"}
             style={{ textAlign: "center" }}
           >
             <span>Enter</span>

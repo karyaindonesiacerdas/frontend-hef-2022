@@ -27,6 +27,7 @@ import Marquee from "react-fast-marquee";
 import { LanguagePicker } from "./LanguagePicker";
 import { LinksGroup } from "../admin-layout/NavbarLinksGroup";
 import { MobileLinksGroup } from "./MobileLinksGroup";
+import RunningText from "../RunningText";
 
 const HEADER_HEIGHT = 60;
 
@@ -364,7 +365,7 @@ export function HeaderMenu() {
 
   return (
     <>
-      <Box
+      {/* <Box
         sx={(theme) => ({
           backgroundColor: theme.colors[theme.primaryColor][6],
         })}
@@ -386,7 +387,8 @@ export function HeaderMenu() {
             </Text>
           </Group>
         </Group>
-      </Box>
+      </Box> */}
+      <RunningText />
       <Header className={classes.header} height={112}>
         <Container size="xl">
           <div className={classes.inner}>
