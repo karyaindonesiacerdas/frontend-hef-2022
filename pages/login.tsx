@@ -153,15 +153,15 @@ export default function LoginPage() {
               mt="md"
               {...form.getInputProps("password")}
             />
-            {/* <Group position="apart" mt="md">
-              <Checkbox label="Remember me" />
+            <Group position="right" mt="md">
+              {/* <Checkbox label="Remember me" /> */}
               <Link href="/forgot-password" passHref>
                 <Anchor component="a" size="sm">
                   Forgot password?
                 </Anchor>
               </Link>
-            </Group> */}
-            <Button type="submit" fullWidth mt="xl" mb="md">
+            </Group>
+            <Button type="submit" fullWidth mt="md" mb="md">
               {t("login")}
             </Button>
           </form>

@@ -18,6 +18,7 @@ import {
 import { Exhibitor } from "services/exhibitor/hooks";
 import { getFileUrl } from "utils/file-storage";
 import { Building, Download, Mail, Phone, World } from "tabler-icons-react";
+import fileDownload from "js-file-download";
 
 type Props = {
   opened: boolean;
@@ -31,6 +32,24 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
 
   const nameCard = exhibitor?.banners?.find((banner) => banner.order === 11);
   const catalog = exhibitor?.banners?.find((banner) => banner.order === 12);
+
+  // const handleDownloadClick = (url: string, filename: string) => {
+  //   console.log({ url });
+  //   fetch(url, {
+  //     headers: {
+  //       Origin: location.origin,
+  //     },
+  //     mode: "cors",
+  //   })
+  //     .then((res) => {
+  //       console.log({ res });
+  //       return res.blob();
+  //     })
+  //     .then((blob) => {
+  //       console.log(blob);
+  //       fileDownload(blob, filename);
+  //     });
+  // };
 
   return (
     <Modal
@@ -60,8 +79,8 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
             </Button>
             <Group position="center">
               <Button
-                component="a"
                 pl="xs"
+                component="a"
                 download
                 target="_blank"
                 rel="noopener noreferrer"
@@ -69,6 +88,13 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
                 href={
                   nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""
                 }
+                // onClick={() =>
+                //   nameCard?.image &&
+                //   handleDownloadClick(
+                //     getFileUrl(nameCard?.image, "banner"),
+                //     "Name card"
+                //   )
+                // }
               >
                 Download Name Card
               </Button>
@@ -202,9 +228,9 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
               ) : (
                 <Center
                   style={{
-                    height: 120,
-                    borderWidth: "2px",
-                    border: "1px solid #ddd",
+                    height: "90%",
+                    // borderWidth: "2px",
+                    // border: "1px solid #ddd",
                   }}
                 >
                   <Text size="xl" weight={600}>
@@ -237,9 +263,10 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
               ) : (
                 <Center
                   style={{
-                    height: 120,
-                    borderWidth: "2px",
-                    border: "1px solid #ddd",
+                    height: "90%",
+
+                    // borderWidth: "2px",
+                    // border: "1px solid #ddd",
                   }}
                 >
                   <Text size="xl" weight={600}>

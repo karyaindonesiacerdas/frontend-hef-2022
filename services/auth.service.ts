@@ -364,3 +364,34 @@ export const updateExhibitor = async (payload: UpdateExhibitorPayload) => {
 
   return json.data;
 };
+
+export const userResetPassword = async (email: string) => {
+  const cookies = Cookies.get("accessToken");
+
+  if (!email) {
+    throw new Error("Invalid Payload");
+  }
+
+  const data = {
+    email,
+  };
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/reset/email`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    throw await res.json();
+  }
+
+  const json = await res.json();
+
+  return json;
+};
