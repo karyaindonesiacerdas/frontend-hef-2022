@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createStyles, UnstyledButton, useMantineTheme } from "@mantine/core";
 import { useRouter } from "next/router";
 import { Volume, Volume3 } from "tabler-icons-react";
+import { useLocalStorage } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -59,6 +60,10 @@ export default function EnterExhibitor() {
   const { classes } = useStyles();
   const router = useRouter();
   const [muted, setMuted] = useState(true);
+  const [value, setValue] = useLocalStorage({
+    key: "skip-enter",
+    defaultValue: false,
+  });
 
   useEffect(() => {
     const video = document.getElementById(
@@ -96,7 +101,10 @@ export default function EnterExhibitor() {
           )}
         </UnstyledButton>
         <UnstyledButton
-          onClick={() => router.replace("/app/exhibitor")}
+          onClick={() => {
+            setValue(true);
+            router.replace("/app/exhibitor");
+          }}
           className={classes.skipButton}
         >
           Skip

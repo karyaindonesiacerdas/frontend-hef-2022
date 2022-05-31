@@ -12,6 +12,7 @@ import {
   DoorEnter,
   DoorExit,
 } from "tabler-icons-react";
+import { useLocalStorage } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -588,6 +589,10 @@ const Exhibitor = () => {
   const { isAuthenticated, isInitialized } = useAuth();
   const { classes } = useStyles();
   const { data: exhibitors } = useExhibitors({ showAll: false });
+  const [value, setValue] = useLocalStorage({
+    key: "skip-exit",
+    defaultValue: false,
+  });
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -662,7 +667,10 @@ const Exhibitor = () => {
       <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
         <AppLayout />
       </div>
-      <NextLink className={classes.backButton} href="/app/exit-exhibitor">
+      <NextLink
+        className={classes.backButton}
+        href={value === true ? "/app/main-hall" : "/app/exit-exhibitor"}
+      >
         <DoorExit size={28} style={{ marginRight: 8 }} />
         <span>Exit</span>
       </NextLink>

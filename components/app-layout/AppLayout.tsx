@@ -163,8 +163,23 @@ export default function AppLayout() {
     defaultValue: "true",
   });
   const { data: exhibitor } = useExhibitor(user?.id ? String(user?.id) : "");
+  const [value, setValue] = useLocalStorage({
+    key: "skip-enter",
+    defaultValue: false,
+  });
 
-  const links = mockdata.map((link, index) => (
+  const dataLinks = mockdata.map((link) => {
+    if (value === true && link.label === "Exhibitor") {
+      return {
+        ...link,
+        link: "/app/exhibitor",
+      };
+    } else {
+      return link;
+    }
+  });
+
+  const links = dataLinks?.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}

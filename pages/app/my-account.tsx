@@ -18,7 +18,8 @@ import { Trophy } from "tabler-icons-react";
 
 const useStyles = createStyles((theme) => ({
   root: {
-    backgroundImage: `linear-gradient(to bottom right, ${theme.colors["gray"][5]},${theme.colors["gray"][3]})`,
+    // backgroundImage: `linear-gradient(to bottom right, ${theme.colors["gray"][5]},${theme.colors["gray"][3]})`,
+    background: theme.colors.gray[1],
     height: "100vh",
   },
   title: {
