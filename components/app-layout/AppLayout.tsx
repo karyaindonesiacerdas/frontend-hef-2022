@@ -168,7 +168,14 @@ export default function AppLayout() {
     <NavbarLink
       {...link}
       key={link.label}
-      active={pathname === link.link}
+      // active={pathname === link.link}
+      active={
+        link.link === "/app/enter-exhibitor"
+          ? pathname.includes("exhibitor")
+            ? true
+            : false
+          : pathname.includes(link.link)
+      }
       onClick={() => setActive(index)}
     />
   ));

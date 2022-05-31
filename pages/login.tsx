@@ -31,9 +31,11 @@ import { GetStaticPropsContext } from "next";
 const useStyles = createStyles((theme) => ({
   wrapper: {
     height: "100vh",
-    backgroundImage: `linear-gradient(to bottom right, ${
-      theme.colors[theme.primaryColor][6]
-    },${theme.colors[theme.primaryColor][3]})`,
+    // backgroundImage: `linear-gradient(to bottom right, ${
+    //   theme.colors[theme.primaryColor][6]
+    // },${theme.colors[theme.primaryColor][3]})`,
+    backgroundColor: theme.colors.gray[1],
+
     // backgroundColor: theme.colors[theme.primaryColor][6],
   },
   logoTitle: {

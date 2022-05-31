@@ -20,10 +20,12 @@ import {
 import { useBooleanToggle, useMediaQuery } from "@mantine/hooks";
 import { ChevronDown } from "tabler-icons-react";
 import Link from "next/link";
-import { LanguagePicker } from "./LanguagePicker";
-import { useTranslation } from "next-i18next";
-import { LinksGroup } from "../admin-layout/NavbarLinksGroup";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import Marquee from "react-fast-marquee";
+
+import { LanguagePicker } from "./LanguagePicker";
+import { LinksGroup } from "../admin-layout/NavbarLinksGroup";
 import { MobileLinksGroup } from "./MobileLinksGroup";
 
 const HEADER_HEIGHT = 60;
@@ -155,6 +157,7 @@ const authLinks = [
 const useStyles = createStyles((theme) => ({
   header: {
     height: HEADER_HEIGHT,
+    paddingTop: 2,
     [theme.fn.largerThan("sm")]: {
       height: 112,
     },
@@ -359,83 +362,106 @@ export function HeaderMenu() {
     />
   ));
 
-  console.log({ largerThanSm });
-
   return (
-    <Header className={classes.header} height={112}>
-      <Container size="xl">
-        <div className={classes.inner}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Image
-              width={42}
-              height={42}
-              style={{ flexShrink: 0 }}
-              src="/logo.png"
-              alt="Logo HEF"
-            />
+    <>
+      <Box
+        sx={(theme) => ({
+          backgroundColor: theme.colors[theme.primaryColor][6],
+        })}
+        component={Marquee}
+        speed={50}
+        gradientColor={[18, 184, 134]}
+        gradientWidth={50}
+      >
+        <Group spacing={150} py={6}>
+          <Group>
+            <Text weight={500} color="white">
+              Welcome to Hospital Engineering Expo 2022
+            </Text>
+          </Group>
+          <Group>
+            <Image src="/logo.png" width={30} height={30} alt="Logo" />
+            <Text weight={500} color="white">
+              Perkumpulan Teknik Perumahsakitan Indonesia
+            </Text>
+          </Group>
+        </Group>
+      </Box>
+      <Header className={classes.header} height={112}>
+        <Container size="xl">
+          <div className={classes.inner}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Image
+                width={42}
+                height={42}
+                style={{ flexShrink: 0 }}
+                src="/logo.png"
+                alt="Logo HEF"
+              />
 
-            <Box ml="md">
-              <Text size="xl" weight={700} style={{ whiteSpace: "nowrap" }}>
-                {largerThanSm ? t("event-title") : t("event-title-short")}
-              </Text>
-              <Text mt={-6} size="sm" className={classes.tagline}>
-                {t("event-tagline")}
-              </Text>
-            </Box>
+              <Box ml="md">
+                <Text size="xl" weight={700} style={{ whiteSpace: "nowrap" }}>
+                  {largerThanSm ? t("event-title") : t("event-title-short")}
+                </Text>
+                <Text mt={-6} size="sm" className={classes.tagline}>
+                  {t("event-tagline")}
+                </Text>
+              </Box>
+            </div>
+            <Group spacing={4}>
+              <LanguagePicker />
+              <Burger
+                opened={opened}
+                onClick={() => toggleOpened()}
+                className={classes.burger}
+                size="sm"
+                ml="sm"
+              />
+              <Transition transition="scale-y" duration={200} mounted={opened}>
+                {(styles) => (
+                  <Paper className={classes.dropdown} withBorder style={styles}>
+                    {mobileLinks}
+                    <Divider mt="sm" />
+                    <Box p="md">
+                      <SimpleGrid cols={2}>
+                        <Button variant="outline">
+                          {t("register-as-visitor")}
+                        </Button>
+                        <Button variant="outline">
+                          {t("register-as-exhibitor")}
+                        </Button>
+                      </SimpleGrid>
+                      <Button mt="sm" fullWidth>
+                        {t("login")}
+                      </Button>
+                    </Box>
+                  </Paper>
+                )}
+              </Transition>
+            </Group>
           </div>
-          <Group spacing={4}>
-            <LanguagePicker />
-            <Burger
-              opened={opened}
-              onClick={() => toggleOpened()}
-              className={classes.burger}
-              size="sm"
-              ml="sm"
-            />
-            <Transition transition="scale-y" duration={200} mounted={opened}>
-              {(styles) => (
-                <Paper className={classes.dropdown} withBorder style={styles}>
-                  {mobileLinks}
-                  <Divider mt="sm" />
-                  <Box p="md">
-                    <SimpleGrid cols={2}>
-                      <Button variant="outline">
-                        {t("register-as-visitor")}
-                      </Button>
-                      <Button variant="outline">
-                        {t("register-as-exhibitor")}
-                      </Button>
-                    </SimpleGrid>
-                    <Button mt="sm" fullWidth>
-                      {t("login")}
-                    </Button>
-                  </Box>
-                </Paper>
-              )}
-            </Transition>
-          </Group>
-        </div>
-        <div className={classes.inner}>
-          <Group spacing={theme.spacing.xl * 2} className={classes.links}>
-            <Group spacing="xs">{itemsLeft}</Group>
-          </Group>
-          <Group spacing={5} className={classes.links}>
-            {itemsRight}
-            <Link href="/login" passHref>
-              <Button
-                component="a"
-                styles={{
-                  label: {
-                    fontSize: theme.fontSizes.md,
-                  },
-                }}
-              >
-                {t("login")}
-              </Button>
-            </Link>
-          </Group>
-        </div>
-      </Container>
-    </Header>
+          <div className={classes.inner}>
+            <Group spacing={theme.spacing.xl * 2} className={classes.links}>
+              <Group spacing="xs">{itemsLeft}</Group>
+            </Group>
+            <Group spacing={5} className={classes.links}>
+              {itemsRight}
+              <Link href="/login" passHref>
+                <Button
+                  component="a"
+                  styles={{
+                    label: {
+                      fontSize: theme.fontSizes.md,
+                    },
+                  }}
+                >
+                  {t("login")}
+                </Button>
+              </Link>
+            </Group>
+          </div>
+        </Container>
+      </Header>
+    </>
   );
 }

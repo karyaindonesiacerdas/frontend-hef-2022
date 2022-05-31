@@ -48,9 +48,10 @@ const useStyles = createStyles((theme) => ({
     // display: "flex",
     // justifyContent: "center",
     padding: theme.spacing.xl,
-    backgroundImage: `linear-gradient(to bottom right, ${
-      theme.colors[theme.primaryColor][6]
-    },${theme.colors[theme.primaryColor][3]})`,
+    // backgroundImage: `linear-gradient(to bottom right, ${
+    //   theme.colors[theme.primaryColor][6]
+    // },${theme.colors[theme.primaryColor][3]})`,
+    backgroundColor: theme.colors.gray[1],
     [theme.fn.smallerThan("sm")]: {
       padding: theme.spacing.sm,
     },
