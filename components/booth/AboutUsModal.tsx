@@ -3,10 +3,12 @@ import {
   Box,
   Button,
   Center,
+  Divider,
   Group,
   Image,
   List,
   Modal,
+  Paper,
   SimpleGrid,
   Text,
   ThemeIcon,
@@ -25,6 +27,7 @@ type Props = {
 
 const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
   const theme = useMantineTheme();
+  const [showNameCard, setShowNameCard] = useState(true);
 
   const nameCard = exhibitor?.banners?.find((banner) => banner.order === 11);
   const catalog = exhibitor?.banners?.find((banner) => banner.order === 12);
@@ -32,159 +35,222 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
   return (
     <Modal
       centered
-      size="md"
+      size="xl"
       opened={opened}
-      onClose={() => setOpened(false)}
+      onClose={() => {
+        setShowNameCard(false);
+        setOpened(false);
+      }}
       title={<Title order={3}>Company Info</Title>}
     >
-      <Center>
-        <Box style={{ width: "40%", marginLeft: -15 }}>
-          <Image
-            src={
-              exhibitor?.company_logo
-                ? getFileUrl(exhibitor?.company_logo, "companies")
-                : "/hef-2022/logoipsum.svg"
-            }
-            alt="Logo"
-          />
-        </Box>
-      </Center>
-      <List mt="xl" spacing="sm">
-        <List.Item
-          icon={
-            <ThemeIcon color="teal" size={32} radius="xl">
-              <Building size={20} />
-            </ThemeIcon>
-          }
-          style={{ fontSize: theme.fontSizes.lg * 0.9 }}
-        >
-          {exhibitor?.company_name}
-        </List.Item>
-        <List.Item
-          icon={
-            <ThemeIcon color="teal" size={32} radius="xl">
-              <World size={20} />
-            </ThemeIcon>
-          }
-          style={{ fontSize: theme.fontSizes.lg * 0.9 }}
-        >
-          {exhibitor?.company_website}
-        </List.Item>
-        <List.Item
-          icon={
-            <ThemeIcon color="teal" size={32} radius="xl">
-              <Mail size={20} />
-            </ThemeIcon>
-          }
-          style={{ fontSize: theme.fontSizes.lg * 0.9 }}
-        >
-          {exhibitor?.email}
-        </List.Item>
-        <List.Item
-          icon={
-            <ThemeIcon color="teal" size={32} radius="xl">
-              <Phone size={20} />
-            </ThemeIcon>
-          }
-          style={{ fontSize: theme.fontSizes.lg * 0.9 }}
-        >
-          {exhibitor?.mobile}
-        </List.Item>
-      </List>
-      <SimpleGrid cols={2}>
-        <div>
-          <Text mt="lg" mb="sm" align="center" weight={500}>
-            Name Card
-          </Text>
-          {!!nameCard?.image ? (
-            <>
-              <a
+      {showNameCard ? (
+        <Box>
+          <Group align="center" position="apart">
+            <Button
+              pl={4}
+              pr={8}
+              variant="subtle"
+              onClick={() => setShowNameCard(false)}
+              radius="sm"
+            >
+              &larr;{" "}
+              <Text component="span" ml="xs" size="sm">
+                Back
+              </Text>
+            </Button>
+            <Group position="center">
+              <Button
+                component="a"
+                pl="xs"
                 download
                 target="_blank"
                 rel="noopener noreferrer"
+                leftIcon={<Download size={16} />}
                 href={
                   nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""
                 }
               >
-                <Image
-                  src={
-                    nameCard?.image
-                      ? getFileUrl(nameCard?.image, "banner")
-                      : "/hef-2022/logoipsum.svg"
-                  }
-                  alt="Name card"
-                  height={200}
-                  fit="contain"
-                />
-              </a>
-              <Group position="center">
-                <Button
-                  component="a"
-                  pl="xs"
-                  size="xs"
-                  mt="md"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  leftIcon={<Download size={16} />}
-                  href={
-                    nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""
-                  }
-                >
-                  Download Name Card
-                </Button>
-              </Group>
-            </>
-          ) : (
-            <Center
-              style={{
-                height: 120,
-                borderWidth: "2px",
-                border: "1px solid #ddd",
-              }}
-            >
-              <Text size="xl" weight={600}>
-                Empty
+                Download Name Card
+              </Button>
+            </Group>
+          </Group>
+          <Paper mt="xs" withBorder>
+            <Image
+              py="xl"
+              src={
+                nameCard?.image
+                  ? getFileUrl(nameCard?.image, "banner")
+                  : "/hef-2022/logoipsum.svg"
+              }
+              alt="Name card"
+              // height={200}
+              fit="contain"
+            />
+          </Paper>
+        </Box>
+      ) : (
+        <Box p="lg">
+          <Center mb={40}>
+            <Box style={{ width: "40%", marginLeft: -15 }}>
+              <Image
+                src={
+                  exhibitor?.company_logo
+                    ? getFileUrl(exhibitor?.company_logo, "companies")
+                    : "/hef-2022/logoipsum.svg"
+                }
+                alt="Logo"
+              />
+            </Box>
+          </Center>
+          <List mt="xl" mb={40}>
+            <SimpleGrid cols={2} spacing="sm">
+              <List.Item
+                icon={
+                  <ThemeIcon color="teal" size={32} radius="xl">
+                    <Building size={20} />
+                  </ThemeIcon>
+                }
+                style={{ fontSize: theme.fontSizes.lg * 0.9 }}
+              >
+                {exhibitor?.company_name}
+              </List.Item>
+              <List.Item
+                icon={
+                  <ThemeIcon color="teal" size={32} radius="xl">
+                    <World size={20} />
+                  </ThemeIcon>
+                }
+                style={{ fontSize: theme.fontSizes.lg * 0.9 }}
+              >
+                {exhibitor?.company_website}
+              </List.Item>
+              <List.Item
+                icon={
+                  <ThemeIcon color="teal" size={32} radius="xl">
+                    <Mail size={20} />
+                  </ThemeIcon>
+                }
+                style={{ fontSize: theme.fontSizes.lg * 0.9 }}
+              >
+                {exhibitor?.email}
+              </List.Item>
+              <List.Item
+                icon={
+                  <ThemeIcon color="teal" size={32} radius="xl">
+                    <Phone size={20} />
+                  </ThemeIcon>
+                }
+                style={{ fontSize: theme.fontSizes.lg * 0.9 }}
+              >
+                {exhibitor?.mobile}
+              </List.Item>
+            </SimpleGrid>
+          </List>
+          <SimpleGrid mt="xl" cols={2}>
+            <Paper p="md" radius="md" shadow="xs" withBorder>
+              <Text mb="sm" align="center" weight={500}>
+                Name Card
               </Text>
-            </Center>
-          )}
-        </div>
-        <div>
-          <Text mt="lg" mb="sm" align="center" weight={500}>
-            Catalog
-          </Text>
-          {catalog ? (
-            <div>
-              <Group position="center">
-                <Button
-                  component="a"
-                  href={getFileUrl(catalog.image, "banner")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  leftIcon={<Download size={16} />}
-                  pl="xs"
-                  size="xs"
-                  mt="md"
+              {!!nameCard?.image ? (
+                <>
+                  <a
+                    // download
+                    // target="_blank"
+                    // rel="noopener noreferrer"
+                    // href={
+                    //   nameCard?.image
+                    //     ? getFileUrl(nameCard?.image, "banner")
+                    //     : ""
+                    // }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowNameCard(true);
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <Image
+                      src={
+                        nameCard?.image
+                          ? getFileUrl(nameCard?.image, "banner")
+                          : "/hef-2022/logoipsum.svg"
+                      }
+                      alt="Name card"
+                      height={200}
+                      fit="contain"
+                    />
+                  </a>
+                  <Group position="center">
+                    <Button
+                      component="a"
+                      pl="xs"
+                      size="xs"
+                      mt="md"
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      leftIcon={<Download size={16} />}
+                      href={
+                        nameCard?.image
+                          ? getFileUrl(nameCard?.image, "banner")
+                          : ""
+                      }
+                    >
+                      Download Name Card
+                    </Button>
+                  </Group>
+                </>
+              ) : (
+                <Center
+                  style={{
+                    height: 120,
+                    borderWidth: "2px",
+                    border: "1px solid #ddd",
+                  }}
                 >
-                  Download Catalog
-                </Button>
-              </Group>
-            </div>
-          ) : (
-            <Center
-              style={{
-                height: 120,
-                borderWidth: "2px",
-                border: "1px solid #ddd",
-              }}
-            >
-              <Text size="xl" weight={600}>
-                Empty
+                  <Text size="xl" weight={600}>
+                    Empty
+                  </Text>
+                </Center>
+              )}
+            </Paper>
+            <Paper p="md" radius="md" shadow="xs" withBorder>
+              <Text mb="sm" align="center" weight={500}>
+                Catalog
               </Text>
-            </Center>
-          )}
-        </div>
-      </SimpleGrid>
+              {catalog ? (
+                <div>
+                  <Group position="center">
+                    <Button
+                      component="a"
+                      href={getFileUrl(catalog.image, "banner")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      leftIcon={<Download size={16} />}
+                      pl="xs"
+                      size="xs"
+                      mt="md"
+                    >
+                      Download Catalog
+                    </Button>
+                  </Group>
+                </div>
+              ) : (
+                <Center
+                  style={{
+                    height: 120,
+                    borderWidth: "2px",
+                    border: "1px solid #ddd",
+                  }}
+                >
+                  <Text size="xl" weight={600}>
+                    Empty
+                  </Text>
+                </Center>
+              )}
+            </Paper>
+          </SimpleGrid>
+        </Box>
+      )}
     </Modal>
   );
 };

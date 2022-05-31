@@ -254,9 +254,11 @@ const ExhibitorBooth: NextPage = () => {
   const queryClient = useQueryClient();
   const [postingActivity, setPostingActivity] = useState(false);
 
-  const { data: exhibitor, isLoading } = useExhibitor(
-    router.query.id ? String(router.query.id) : ""
-  );
+  const {
+    data: exhibitor,
+    isLoading,
+    isSuccess,
+  } = useExhibitor(router.query.id ? String(router.query.id) : "");
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -264,11 +266,14 @@ const ExhibitorBooth: NextPage = () => {
     }
   }, [router, isInitialized, isAuthenticated]);
 
+  console.log({ package: exhibitor?.package_id });
+  console.log({ isLoading });
+
   useEffect(() => {
-    if (!exhibitor?.package_id && !isLoading) {
+    if (!exhibitor?.package_id && isSuccess) {
       router.push("/app/exhibitor");
     }
-  }, [exhibitor?.package_id, isLoading, router]);
+  }, [exhibitor?.package_id, isSuccess, router]);
 
   const handleAddContact = async () => {
     if (!user?.id || !exhibitor?.id) return;
