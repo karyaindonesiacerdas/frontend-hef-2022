@@ -92,15 +92,15 @@ export const HeroImage = () => {
         </Title>
         <Group align="center" mt="xl">
           <Text className={classes.description} size="xl">
-            Webinar Series
+            {t("webinar-series")}
           </Text>
           <Text className={classes.description}>&#183;</Text>
           <Text className={classes.description} size="xl">
-            Virtual Exhibition
+            {t("virtual-exhibition")}
           </Text>
           <Text className={classes.description}>&#183;</Text>
           <Text className={classes.description} size="xl">
-            Product Simulation
+            {t("product-simulation")}
           </Text>
         </Group>
       </Container>

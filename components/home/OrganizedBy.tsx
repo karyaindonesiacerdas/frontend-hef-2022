@@ -60,7 +60,7 @@ export const OrganizedBy = () => {
           </Box>
           <Box>
             <Title order={3} className={classes.heading}>
-              Our International Representative
+              {t("international-representative")}
             </Title>
             <Center>
               <Image width={225} src="/elife.png" alt="ELS" fit="cover" />

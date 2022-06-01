@@ -25,6 +25,7 @@
     "visitor-content": "Belajar, networking dan berbisnis sebagai visitor di Forum Teknik Perumahsakitan 2022, Seminar Nasional Pertama di Asia dan Pameran Internasional di Bidang Teknik Kesehatan."
   },
   "organized-by": "Diselenggarakan Oleh",
+  "international-representative": "Perwakilan International Kami",
   "sponsored-by": "Disponsori Oleh",
   "contact": {
     "tag": "Kontak",
@@ -33,5 +34,22 @@
     "whatsapp1": "+62 858 9377 7283 (Adrian)",
     "whatsapp2": "+62 877 7889 9087 (Jordy)",
     "email": "hospital.engineering.expo@gmail.com"
-  }
+  },
+  "address": "Alamat",
+  "phone-1": "Telepon 1",
+  "phone-2": "Telepon 2",
+  "phone-3": "Telepon 3",
+  "email": "Email",
+  "about-hef-2022": "Tentang FTP 2022",
+  "register-as-exhibitor": "Registrasi sebagai exhibitor",
+  "why-exhibit": "Mengapa bergabung",
+  "exhibitor-guideline": "Pedoman exhibitor",
+  "webinar-rundown": "Rundown Webinar",
+  "register-as-visitor": "Registrasi sebagai visitor",
+  "why-visit": "Kenapa hadir",
+  "visitor-guideline": "Pedoman visitor",
+  "webinar-series": "Serial Webinar",
+  "virtual-exhibition": "Pameran Virtual",
+  "product-simulation": "Simulasi Produk",
+  "why-attend": "Mengapa hadir"
 }

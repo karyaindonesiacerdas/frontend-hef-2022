@@ -60,11 +60,11 @@ const links = [
         // label: "Webinar Rundown",
         label: "webinar-rundown",
       },
-      {
-        link: "/important-dates",
-        // label: "Important Dates",
-        label: "important-dates",
-      },
+      // {
+      //   link: "/important-dates",
+      //   // label: "Important Dates",
+      //   label: "important-dates",
+      // },
     ],
   },
   {

@@ -25,6 +25,7 @@
     "visitor-content": "Learn, network and do business as a Visitor at Hospital Engineering Forum 2022, The First Asia's National Seminar and International Fair in Healthcare Engineering."
   },
   "organized-by": "Organized by",
+  "international-representative": "Our International Representative",
   "sponsored-by": "Sponsored by",
   "contact": {
     "tag": "Contact",
@@ -33,5 +34,22 @@
     "whatsapp1": "+62 858 9377 7283 (Adrian)",
     "whatsapp2": "+62 877 7889 9087 (Jordy)",
     "email": "hospital.engineering.expo@gmail.com"
-  }
+  },
+  "address": "Address",
+  "phone-1": "Phone 1",
+  "phone-2": "Phone 2",
+  "phone-3": "Phone 3",
+  "email": "Email",
+  "about-hef-2022": "About HEF 2022",
+  "register-as-exhibitor": "Register as Exhibitor",
+  "why-exhibit": "Why Exhibit",
+  "exhibitor-guideline": "Exhibitor Guideline",
+  "webinar-rundown": "Webinar Rundown",
+  "register-as-visitor": "Register as Visitor",
+  "why-visit": "Why Visit",
+  "visitor-guideline": "Visitor Guideline",
+  "webinar-series": "Webinar Series",
+  "virtual-exhibition": "Virtual Exhibition",
+  "product-simulation": "Product Simulation",
+  "why-attend": "Why Attend"
 }

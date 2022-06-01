@@ -35,5 +35,15 @@
   "hospital-environments": "Lingkungan Rumah Sakit",
   "hospital-informatics": "Informatika Rumah Sakit",
   "hospital-devices": "Alat Rumah Sakit",
-  "covid-19": "Product terkait COVID-19"
+  "covid-19": "Product terkait COVID-19",
+  "address": "Alamat",
+  "phone-1": "Telepon 1",
+  "phone-2": "Telepon 2",
+  "phone-3": "Telepon 3",
+  "email": "Email",
+  "about-hef-2022": "Tentang FTP 2022",
+  "why-visit": "Kenapa hadir",
+  "webinar-series": "Serial Webinar",
+  "virtual-exhibition": "Pameran Virtual",
+  "product-simulation": "Simulasi Produk"
 }

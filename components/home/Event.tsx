@@ -68,6 +68,7 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.md,
     borderRadius: theme.radius.md,
     transition: "all 0.2s",
+    cursor: "pointer",
     "&:hover": {
       boxShadow: theme.shadows.xl,
       transform: "translate(0, -6px)",
@@ -93,41 +94,49 @@ const links = [
     image: "about-hew.svg",
     link: "/about-hef",
     text: "About HEF 2022",
+    value: "about-hef-2022",
   },
   {
     image: "register-exhibitor.svg",
     link: "/register/exhibitor",
     text: "Register as Exhibitor",
+    value: "register-as-exhibitor",
   },
   {
     image: "why-visit.svg",
     link: "/why-exhibit",
     text: "Why Exhibit?",
+    value: "why-exhibit",
   },
   {
     image: "exhibitor-list.svg",
     link: "/exhibitor-guideline",
-    text: "Exhibitor Guideline?",
+    text: "Exhibitor Guideline",
+    value: "exhibitor-guideline",
   },
   {
     image: "seminar-rundown.svg",
     link: "/webinar-rundown",
     text: "Seminar Rundown",
+    value: "webinar-rundown",
   },
   {
     image: "register-visitor.svg",
     link: "/register/visitor",
     text: "Register as Visitor",
+    value: "register-as-visitor",
   },
   {
     image: "why-visit-2.svg",
-    link: "/why-visit",
-    text: "Why Visit?",
+    link: "/why-attend",
+    text: "Why attend?",
+    value: "why-attend",
   },
   {
     image: "sponsor-partner.svg",
     link: "/visitor-guideline",
     text: "Visitor Guideline",
+    value: "visitor-guideline",
   },
 ];
 
@@ -162,7 +171,7 @@ export const Event = () => {
                         alt={link.text}
                         className={classes.eventImage}
                       />
-                      <Text className={classes.linkText}>{link.text}</Text>
+                      <Text className={classes.linkText}>{t(link.value)}</Text>
                     </Group>
                   </Box>
                 </Link>

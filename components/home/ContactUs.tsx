@@ -92,10 +92,12 @@ export const ContactUs = () => {
           style={{ alignItems: "start" }}
         >
           <div>
-            <Title className={classes.title}>{t("contact.title")}</Title>
-            <Text className={classes.description} mt="sm" mb={30}>
+            <Title mb={30} className={classes.title}>
+              {t("contact.title")}
+            </Title>
+            {/* <Text className={classes.description} mt="sm" mb={30}>
               Leave your email and we will get back to you within 24 hours
-            </Text>
+            </Text> */}
 
             <ContactIconsList variant="white" />
           </div>

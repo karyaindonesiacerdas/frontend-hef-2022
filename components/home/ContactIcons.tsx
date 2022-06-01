@@ -8,6 +8,7 @@ import {
   Box,
 } from "@mantine/core";
 import { Phone, MapPin, At } from "tabler-icons-react";
+import { useTranslation } from "next-i18next";
 
 type ContactIconVariant = "white" | "gradient";
 
@@ -50,6 +51,7 @@ interface ContactIconProps
   icon: React.FC<any>;
   title: React.ReactNode;
   description: React.ReactNode;
+  locale: string;
   variant?: ContactIconVariant;
 }
 
@@ -62,6 +64,8 @@ function ContactIcon({
   ...others
 }: ContactIconProps) {
   const { classes, cx } = useStyles({ variant });
+  const { t } = useTranslation("home");
+
   return (
     <div className={cx(classes.wrapper, className)} {...others}>
       {variant === "gradient" ? (
@@ -76,7 +80,7 @@ function ContactIcon({
 
       <div>
         <Text size="xs" className={classes.title}>
-          {title}
+          {t(others.locale)}
         </Text>
         <Text className={classes.description}>{description}</Text>
       </div>
@@ -92,18 +96,35 @@ interface ContactIconsListProps {
 const MOCKDATA = [
   {
     title: "Address",
+    locale: "address",
     description:
       "Gedung Wisma NH Lantai 1, Jl. Raya Pasar Minggu No.2B-C RT 002 / RW 002, Pancoran, Kec. Pancoran, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12780",
     icon: MapPin,
   },
   {
     title: "Email",
+    locale: "email",
     description: "hospital.engineering.expo@gmail.com",
     icon: At,
   },
-  { title: "Phone 1", description: "+62 858 9377 7283 (Adrian)", icon: Phone },
-  { title: "Phone 2", description: "+62 877 7889 9087 (Jordy)", icon: Phone },
-  { title: "Phone 3", description: "+62 823 3736 3325 (Riris)", icon: Phone },
+  {
+    title: "Phone 1",
+    locale: "phone-1",
+    description: "+62 858 9377 7283 (Adrian)",
+    icon: Phone,
+  },
+  {
+    title: "Phone 2",
+    locale: "phone-2",
+    description: "+62 877 7889 9087 (Jordy)",
+    icon: Phone,
+  },
+  {
+    title: "Phone 3",
+    locale: "phone-3",
+    description: "+62 823 3736 3325 (Riris)",
+    icon: Phone,
+  },
 ];
 
 export function ContactIconsList({
