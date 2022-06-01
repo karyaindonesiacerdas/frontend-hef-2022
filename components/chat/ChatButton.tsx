@@ -87,6 +87,8 @@ const ChatButton = () => {
     }
   }, [socket, user]);
 
+  console.log({ socket });
+
   useEffect(() => {
     socket?.on("getMessage", (data) => {
       queryClient.invalidateQueries(["messages", data.conversationId]);

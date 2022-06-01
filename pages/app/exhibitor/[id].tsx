@@ -25,7 +25,7 @@ import VideoModal from "@/components/booth/VideoModal";
 import { useRouter } from "next/router";
 import { useAuth } from "contexts/auth.context";
 import { NextLink } from "@mantine/next";
-import { SocketProvider } from "contexts/socket.context";
+import { SocketProvider, useSocket } from "contexts/socket.context";
 import ChatButton from "@/components/chat/ChatButton";
 import { createConversation } from "services/chat/conversation";
 import { useNotifications } from "@mantine/notifications";
@@ -466,7 +466,7 @@ const ExhibitorBooth: NextPage = () => {
           </div>
         )}
       </div>
-      {/* <ChatButton /> */}
+      <ChatButton />
     </SocketProvider>
   );
 };
