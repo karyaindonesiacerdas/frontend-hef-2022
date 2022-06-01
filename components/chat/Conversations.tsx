@@ -10,6 +10,7 @@ import {
   UnstyledButton,
   Box,
   keyframes,
+  Center,
 } from "@mantine/core";
 
 import { useAuth } from "contexts/auth.context";
@@ -88,6 +89,21 @@ export const Conversations = ({
       />
 
       <ScrollArea style={{ height: 360 }}>
+        {conversations?.filter((conversation) =>
+          conversation.members
+            .filter((member) => member.id !== user?.id)[0]
+            .name.toLowerCase()
+            .includes(query.toLocaleLowerCase())
+        ).length === 0 && (
+          <Center sx={{ height: 300 }}>
+            <Stack align="center" spacing={4}>
+              <Text color="dimmed">Conversation list is empty</Text>
+              <Text color="dimmed" size="xs">
+                Visit virtual booth and add exhibitor&apos;s contact
+              </Text>
+            </Stack>
+          </Center>
+        )}
         <Stack spacing={2}>
           {conversations
             ?.filter((conversation) =>

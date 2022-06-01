@@ -92,7 +92,7 @@ const ChatButton = () => {
   useEffect(() => {
     socket?.on("getMessage", (data) => {
       queryClient.invalidateQueries(["messages", data.conversationId]);
-      queryClient.invalidateQueries(["conversation", data.conversationId]);
+      queryClient.invalidateQueries(["conversation"]);
       setIsNewMessage(true);
     });
   }, [socket, queryClient]);
