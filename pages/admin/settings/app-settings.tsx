@@ -186,7 +186,9 @@ const AdminSettingsAppSettings: NextPage = () => {
                 label="Chat"
                 mb="sm"
                 defaultChecked={settings?.is_chat === "1"}
-                {...form.getInputProps("is_chat")}
+                checked={form.getInputProps("is_chat").value}
+                onChange={form.getInputProps("is_chat").onChange}
+                // {...form.getInputProps("is_chat")}
               />
               <Button type="submit">Save</Button>
             </form>

@@ -34,6 +34,7 @@ import { useQueryClient } from "react-query";
 import { getFileUrl } from "utils/file-storage";
 import EditBoothDrawer from "@/components/booth/EditBoothDrawer";
 import { postActivity } from "services/activity/activity";
+import { useSettings } from "services/settings/hooks";
 
 export const pulse = keyframes({
   "from, to": { opacity: 1 },
@@ -259,6 +260,8 @@ const ExhibitorBooth: NextPage = () => {
     isLoading,
     isSuccess,
   } = useExhibitor(router.query.id ? String(router.query.id) : "");
+  const { data: settings } = useSettings();
+  console.log({ settings });
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -466,7 +469,7 @@ const ExhibitorBooth: NextPage = () => {
           </div>
         )}
       </div>
-      <ChatButton />
+      {settings?.is_chat === "1" && <ChatButton />}
     </SocketProvider>
   );
 };
