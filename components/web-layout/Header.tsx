@@ -261,7 +261,7 @@ export interface HeaderSearchProps {
 }
 
 export function HeaderMenu() {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const { classes } = useStyles();
   const theme = useMantineTheme();
@@ -426,14 +426,20 @@ export function HeaderMenu() {
                     <Divider mt="sm" />
                     <Box p="md">
                       <SimpleGrid cols={2}>
-                        <Button variant="outline">
+                        <Button
+                          variant="outline"
+                          onClick={() => push("/register/visitor")}
+                        >
                           {t("register-as-visitor")}
                         </Button>
-                        <Button variant="outline">
+                        <Button
+                          variant="outline"
+                          onClick={() => push("/register/exhibitor")}
+                        >
                           {t("register-as-exhibitor")}
                         </Button>
                       </SimpleGrid>
-                      <Button mt="sm" fullWidth>
+                      <Button mt="sm" fullWidth onClick={() => push("/login")}>
                         {t("login")}
                       </Button>
                     </Box>

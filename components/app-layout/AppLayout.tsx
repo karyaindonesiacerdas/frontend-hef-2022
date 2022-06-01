@@ -147,9 +147,20 @@ const CONTACT = [
     title: "Email",
     description: "hospital.engineering.expo@gmail.com",
     icon: At,
+    locale: "email",
   },
-  { title: "Phone 1", description: "+62 858 9377 7283 (Adrian)", icon: Phone },
-  { title: "Phone 2", description: "+62 877 7889 9087 (Jordy)", icon: Phone },
+  {
+    title: "Phone 1",
+    locale: "phone-1",
+    description: "+62 858 9377 7283 (Adrian)",
+    icon: Phone,
+  },
+  {
+    title: "Phone 2",
+    locale: "phone-2",
+    description: "+62 877 7889 9087 (Jordy)",
+    icon: Phone,
+  },
 ];
 
 export default function AppLayout() {
