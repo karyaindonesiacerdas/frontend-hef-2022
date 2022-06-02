@@ -13,20 +13,34 @@ const useStyles = createStyles((theme) => ({
   root: {
     marginTop: theme.spacing.xl * 2,
     marginBottom: theme.spacing.xl * 2,
+    [theme.fn.smallerThan("sm")]: {
+      marginTop: theme.spacing.xl,
+      marginBottom: theme.spacing.xl,
+    },
   },
   tag: {
     fontSize: theme.fontSizes.xl * 1.2,
     textAlign: "center",
     marginBottom: theme.spacing.xl * 1.5,
     fontWeight: 700,
+    [theme.fn.smallerThan("sm")]: {
+      fontSize: theme.fontSizes.lg,
+      marginBottom: theme.spacing.lg,
+    },
   },
   count: {
     fontSize: theme.fontSizes.xl * 2,
     fontWeight: 700,
+    [theme.fn.smallerThan("sm")]: {
+      fontSize: theme.fontSizes.xl * 1.4,
+    },
   },
   countLabel: {
     fontSize: theme.fontSizes.xl,
     fontWeight: 600,
+    [theme.fn.smallerThan("sm")]: {
+      fontSize: theme.fontSizes.xl * 0.8,
+    },
   },
 }));
 

@@ -16,8 +16,12 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
   return {
     root: {
-      marginTop: 200,
-      marginBottom: 200,
+      marginTop: theme.spacing.xl * 5,
+      marginBottom: theme.spacing.xl * 5,
+      [theme.fn.smallerThan("sm")]: {
+        marginTop: theme.spacing.xl * 3,
+        marginBottom: theme.spacing.xl * 3,
+      },
     },
 
     tag: {

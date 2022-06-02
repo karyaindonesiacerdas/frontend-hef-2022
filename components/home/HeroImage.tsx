@@ -17,7 +17,7 @@ const useStyles = createStyles((theme) => ({
     backgroundPosition: "center",
     height: 700,
     [theme.fn.smallerThan("sm")]: {
-      height: 350,
+      height: 200,
     },
   },
 
@@ -32,7 +32,7 @@ const useStyles = createStyles((theme) => ({
     position: "relative",
 
     [theme.fn.smallerThan("sm")]: {
-      height: 450,
+      height: 275,
       paddingBottom: theme.spacing.xl * 3,
     },
   },
@@ -49,7 +49,7 @@ const useStyles = createStyles((theme) => ({
     },
 
     [theme.fn.smallerThan("xs")]: {
-      fontSize: 28,
+      fontSize: 26,
       lineHeight: 1.3,
     },
   },
@@ -73,6 +73,13 @@ const useStyles = createStyles((theme) => ({
       width: "100%",
     },
   },
+
+  feature: {
+    gap: theme.spacing.sm,
+    [theme.fn.smallerThan("sm")]: {
+      gap: 4,
+    },
+  },
 }));
 
 export const HeroImage = () => {
@@ -90,7 +97,7 @@ export const HeroImage = () => {
         <Title className={classes.title} align="center">
           {t("event-title")}
         </Title>
-        <Group align="center" mt="xl">
+        <Group align="center" mt="xl" className={classes.feature}>
           <Text className={classes.description} size="xl">
             {t("webinar-series")}
           </Text>

@@ -21,6 +21,9 @@ const useStyles = createStyles((theme, { variant }: ContactIconStyles) => ({
     display: "flex",
     alignItems: "center",
     color: theme.white,
+    [theme.fn.smallerThan("sm")]: {
+      alignItems: "flex-start",
+    },
   },
 
   icon: {
@@ -43,6 +46,9 @@ const useStyles = createStyles((theme, { variant }: ContactIconStyles) => ({
 
   description: {
     color: variant === "gradient" ? theme.black : theme.white,
+    [theme.fn.smallerThan("sm")]: {
+      fontSize: theme.fontSizes.sm,
+    },
   },
 }));
 

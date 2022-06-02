@@ -5,10 +5,12 @@ import {
   Menu,
   Image,
   Group,
+  useMantineTheme,
 } from "@mantine/core";
 import { ChevronDown, Language } from "tabler-icons-react";
 import images from "./images";
 import { useRouter } from "next/router";
+import { useMediaQuery } from "@mantine/hooks";
 
 const data = [
   { label: "English", value: "en", image: images.english },
@@ -17,7 +19,7 @@ const data = [
 
 const useStyles = createStyles((theme, { opened }: { opened: boolean }) => ({
   control: {
-    width: 180,
+    width: 100,
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -40,6 +42,9 @@ const useStyles = createStyles((theme, { opened }: { opened: boolean }) => ({
           ? theme.colors.dark[5]
           : theme.colors.gray[0],
     },
+    [theme.fn.largerThan("sm")]: {
+      width: 180,
+    },
   },
 
   label: {
@@ -57,6 +62,8 @@ export function LanguagePicker() {
   const { asPath, locale, push } = useRouter();
   const [opened, setOpened] = useState(false);
   const { classes } = useStyles({ opened });
+  const theme = useMantineTheme();
+  const largerThanSm = useMediaQuery(`(min-width: ${theme.breakpoints.sm}px)`);
   const [selected, setSelected] = useState(
     data.find((item) => item.value === locale) || data[0]
   );
@@ -84,6 +91,7 @@ export function LanguagePicker() {
       onOpen={() => setOpened(true)}
       onClose={() => setOpened(false)}
       radius="md"
+      size={largerThanSm ? "md" : "xs"}
       control={
         <UnstyledButton className={classes.control}>
           <Language size={20} color="gray" />
@@ -94,7 +102,9 @@ export function LanguagePicker() {
               height={22}
               alt={selected.label}
             />
-            <span className={classes.label}>{selected.label}</span>
+            {largerThanSm ? (
+              <span className={classes.label}>{selected.label}</span>
+            ) : null}
           </Group>
           <ChevronDown size={16} className={classes.icon} />
         </UnstyledButton>

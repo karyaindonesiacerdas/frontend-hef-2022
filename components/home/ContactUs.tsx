@@ -25,14 +25,16 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.xl * 2.5,
 
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-      padding: theme.spacing.xl * 1.2,
+      padding: theme.spacing.xl * 0.8,
     },
   },
 
   title: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     color: theme.white,
     lineHeight: 1,
+    [theme.fn.smallerThan("sm")]: {
+      fontSize: theme.fontSizes.xl * 1.2,
+    },
   },
 
   description: {

@@ -17,6 +17,10 @@ const useStyles = createStyles((theme) => ({
   root: {
     marginTop: theme.spacing.xl * 5,
     marginBottom: theme.spacing.xl * 5,
+    [theme.fn.smallerThan("sm")]: {
+      marginTop: theme.spacing.xl * 3,
+      marginBottom: theme.spacing.xl * 3,
+    },
   },
   wrapper: {
     boxSizing: "border-box",
