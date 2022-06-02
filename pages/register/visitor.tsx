@@ -64,6 +64,7 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.xl * 2,
     [theme.fn.smallerThan("lg")]: {
       display: "none",
+      // padding: theme.spacing.xl *,
     },
   },
 
@@ -328,7 +329,7 @@ export default function RegisterVisitor() {
                 }
               >
                 <List.Item style={{ lineHeight: 1.5 }}>
-                  More than 40 speakers from goverment, association, hospital,
+                  More than 40 speakers from government, association, hospital,
                   and industries
                 </List.Item>
                 <List.Item style={{ lineHeight: 1.5 }}>
@@ -349,7 +350,6 @@ export default function RegisterVisitor() {
             withBorder
             className={classes.form}
             radius={0}
-            p={30}
             style={{ height: "100%", position: "relative" }}
           >
             <LoadingOverlay visible={visible} />
@@ -379,7 +379,11 @@ export default function RegisterVisitor() {
               <Text weight={700} mb="xs">
                 {t("account-info")}
               </Text>
-              <SimpleGrid cols={2} mb="lg">
+              <SimpleGrid
+                cols={2}
+                breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+                mb="lg"
+              >
                 <TextInput
                   label={t("email")}
                   placeholder="hello@gmail.com"
@@ -424,7 +428,11 @@ export default function RegisterVisitor() {
 
             <Divider my="xs" label="Or" labelPosition="center" />
 
-            <SimpleGrid cols={2} mt="md">
+            <SimpleGrid
+              cols={2}
+              mt="md"
+              breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+            >
               <Link href="/register/exhibitor" passHref>
                 <Button component="a" variant="outline">
                   {t("register-as-exhibitor")}

@@ -30,7 +30,7 @@ import { GetStaticPropsContext } from "next";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    height: "100vh",
+    minHeight: "100vh",
     // backgroundImage: `linear-gradient(to bottom right, ${
     //   theme.colors[theme.primaryColor][6]
     // },${theme.colors[theme.primaryColor][3]})`,
@@ -97,7 +97,7 @@ export default function LoginPage() {
 
   return (
     <div className={classes.wrapper}>
-      <Container size={500} py={40}>
+      <Container size={500}>
         {/* <Title
           align="center"
           sx={(theme) => ({
@@ -168,7 +168,11 @@ export default function LoginPage() {
 
           <Divider my="xs" label="Or" labelPosition="center" />
 
-          <SimpleGrid cols={2} mt="md">
+          <SimpleGrid
+            cols={2}
+            mt="md"
+            breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+          >
             <Link href="/register/exhibitor" passHref>
               <Button component="a" variant="outline">
                 {t("register-as-exhibitor")}

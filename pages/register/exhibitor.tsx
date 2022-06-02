@@ -260,7 +260,7 @@ export default function RegisterVisitor() {
                 }
               >
                 <List.Item style={{ lineHeight: 1.5 }}>
-                  More than 40 speakers from goverment, association, hospital,
+                  More than 40 speakers from government, association, hospital,
                   and industries
                 </List.Item>
                 <List.Item style={{ lineHeight: 1.5 }}>
@@ -310,7 +310,11 @@ export default function RegisterVisitor() {
               <Text weight={700} mb="xs">
                 {t("account-info")}
               </Text>
-              <SimpleGrid cols={2} mb="lg">
+              <SimpleGrid
+                cols={2}
+                mb="lg"
+                breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+              >
                 <TextInput
                   label={t("email")}
                   placeholder="hello@gmail.com"
@@ -344,7 +348,12 @@ export default function RegisterVisitor() {
               <Text weight={700} mb="xs">
                 {t("personal-info")}
               </Text>
-              <SimpleGrid cols={2} mb="lg">
+
+              <SimpleGrid
+                cols={2}
+                mb="lg"
+                breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+              >
                 <TextInput
                   label={t("name")}
                   placeholder="Dr. John Doe"
@@ -367,7 +376,11 @@ export default function RegisterVisitor() {
               <Text weight={700} mb="xs">
                 {t("company-info")}
               </Text>
-              <SimpleGrid cols={2} mb="lg">
+              <SimpleGrid
+                cols={2}
+                mb="lg"
+                breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+              >
                 <TextInput
                   label={t("institution-name")}
                   placeholder="PT. ABC123"
@@ -423,7 +436,11 @@ export default function RegisterVisitor() {
 
             <Divider my="xs" label="Or" labelPosition="center" />
 
-            <SimpleGrid cols={2} mt="md">
+            <SimpleGrid
+              cols={2}
+              mt="md"
+              breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+            >
               <Link href="/register/visitor" passHref>
                 <Button component="a" variant="outline">
                   {t("register-as-visitor")}
