@@ -31,6 +31,7 @@ import { GetStaticPropsContext } from "next";
 const useStyles = createStyles((theme) => ({
   wrapper: {
     minHeight: "100vh",
+    paddingTop: theme.spacing.xl,
     // backgroundImage: `linear-gradient(to bottom right, ${
     //   theme.colors[theme.primaryColor][6]
     // },${theme.colors[theme.primaryColor][3]})`,
@@ -112,7 +113,7 @@ export default function LoginPage() {
           withBorder
           shadow="md"
           p={30}
-          mt={30}
+          // mt={30}
           radius="md"
           style={{ position: "relative" }}
         >

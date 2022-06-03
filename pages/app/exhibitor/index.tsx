@@ -3,7 +3,18 @@ import { useRouter } from "next/router";
 
 import AppLayout from "@/components/app-layout/AppLayout";
 import { useAuth } from "contexts/auth.context";
-import { createStyles, Image, Tooltip } from "@mantine/core";
+import {
+  Box,
+  createStyles,
+  Image,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+  Tooltip,
+  UnstyledButton,
+  useMantineTheme,
+} from "@mantine/core";
 import { NextLink } from "@mantine/next";
 import { useExhibitors } from "services/exhibitor/hooks";
 import {
@@ -12,7 +23,10 @@ import {
   DoorEnter,
   DoorExit,
 } from "tabler-icons-react";
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useMediaQuery } from "@mantine/hooks";
+import BottomNav from "@/components/app-layout/BottomNav";
+import RunningText from "@/components/RunningText";
+import { getFileUrl } from "utils/file-storage";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -24,6 +38,18 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     height: "100%",
     aspectRatio: "2 / 1",
+  },
+  sidebar: {
+    display: "block",
+    [theme.fn.smallerThan("xs")]: {
+      display: "none",
+    },
+  },
+  bottomNav: {
+    display: "none",
+    [theme.fn.smallerThan("xs")]: {
+      display: "block",
+    },
   },
   exhibitor: {
     // width: "100%",
@@ -582,6 +608,36 @@ const useStyles = createStyles((theme) => ({
       color: "rgba(255,0,0, 0.3)",
     },
   },
+  title: {
+    fontSize: theme.fontSizes.xl * 1.2,
+    textAlign: "center",
+  },
+  exhibitorLink: {
+    // border: "1px solid",
+    // borderColor: theme.colors.gray[3],
+    paddingTop: theme.spacing.xl,
+    paddingBottom: theme.spacing.md,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
+    backgroundColor: theme.colors.gray[1],
+    borderRadius: theme.radius.md,
+    "&:hover": {
+      backgroundColor: theme.colors[theme.primaryColor][1],
+    },
+  },
+  exhibitorLinkSmall: {
+    // border: "1px solid",
+    // borderColor: theme.colors.gray[3],
+    paddingTop: theme.spacing.lg,
+    paddingBottom: theme.spacing.sm,
+    paddingLeft: theme.spacing.sm,
+    paddingRight: theme.spacing.sm,
+    backgroundColor: theme.colors.gray[1],
+    borderRadius: theme.radius.md,
+    "&:hover": {
+      backgroundColor: theme.colors[theme.primaryColor][1],
+    },
+  },
 }));
 
 const Exhibitor = () => {
@@ -593,6 +649,8 @@ const Exhibitor = () => {
     key: "skip-exit",
     defaultValue: false,
   });
+  const theme = useMantineTheme();
+  const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -664,403 +722,493 @@ const Exhibitor = () => {
 
   return (
     <div>
-      <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
+      <div
+        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+        className={classes.sidebar}
+      >
         <AppLayout />
       </div>
-      <NextLink
-        className={classes.backButton}
-        href={value === true ? "/app/main-hall" : "/app/exit-exhibitor"}
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          zIndex: 50,
+          width: "100%",
+        }}
+        className={classes.bottomNav}
       >
-        <DoorExit size={28} style={{ marginRight: 8 }} />
-        <span>Exit</span>
-      </NextLink>
-      <div className={classes.container}>
-        <div className={classes.exhibitorContainer1}>
-          {exhibitor1 ? (
-            <Tooltip label={exhibitor1.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor1.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer2}>
-          {exhibitor2 ? (
-            <Tooltip label={exhibitor2.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor2.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer3}>
-          {exhibitor3 ? (
-            <Tooltip label={exhibitor3.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor3.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer4}>
-          {exhibitor4 ? (
-            <Tooltip label={exhibitor4.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor4.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer5}>
-          {exhibitor5 ? (
-            <Tooltip label={exhibitor5.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor5.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer6}>
-          {exhibitor6 ? (
-            <Tooltip label={exhibitor6.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor6.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        {/* Small */}
-        <div className={classes.exhibitorContainer7}>
-          {exhibitor7 ? (
-            <Tooltip label={exhibitor7.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor7.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer8}>
-          {exhibitor8 ? (
-            <Tooltip label={exhibitor8.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor8.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer9}>
-          {exhibitor9 ? (
-            <Tooltip label={exhibitor9.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor9.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer10}>
-          {exhibitor10 ? (
-            <Tooltip label={exhibitor10.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor10.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer11}>
-          {exhibitor11 ? (
-            <Tooltip label={exhibitor11.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor11.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer12}>
-          {exhibitor12 ? (
-            <Tooltip label={exhibitor12.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor12.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer13}>
-          {exhibitor13 ? (
-            <Tooltip label={exhibitor13.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor13.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer14}>
-          {exhibitor14 ? (
-            <Tooltip label={exhibitor14.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor14.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer15}>
-          {exhibitor15 ? (
-            <Tooltip label={exhibitor15.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor15.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer16}>
-          {exhibitor16 ? (
-            <Tooltip label={exhibitor16.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor16.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer17}>
-          {exhibitor17 ? (
-            <Tooltip label={exhibitor17.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor17.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer18}>
-          {exhibitor18 ? (
-            <Tooltip label={exhibitor18.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor18.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer19}>
-          {exhibitor19 ? (
-            <Tooltip label={exhibitor19.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor19.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer20}>
-          {exhibitor20 ? (
-            <Tooltip label={exhibitor20.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor20.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer21}>
-          {exhibitor21 ? (
-            <Tooltip label={exhibitor21.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor21.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer22}>
-          {exhibitor22 ? (
-            <Tooltip label={exhibitor22.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor22.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer23}>
-          {exhibitor23 ? (
-            <Tooltip label={exhibitor23.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor23.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
-        <div className={classes.exhibitorContainer24}>
-          {exhibitor24 ? (
-            <Tooltip label={exhibitor24.company_name}>
-              <NextLink
-                className={classes.exhibitor}
-                href={`/app/exhibitor/${exhibitor24.id}`}
-                style={{ textAlign: "center" }}
-              >
-                <div style={{ width: 60, height: 60 }} />
-                {/* <BuildingStore size={52} /> */}
-              </NextLink>
-            </Tooltip>
-          ) : (
-            <Empty />
-          )}
-        </div>
+        <BottomNav />
       </div>
+
+      <Box
+        style={{
+          position: "absolute",
+          // inset: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 20,
+        }}
+        className={classes.bottomNav}
+      >
+        <RunningText />
+      </Box>
+
+      {largerThanXs ? (
+        <>
+          <NextLink
+            className={classes.backButton}
+            href={value === true ? "/app/main-hall" : "/app/exit-exhibitor"}
+          >
+            <DoorExit size={28} style={{ marginRight: 8 }} />
+            <span>Exit</span>
+          </NextLink>
+          <div className={classes.container}>
+            <div className={classes.exhibitorContainer1}>
+              {exhibitor1 ? (
+                <Tooltip label={exhibitor1.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor1.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer2}>
+              {exhibitor2 ? (
+                <Tooltip label={exhibitor2.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor2.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer3}>
+              {exhibitor3 ? (
+                <Tooltip label={exhibitor3.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor3.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer4}>
+              {exhibitor4 ? (
+                <Tooltip label={exhibitor4.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor4.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer5}>
+              {exhibitor5 ? (
+                <Tooltip label={exhibitor5.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor5.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer6}>
+              {exhibitor6 ? (
+                <Tooltip label={exhibitor6.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor6.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            {/* Small */}
+            <div className={classes.exhibitorContainer7}>
+              {exhibitor7 ? (
+                <Tooltip label={exhibitor7.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor7.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer8}>
+              {exhibitor8 ? (
+                <Tooltip label={exhibitor8.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor8.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer9}>
+              {exhibitor9 ? (
+                <Tooltip label={exhibitor9.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor9.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer10}>
+              {exhibitor10 ? (
+                <Tooltip label={exhibitor10.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor10.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer11}>
+              {exhibitor11 ? (
+                <Tooltip label={exhibitor11.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor11.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer12}>
+              {exhibitor12 ? (
+                <Tooltip label={exhibitor12.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor12.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer13}>
+              {exhibitor13 ? (
+                <Tooltip label={exhibitor13.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor13.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer14}>
+              {exhibitor14 ? (
+                <Tooltip label={exhibitor14.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor14.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer15}>
+              {exhibitor15 ? (
+                <Tooltip label={exhibitor15.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor15.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer16}>
+              {exhibitor16 ? (
+                <Tooltip label={exhibitor16.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor16.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer17}>
+              {exhibitor17 ? (
+                <Tooltip label={exhibitor17.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor17.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer18}>
+              {exhibitor18 ? (
+                <Tooltip label={exhibitor18.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor18.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer19}>
+              {exhibitor19 ? (
+                <Tooltip label={exhibitor19.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor19.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer20}>
+              {exhibitor20 ? (
+                <Tooltip label={exhibitor20.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor20.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer21}>
+              {exhibitor21 ? (
+                <Tooltip label={exhibitor21.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor21.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer22}>
+              {exhibitor22 ? (
+                <Tooltip label={exhibitor22.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor22.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer23}>
+              {exhibitor23 ? (
+                <Tooltip label={exhibitor23.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor23.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer24}>
+              {exhibitor24 ? (
+                <Tooltip label={exhibitor24.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor24.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
+        <Stack mt={55}>
+          <Title className={classes.title}>Exhibitors</Title>
+          <SimpleGrid spacing="xs" cols={2} px="md" mt="sm">
+            {exhibitors
+              ?.filter(
+                (exhibitor) => exhibitor.position < 7 && exhibitor.position > 0
+              )
+              ?.map((exhibitor) => (
+                <UnstyledButton
+                  key={exhibitor.id}
+                  onClick={() => router.push(`/app/exhibitor/${exhibitor.id}`)}
+                  className={classes.exhibitorLink}
+                >
+                  <Stack align="center" spacing="xs">
+                    <Image
+                      src={
+                        exhibitor?.company_logo
+                          ? getFileUrl(exhibitor.company_logo, "companies")
+                          : "/hef-2022/logoipsum.svg"
+                      }
+                      alt={exhibitor.name}
+                    />
+                    <Text color="dimmed" size="xs" lineClamp={1}>
+                      {exhibitor.company_name}
+                    </Text>
+                  </Stack>
+                </UnstyledButton>
+              ))}
+          </SimpleGrid>
+          <SimpleGrid spacing="xs" cols={3} px="md">
+            {exhibitors
+              ?.filter((exhibitor) => exhibitor.position > 6)
+              ?.map((exhibitor) => (
+                <UnstyledButton
+                  key={exhibitor.id}
+                  onClick={() => router.push(`/app/exhibitor/${exhibitor.id}`)}
+                  className={classes.exhibitorLinkSmall}
+                >
+                  <Stack align="center" spacing={8}>
+                    <Image
+                      src={
+                        exhibitor?.company_logo
+                          ? getFileUrl(exhibitor.company_logo, "companies")
+                          : "/hef-2022/logoipsum.svg"
+                      }
+                      alt={exhibitor.name}
+                    />
+                    <Text color="dimmed" size="xs" lineClamp={1}>
+                      {exhibitor.company_name}
+                    </Text>
+                  </Stack>
+                </UnstyledButton>
+              ))}
+          </SimpleGrid>
+        </Stack>
+      )}
     </div>
   );
 };

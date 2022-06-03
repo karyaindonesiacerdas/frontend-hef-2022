@@ -9,18 +9,23 @@ import {
   Group,
   Image,
   keyframes,
+  Stack,
   Text,
+  Title,
+  UnstyledButton,
   useMantineTheme,
 } from "@mantine/core";
 import { NextLink } from "@mantine/next";
 import { DoorEnter } from "tabler-icons-react";
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useMediaQuery } from "@mantine/hooks";
 import Marquee from "react-fast-marquee";
 
 import { useSettings } from "services/settings/hooks";
 import LeftAdvertisement from "@/components/main-hall/LeftAdvertisement";
 import RightAdvertisement from "@/components/main-hall/RightAdvertisement";
 import RunningText from "@/components/RunningText";
+import BottomNav from "@/components/app-layout/BottomNav";
+import Advertisement from "@/components/main-hall/Advertisement";
 // import ChatButton from "@/components/chat/ChatButton";
 
 export const pulse = keyframes({
@@ -38,6 +43,21 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     height: "100%",
     aspectRatio: "2 / 1",
+    // [theme.fn.smallerThan("xs")]: {
+    //   display: "none",
+    // },
+  },
+  sidebar: {
+    display: "block",
+    [theme.fn.smallerThan("xs")]: {
+      display: "none",
+    },
+  },
+  bottomNav: {
+    display: "none",
+    [theme.fn.smallerThan("xs")]: {
+      display: "block",
+    },
   },
   virtualExhibitionLinkContainer: {
     position: "absolute",
@@ -99,6 +119,25 @@ const useStyles = createStyles((theme) => ({
       opacity: 1,
     },
   },
+  title: {
+    fontSize: theme.fontSizes.xl * 1.2,
+    textAlign: "center",
+  },
+  link: {
+    backgroundColor: theme.colors[theme.primaryColor][0],
+    padding: theme.spacing.xl * 1.5,
+    borderRadius: theme.radius.md,
+    // border: "1px solid",
+    // borderColor: theme.colors[theme.primaryColor][1],
+    boxShadow: theme.shadows.xs,
+    "&:hover": {
+      backgroundColor: theme.colors[theme.primaryColor][1],
+    },
+  },
+  linkText: {
+    fontSize: theme.fontSizes.xl,
+    fontWeight: 600,
+  },
 }));
 
 const MainHall = () => {
@@ -110,6 +149,7 @@ const MainHall = () => {
     key: "skip-enter",
     defaultValue: false,
   });
+  const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -125,8 +165,22 @@ const MainHall = () => {
 
   return (
     <div>
-      <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
+      <div
+        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+        className={classes.sidebar}
+      >
         <AppLayout />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          zIndex: 50,
+          width: "100%",
+        }}
+        className={classes.bottomNav}
+      >
+        <BottomNav />
       </div>
 
       <Box
@@ -142,31 +196,56 @@ const MainHall = () => {
         <RunningText />
       </Box>
 
-      <div className={classes.container}>
-        <LeftAdvertisement url={settings?.ads1_link} />
-        <RightAdvertisement url={settings?.ads2_link} />
-        <div className={classes.virtualExhibitionLinkContainer}>
-          <NextLink
-            className={classes.virtualExhibitionLink}
-            href={value ? "/app/exhibitor" : "/app/enter-exhibitor"}
-            style={{ textAlign: "center" }}
-          >
-            <span>Enter</span>
-            <DoorEnter style={{ marginLeft: 8 }} size={"2vw"} />
-          </NextLink>
+      {largerThanXs ? (
+        <div className={classes.container}>
+          <LeftAdvertisement url={settings?.ads1_link} />
+          <RightAdvertisement url={settings?.ads2_link} />
+          <div className={classes.virtualExhibitionLinkContainer}>
+            <NextLink
+              className={classes.virtualExhibitionLink}
+              href={value ? "/app/exhibitor" : "/app/enter-exhibitor"}
+              style={{ textAlign: "center" }}
+            >
+              <span>Enter</span>
+              <DoorEnter style={{ marginLeft: 8 }} size={"2vw"} />
+            </NextLink>
+          </div>
+          <div className={classes.seminarHallLinkContainer}>
+            <NextLink
+              className={classes.seminarHallLink}
+              href="/app/seminar"
+              style={{ textAlign: "center" }}
+            >
+              <span>Enter</span>
+              <DoorEnter style={{ marginLeft: 8 }} size={"2vw"} />
+            </NextLink>
+          </div>
+          {/* <ChatButton /> */}
         </div>
-        <div className={classes.seminarHallLinkContainer}>
-          <NextLink
-            className={classes.seminarHallLink}
-            href="/app/seminar"
-            style={{ textAlign: "center" }}
-          >
-            <span>Enter</span>
-            <DoorEnter style={{ marginLeft: 8 }} size={"2vw"} />
-          </NextLink>
-        </div>
-        {/* <ChatButton /> */}
-      </div>
+      ) : (
+        <Stack mt={55}>
+          <Title className={classes.title}>Welcome to HEF 2022</Title>
+          <Advertisement url={settings?.ads1_link} />
+          <Stack px="md" mt="md">
+            <UnstyledButton className={classes.link}>
+              <Group position="center" ml="xl">
+                <Text align="center" className={classes.linkText}>
+                  Webinar
+                </Text>
+                <DoorEnter />
+              </Group>
+            </UnstyledButton>
+            <UnstyledButton className={classes.link}>
+              <Group position="center" ml="xl">
+                <Text align="center" className={classes.linkText}>
+                  Virtual Exhibition
+                </Text>
+                <DoorEnter />
+              </Group>
+            </UnstyledButton>
+          </Stack>
+        </Stack>
+      )}
     </div>
   );
 };

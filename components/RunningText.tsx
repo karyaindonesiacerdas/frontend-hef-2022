@@ -17,12 +17,12 @@ const RunningText = () => {
       gradientWidth={50}
     >
       <Group spacing={150} py={6}>
-        <Group>
+        <Group mr={100}>
           <Text weight={500} color="white">
             Welcome to Hospital Engineering Expo 2022
           </Text>
         </Group>
-        <Group>
+        <Group mr={100}>
           <Image src="/logo.png" width={30} height={30} alt="Logo" />
           <Text weight={500} color="white">
             Perkumpulan Teknik Perumahsakitan Indonesia

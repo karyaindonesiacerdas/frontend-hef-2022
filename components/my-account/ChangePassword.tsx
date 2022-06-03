@@ -71,7 +71,7 @@ const ChangePassword = () => {
         Change Password
       </Title>
       <Box mt="md" component="form" onSubmit={form.onSubmit(handleSubmit)}>
-        <SimpleGrid cols={2}>
+        <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
           <PasswordInput
             label="Current Password"
             placeholder="Current Password"

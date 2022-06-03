@@ -12,6 +12,7 @@ import {
   keyframes,
   Stack,
   Text,
+  Title,
   UnstyledButton,
   useMantineTheme,
 } from "@mantine/core";
@@ -23,6 +24,9 @@ import { postActivity } from "services/activity/activity";
 import { useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
 import RunningText from "@/components/RunningText";
+import BottomNav from "@/components/app-layout/BottomNav";
+import { useMediaQuery } from "@mantine/hooks";
+import MobileSeminarScreen from "@/components/seminar/MobileSeminarScreen";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -34,6 +38,21 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     height: "100%",
     aspectRatio: "2 / 1",
+    // [theme.fn.smallerThan("xs")]: {
+    //   display: "none",
+    // },
+  },
+  sidebar: {
+    display: "block",
+    [theme.fn.smallerThan("xs")]: {
+      display: "none",
+    },
+  },
+  bottomNav: {
+    display: "none",
+    [theme.fn.smallerThan("xs")]: {
+      display: "block",
+    },
   },
   rundownButtonContainer: {
     position: "absolute",
@@ -61,6 +80,10 @@ const useStyles = createStyles((theme) => ({
       opacity: 1,
     },
   },
+  title: {
+    fontSize: theme.fontSizes.xl * 1.2,
+    textAlign: "center",
+  },
 }));
 
 export const bounce = keyframes({
@@ -79,6 +102,7 @@ const Seminar = () => {
   const queryClient = useQueryClient();
   const [collecting, setCollecting] = useState(false);
   const notifications = useNotifications();
+  const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
 
   const { data: rundown } = useRundownClosing();
   console.log({ rundown });
@@ -117,8 +141,22 @@ const Seminar = () => {
 
   return (
     <div>
-      <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
+      <div
+        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+        className={classes.sidebar}
+      >
         <AppLayout />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          zIndex: 50,
+          width: "100%",
+        }}
+        className={classes.bottomNav}
+      >
+        <BottomNav />
       </div>
 
       <Box
@@ -134,44 +172,56 @@ const Seminar = () => {
         <RunningText />
       </Box>
 
-      <div className={classes.container}>
-        <SeminarScreen />
-        <SeminarRundown opened={openRundown} setOpened={setOpenRundown} />
-        <div className={classes.rundownButtonContainer}>
-          <UnstyledButton
-            className={classes.rundownButton}
-            onClick={() => setOpenRundown((prev) => !prev)}
-          >
-            {openRundown ? "Close" : "Open"} Rundown
-          </UnstyledButton>
-        </div>
-      </div>
-      {rundown?.isJoined === 0 && (
-        <UnstyledButton
-          sx={{
-            position: "absolute",
-            bottom: 50,
-            right: 50,
-            width: 80,
-            height: 80,
-            backgroundColor: theme.colors.orange[5],
-            borderRadius: 80,
-            animation: `${bounce} 3s ease-in-out infinite`,
-            "&:hover": {
-              backgroundColor: theme.colors.orange[3],
-            },
-          }}
-          onClick={handlePostActivity}
-        >
-          <Center>
-            <Stack spacing={0} align="center">
-              <Trophy size={30} />
-              <Text align="center" size="xs" weight={600}>
-                {collecting ? "Collecting..." : "Collect Reward"}
-              </Text>
-            </Stack>
-          </Center>
-        </UnstyledButton>
+      {largerThanXs ? (
+        <>
+          <div className={classes.container}>
+            <SeminarScreen />
+            <SeminarRundown opened={openRundown} setOpened={setOpenRundown} />
+            <div className={classes.rundownButtonContainer}>
+              <UnstyledButton
+                className={classes.rundownButton}
+                onClick={() => setOpenRundown((prev) => !prev)}
+              >
+                {openRundown ? "Close" : "Open"} Rundown
+              </UnstyledButton>
+            </div>
+          </div>
+          {rundown?.isJoined === 0 && (
+            <UnstyledButton
+              sx={{
+                position: "absolute",
+                bottom: 50,
+                right: 50,
+                width: 80,
+                height: 80,
+                backgroundColor: theme.colors.orange[5],
+                borderRadius: 80,
+                animation: `${bounce} 3s ease-in-out infinite`,
+                "&:hover": {
+                  backgroundColor: theme.colors.orange[3],
+                },
+              }}
+              onClick={handlePostActivity}
+            >
+              <Center>
+                <Stack spacing={0} align="center">
+                  <Trophy size={30} />
+                  <Text align="center" size="xs" weight={600}>
+                    {collecting ? "Collecting..." : "Collect Reward"}
+                  </Text>
+                </Stack>
+              </Center>
+            </UnstyledButton>
+          )}
+        </>
+      ) : (
+        <Stack mt={55}>
+          <Title className={classes.title}>Webinar</Title>
+          <MobileSeminarScreen />
+          <Stack px="md">
+            <Text weight={500}>Rundown</Text>
+          </Stack>
+        </Stack>
       )}
     </div>
   );

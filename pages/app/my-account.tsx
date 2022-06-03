@@ -15,12 +15,39 @@ import PersonalInformation from "@/components/my-account/PersonalInformation";
 import ChangePassword from "@/components/my-account/ChangePassword";
 import { useActivityList } from "services/activity/hooks";
 import { Trophy } from "tabler-icons-react";
+import BottomNav from "@/components/app-layout/BottomNav";
 
 const useStyles = createStyles((theme) => ({
   root: {
     // backgroundImage: `linear-gradient(to bottom right, ${theme.colors["gray"][5]},${theme.colors["gray"][3]})`,
     background: theme.colors.gray[1],
-    height: "100vh",
+    minHeight: "100vh",
+    [theme.fn.smallerThan("lg")]: {
+      paddingLeft: theme.spacing.xl * 3,
+    },
+    [theme.fn.smallerThan("xs")]: {
+      paddingLeft: 0,
+      overflow: "hidden",
+    },
+  },
+  container: {
+    [theme.fn.smallerThan("xs")]: {
+      overflow: "auto",
+      paddingBottom: 120,
+      height: "100vh",
+    },
+  },
+  sidebar: {
+    display: "block",
+    [theme.fn.smallerThan("xs")]: {
+      display: "none",
+    },
+  },
+  bottomNav: {
+    display: "none",
+    [theme.fn.smallerThan("xs")]: {
+      display: "block",
+    },
   },
   title: {
     fontSize: theme.fontSizes.xl * 1.2,
@@ -46,10 +73,26 @@ const MyAccount = () => {
 
   return (
     <div className={classes.root}>
-      <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
+      <div
+        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+        className={classes.sidebar}
+      >
         <AppLayout />
       </div>
-      <Container size="md" py="xl">
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          zIndex: 50,
+          width: "100%",
+        }}
+        className={classes.bottomNav}
+      >
+        <BottomNav />
+      </div>
+
+      <Container size="md" py="xl" className={classes.container}>
         <Title className={classes.title}>My Account</Title>
         <Paper
           withBorder
