@@ -67,7 +67,7 @@ const BottomNav = () => {
           })}
           onClick={() => router.push("/app/main-hall")}
         >
-          <Stack align="center" spacing={8}>
+          <Stack align="center" spacing={4}>
             <Home2 color="white" />
             <Text size="xs" weight={700} color="white">
               Main Hall
@@ -84,7 +84,7 @@ const BottomNav = () => {
               : theme.colors[theme.primaryColor][5],
           })}
         >
-          <Stack align="center" spacing={8}>
+          <Stack align="center" spacing={4}>
             <Microphone2 color="white" />
             <Text size="xs" weight={700} color="white">
               Webinar
@@ -101,7 +101,7 @@ const BottomNav = () => {
               : theme.colors[theme.primaryColor][5],
           })}
         >
-          <Stack align="center" spacing={8}>
+          <Stack align="center" spacing={4}>
             <DeviceDesktopAnalytics color="white" />
             <Text size="xs" weight={700} color="white">
               Exhibitors
@@ -118,15 +118,15 @@ const BottomNav = () => {
               : theme.colors[theme.primaryColor][5],
           })}
         >
-          <Stack align="center" spacing={8}>
+          <Stack align="center" spacing={4}>
             <User color="white" />
             <Text size="xs" weight={700} color="white">
-              My Account
+              Account
             </Text>
           </Stack>
         </UnstyledButton>
         <UnstyledButton pt="sm" pb={6} onClick={openLogoutModal}>
-          <Stack align="center" spacing={8}>
+          <Stack align="center" spacing={4}>
             <DoorExit color="white" />
             <Text size="xs" weight={700} color="white">
               Logout

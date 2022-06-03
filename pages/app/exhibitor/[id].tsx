@@ -546,8 +546,8 @@ const ExhibitorBooth: NextPage = () => {
             pt="md"
             spacing={0}
           >
-            <Group position="apart" px="sm">
-              <Anchor component={NextLink} href="/app/exhibitor">
+            <Group position="apart" pr="sm">
+              <Anchor component={NextLink} href="/app/exhibitor" size="sm">
                 <Group align="center" spacing={0} px="sm">
                   <ArrowLeft size={15} style={{ marginRight: 4 }} />
                   <span>Back to Exhibitors</span>
@@ -556,8 +556,9 @@ const ExhibitorBooth: NextPage = () => {
               <Button
                 onClick={handleAddContact}
                 loading={isLoadingAddContact}
-                leftIcon={<UserPlus size={20} />}
+                leftIcon={<UserPlus size={16} />}
                 pl="sm"
+                size="xs"
               >
                 Add Contact
               </Button>

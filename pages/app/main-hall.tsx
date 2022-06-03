@@ -128,8 +128,8 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors[theme.primaryColor][0],
     paddingTop: theme.spacing.xl * 2,
     paddingBottom: theme.spacing.xl * 2,
-    paddingLeft: theme.spacing.xl,
-    paddingRight: theme.spacing.xl,
+    paddingLeft: theme.spacing.md,
+    paddingRight: theme.spacing.md,
     borderRadius: theme.radius.md,
     // border: "1px solid",
     // borderColor: theme.colors[theme.primaryColor][1],
@@ -138,7 +138,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
   linkText: {
-    fontSize: theme.fontSizes.xl,
+    fontSize: theme.fontSizes.lg,
     textAlign: "center",
     fontWeight: 600,
     color: theme.colors[theme.primaryColor][9],
@@ -231,7 +231,7 @@ const MainHall = () => {
         <Stack mt={55}>
           <Title className={classes.title}>Welcome to HEF 2022</Title>
           <Advertisement url={settings?.ads1_link} />
-          <SimpleGrid mt={20} cols={2} px="sm">
+          <SimpleGrid mt={20} cols={2} px="sm" spacing={10}>
             <UnstyledButton
               className={classes.link}
               onClick={() => router.push("/app/seminar")}
