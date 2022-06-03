@@ -29,6 +29,10 @@ import { useMediaQuery } from "@mantine/hooks";
 import MobileSeminarScreen from "@/components/seminar/MobileSeminarScreen";
 
 const useStyles = createStyles((theme) => ({
+  root: {
+    height: "100vh",
+    overflow: "hidden",
+  },
   container: {
     position: "relative",
     backgroundPosition: "center",
@@ -215,13 +219,15 @@ const Seminar = () => {
           )}
         </>
       ) : (
-        <Stack mt={55}>
-          <Title className={classes.title}>Webinar</Title>
-          <MobileSeminarScreen />
-          <Stack px="md">
-            <Text weight={500}>Rundown</Text>
+        <div className={classes.root}>
+          <Stack mt={55}>
+            <Title className={classes.title}>Webinar</Title>
+            <MobileSeminarScreen />
+            <Stack px="md">
+              <Text weight={500}>Rundown</Text>
+            </Stack>
           </Stack>
-        </Stack>
+        </div>
       )}
     </div>
   );

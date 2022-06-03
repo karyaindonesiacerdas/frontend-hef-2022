@@ -35,6 +35,10 @@ export const pulse = keyframes({
 });
 
 const useStyles = createStyles((theme) => ({
+  root: {
+    height: "100vh",
+    overflow: "hidden",
+  },
   container: {
     position: "relative",
     backgroundPosition: "center",
@@ -228,34 +232,36 @@ const MainHall = () => {
           {/* <ChatButton /> */}
         </div>
       ) : (
-        <Stack mt={55}>
-          <Title className={classes.title}>Welcome to HEF 2022</Title>
-          <Advertisement url={settings?.ads1_link} />
-          <SimpleGrid mt={20} cols={2} px="sm" spacing={10}>
-            <UnstyledButton
-              className={classes.link}
-              onClick={() => router.push("/app/seminar")}
-            >
-              <Stack align="center">
-                <Text align="center" className={classes.linkText}>
-                  Webinar
-                </Text>
-                {/* <DoorEnter color={theme.colors[theme.primaryColor][9]} /> */}
-              </Stack>
-            </UnstyledButton>
-            <UnstyledButton
-              className={classes.link}
-              onClick={() => router.push("/app/exhibitor")}
-            >
-              <Stack align="center">
-                <Text align="center" className={classes.linkText}>
-                  Virtual Exhibition
-                </Text>
-                {/* <DoorEnter color={theme.colors[theme.primaryColor][9]} /> */}
-              </Stack>
-            </UnstyledButton>
-          </SimpleGrid>
-        </Stack>
+        <div className={classes.root}>
+          <Stack mt={55}>
+            <Title className={classes.title}>Welcome to HEF 2022</Title>
+            <Advertisement url={settings?.ads1_link} />
+            <SimpleGrid mt={20} cols={2} px="sm" spacing={10}>
+              <UnstyledButton
+                className={classes.link}
+                onClick={() => router.push("/app/seminar")}
+              >
+                <Stack align="center">
+                  <Text align="center" className={classes.linkText}>
+                    Webinar
+                  </Text>
+                  {/* <DoorEnter color={theme.colors[theme.primaryColor][9]} /> */}
+                </Stack>
+              </UnstyledButton>
+              <UnstyledButton
+                className={classes.link}
+                onClick={() => router.push("/app/exhibitor")}
+              >
+                <Stack align="center">
+                  <Text align="center" className={classes.linkText}>
+                    Virtual Exhibition
+                  </Text>
+                  {/* <DoorEnter color={theme.colors[theme.primaryColor][9]} /> */}
+                </Stack>
+              </UnstyledButton>
+            </SimpleGrid>
+          </Stack>
+        </div>
       )}
     </div>
   );

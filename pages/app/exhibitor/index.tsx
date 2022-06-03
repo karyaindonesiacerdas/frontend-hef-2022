@@ -29,6 +29,10 @@ import RunningText from "@/components/RunningText";
 import { getFileUrl } from "utils/file-storage";
 
 const useStyles = createStyles((theme) => ({
+  root: {
+    height: "100vh",
+    overflow: "hidden",
+  },
   container: {
     position: "relative",
     backgroundPosition: "center",
@@ -1153,61 +1157,68 @@ const Exhibitor = () => {
           </div>
         </>
       ) : (
-        <Stack mt={55}>
-          <Title className={classes.title}>Exhibitors</Title>
-          <SimpleGrid spacing="xs" cols={2} px="md" mt="sm">
-            {exhibitors
-              ?.filter(
-                (exhibitor) => exhibitor.position < 7 && exhibitor.position > 0
-              )
-              ?.map((exhibitor) => (
-                <UnstyledButton
-                  key={exhibitor.id}
-                  onClick={() => router.push(`/app/exhibitor/${exhibitor.id}`)}
-                  className={classes.exhibitorLink}
-                >
-                  <Stack align="center" spacing="xs">
-                    <Image
-                      src={
-                        exhibitor?.company_logo
-                          ? getFileUrl(exhibitor.company_logo, "companies")
-                          : "/hef-2022/logoipsum.svg"
-                      }
-                      alt={exhibitor.name}
-                    />
-                    <Text color="dimmed" size="xs" lineClamp={1}>
-                      {exhibitor.company_name}
-                    </Text>
-                  </Stack>
-                </UnstyledButton>
-              ))}
-          </SimpleGrid>
-          <SimpleGrid spacing="xs" cols={3} px="md">
-            {exhibitors
-              ?.filter((exhibitor) => exhibitor.position > 6)
-              ?.map((exhibitor) => (
-                <UnstyledButton
-                  key={exhibitor.id}
-                  onClick={() => router.push(`/app/exhibitor/${exhibitor.id}`)}
-                  className={classes.exhibitorLinkSmall}
-                >
-                  <Stack align="center" spacing={8}>
-                    <Image
-                      src={
-                        exhibitor?.company_logo
-                          ? getFileUrl(exhibitor.company_logo, "companies")
-                          : "/hef-2022/logoipsum.svg"
-                      }
-                      alt={exhibitor.name}
-                    />
-                    <Text color="dimmed" size="xs" lineClamp={1}>
-                      {exhibitor.company_name}
-                    </Text>
-                  </Stack>
-                </UnstyledButton>
-              ))}
-          </SimpleGrid>
-        </Stack>
+        <div className={classes.root}>
+          <Stack mt={55}>
+            <Title className={classes.title}>Exhibitors</Title>
+            <SimpleGrid spacing="xs" cols={2} px="md" mt="sm">
+              {exhibitors
+                ?.filter(
+                  (exhibitor) =>
+                    exhibitor.position < 7 && exhibitor.position > 0
+                )
+                ?.map((exhibitor) => (
+                  <UnstyledButton
+                    key={exhibitor.id}
+                    onClick={() =>
+                      router.push(`/app/exhibitor/${exhibitor.id}`)
+                    }
+                    className={classes.exhibitorLink}
+                  >
+                    <Stack align="center" spacing="xs">
+                      <Image
+                        src={
+                          exhibitor?.company_logo
+                            ? getFileUrl(exhibitor.company_logo, "companies")
+                            : "/hef-2022/logoipsum.svg"
+                        }
+                        alt={exhibitor.name}
+                      />
+                      <Text color="dimmed" size="xs" lineClamp={1}>
+                        {exhibitor.company_name}
+                      </Text>
+                    </Stack>
+                  </UnstyledButton>
+                ))}
+            </SimpleGrid>
+            <SimpleGrid spacing="xs" cols={3} px="md">
+              {exhibitors
+                ?.filter((exhibitor) => exhibitor.position > 6)
+                ?.map((exhibitor) => (
+                  <UnstyledButton
+                    key={exhibitor.id}
+                    onClick={() =>
+                      router.push(`/app/exhibitor/${exhibitor.id}`)
+                    }
+                    className={classes.exhibitorLinkSmall}
+                  >
+                    <Stack align="center" spacing={8}>
+                      <Image
+                        src={
+                          exhibitor?.company_logo
+                            ? getFileUrl(exhibitor.company_logo, "companies")
+                            : "/hef-2022/logoipsum.svg"
+                        }
+                        alt={exhibitor.name}
+                      />
+                      <Text color="dimmed" size="xs" lineClamp={1}>
+                        {exhibitor.company_name}
+                      </Text>
+                    </Stack>
+                  </UnstyledButton>
+                ))}
+            </SimpleGrid>
+          </Stack>
+        </div>
       )}
     </div>
   );
