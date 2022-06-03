@@ -51,6 +51,9 @@ const useStyles = createStyles((theme) => ({
   },
   title: {
     fontSize: theme.fontSizes.xl * 1.2,
+    [theme.fn.smallerThan("xs")]: {
+      textAlign: "center",
+    },
   },
 }));
 

@@ -8,7 +8,8 @@ import { Conversations } from "./Conversations";
 const useStyles = createStyles((theme) => ({
   chatPanelContainer: {
     position: "fixed",
-    bottom: "17%",
+    // bottom: "17%",
+    bottom: 165,
     right: "2.45%",
     maxWidth: "400px",
     width: "100%",
@@ -16,6 +17,13 @@ const useStyles = createStyles((theme) => ({
     maxHeight: 500,
     paddingTop: 50,
     paddingBottom: 50,
+    [theme.fn.smallerThan("xs")]: {
+      padding: 0,
+      top: 60,
+      maxWidth: "92.5vw",
+      margin: "0 auto",
+      maxHeight: "65vh",
+    },
   },
   chatPanel: {
     maxWidth: "400px",
@@ -31,6 +39,10 @@ const useStyles = createStyles((theme) => ({
     border: "1px solid rgba( 255, 255, 255, 0.18 )",
     padding: theme.spacing.md,
     position: "fixed",
+    [theme.fn.smallerThan("xs")]: {
+      maxHeight: "65vh",
+      maxWidth: "90vw",
+    },
   },
 }));
 

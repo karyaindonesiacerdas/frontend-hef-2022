@@ -1,16 +1,35 @@
 /* eslint-disable @next/next/no-img-element */
 import {
+  Anchor,
+  Box,
+  Button,
   createStyles,
+  Group,
   Image,
   keyframes,
   Loader,
+  Modal,
+  Paper,
+  SimpleGrid,
+  Stack,
   Text,
   Tooltip,
   UnstyledButton,
+  useMantineTheme,
 } from "@mantine/core";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Edit, PlayerPlay, UserPlus } from "tabler-icons-react";
+import {
+  ArrowLeft,
+  ClipboardList,
+  Edit,
+  Id,
+  ListDetails,
+  Mail,
+  Phone,
+  PlayerPlay,
+  UserPlus,
+} from "tabler-icons-react";
 import dynamic from "next/dynamic";
 // import Marquee from "react-fast-marquee";
 // import Marquee from "react-easy-marquee";
@@ -35,6 +54,10 @@ import { getFileUrl } from "utils/file-storage";
 import EditBoothDrawer from "@/components/booth/EditBoothDrawer";
 import { postActivity } from "services/activity/activity";
 import { useSettings } from "services/settings/hooks";
+import BottomNav from "@/components/app-layout/BottomNav";
+import { useMediaQuery } from "@mantine/hooks";
+import RunningText from "@/components/RunningText";
+import ReactPlayer from "react-player";
 
 export const pulse = keyframes({
   "from, to": { opacity: 1 },
@@ -240,6 +263,18 @@ const useStyles = createStyles((theme) => ({
       opacity: 1,
     },
   },
+  sidebar: {
+    display: "block",
+    [theme.fn.smallerThan("xs")]: {
+      display: "none",
+    },
+  },
+  bottomNav: {
+    display: "none",
+    [theme.fn.smallerThan("xs")]: {
+      display: "block",
+    },
+  },
 }));
 
 const ExhibitorBooth: NextPage = () => {
@@ -254,6 +289,10 @@ const ExhibitorBooth: NextPage = () => {
   const [isLoadingAddContact, setIsLoadingAddContact] = useState(false);
   const queryClient = useQueryClient();
   const [postingActivity, setPostingActivity] = useState(false);
+  const theme = useMantineTheme();
+  const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
+  const [openPoster, setOpenPoster] = useState(false);
+  const [selectedPoster, setSelectedPoster] = useState("");
 
   const {
     data: exhibitor,
@@ -321,6 +360,7 @@ const ExhibitorBooth: NextPage = () => {
 
   const handleClickPoster = async () => {
     if (!exhibitor?.id || !user?.id) return;
+
     try {
       setPostingActivity(true);
       await postActivity({
@@ -335,143 +375,396 @@ const ExhibitorBooth: NextPage = () => {
     }
   };
 
+  const nameCard = exhibitor?.banners?.find((banner) => banner.order === 11);
+  const catalog = exhibitor?.banners?.find((banner) => banner.order === 12);
+
   if (!isInitialized || !isAuthenticated || isLoading) {
     return null;
   }
 
   return (
     <SocketProvider>
-      <div style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}>
+      <div
+        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+        className={classes.sidebar}
+      >
         <AppLayout />
       </div>
-      <NextLink className={classes.backButton} href="/app/exhibitor">
-        <ArrowLeft size={15} style={{ marginRight: 4 }} />
-        <span>Back to Exhibitor Hall</span>
-      </NextLink>
-      <CatalogModal
-        opened={isOpenCatalog}
-        setOpened={setIsOpenCatalog}
-        posters={
-          exhibitor?.banners?.filter((banner) =>
-            [1, 2, 3, 4, 5].includes(banner.order)
-          ) || []
-        }
-        catalog={exhibitor?.banners?.find((banner) => banner.order === 12)}
-      />
-      <AboutUsModal
-        opened={isOpenAboutUs}
-        setOpened={setIsOpenAboutUs}
-        exhibitor={exhibitor}
-      />
-      <VideoModal
-        opened={isOpenVideo}
-        setOpened={setIsOpenVideo}
-        exhibitor={exhibitor}
-      />
-      {String(user?.id) === String(router.query.id) && exhibitor && (
-        <EditBoothDrawer
-          opened={isOpenEditContent}
-          setOpened={setIsOpenEditContent}
-          exhibitor={exhibitor}
-        />
-      )}
-      <div className={classes.container}>
-        <div className={classes.logoContainer}>
-          {/* {exhibitor?.company_logo ? ( */}
-          <img
-            src={
-              exhibitor?.company_logo
-                ? getFileUrl(exhibitor.company_logo, "companies")
-                : "/hef-2022/logoipsum.svg"
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          zIndex: 50,
+          width: "100%",
+        }}
+        className={classes.bottomNav}
+      >
+        <BottomNav />
+      </div>
+
+      {largerThanXs ? (
+        <>
+          <NextLink className={classes.backButton} href="/app/exhibitor">
+            <ArrowLeft size={15} style={{ marginRight: 4 }} />
+            <span>Back to Exhibitor Hall</span>
+          </NextLink>
+          <CatalogModal
+            opened={isOpenCatalog}
+            setOpened={setIsOpenCatalog}
+            posters={
+              exhibitor?.banners?.filter((banner) =>
+                [1, 2, 3, 4, 5].includes(banner.order)
+              ) || []
             }
-            alt="Panasonic"
-            className={classes.logo}
+            catalog={exhibitor?.banners?.find((banner) => banner.order === 12)}
           />
-          {/* ) : null} */}
-        </div>
-        <div className={classes.catalogContainer}>
-          <UnstyledButton
-            className={classes.catalog}
-            onClick={() => {
-              setIsOpenCatalog(true);
-              handleClickPoster();
-            }}
-          >
-            Poster
-          </UnstyledButton>
-        </div>
-        <div className={classes.profileContainer}>
-          <UnstyledButton
-            className={classes.profile}
-            onClick={() => setIsOpenAboutUs(true)}
-            style={{ textAlign: "center" }}
-          >
-            Catalog & Name Card
-          </UnstyledButton>
-        </div>
-        <div className={classes.videoButtonContainer}>
-          <Tooltip label="Play Video">
-            <UnstyledButton
-              className={classes.videoButton}
-              onClick={() => setIsOpenVideo(true)}
-            >
-              <PlayerPlay color="teal" size={"2vw"} />
-            </UnstyledButton>
-          </Tooltip>
-        </div>
-        {/* <div className={classes.marqueContainer}>
+          <AboutUsModal
+            opened={isOpenAboutUs}
+            setOpened={setIsOpenAboutUs}
+            exhibitor={exhibitor}
+          />
+          <VideoModal
+            opened={isOpenVideo}
+            setOpened={setIsOpenVideo}
+            exhibitor={exhibitor}
+          />
+          {String(user?.id) === String(router.query.id) && exhibitor && (
+            <EditBoothDrawer
+              opened={isOpenEditContent}
+              setOpened={setIsOpenEditContent}
+              exhibitor={exhibitor}
+            />
+          )}
+          <div className={classes.container}>
+            <div className={classes.logoContainer}>
+              {/* {exhibitor?.company_logo ? ( */}
+              <img
+                src={
+                  exhibitor?.company_logo
+                    ? getFileUrl(exhibitor.company_logo, "companies")
+                    : "/hef-2022/logoipsum.svg"
+                }
+                alt="Panasonic"
+                className={classes.logo}
+              />
+              {/* ) : null} */}
+            </div>
+            <div className={classes.catalogContainer}>
+              <UnstyledButton
+                className={classes.catalog}
+                onClick={() => {
+                  setIsOpenCatalog(true);
+                  handleClickPoster();
+                }}
+              >
+                Poster
+              </UnstyledButton>
+            </div>
+            <div className={classes.profileContainer}>
+              <UnstyledButton
+                className={classes.profile}
+                onClick={() => setIsOpenAboutUs(true)}
+                style={{ textAlign: "center" }}
+              >
+                Catalog & Name Card
+              </UnstyledButton>
+            </div>
+            <div className={classes.videoButtonContainer}>
+              <Tooltip label="Play Video">
+                <UnstyledButton
+                  className={classes.videoButton}
+                  onClick={() => setIsOpenVideo(true)}
+                >
+                  <PlayerPlay color="teal" size={"2vw"} />
+                </UnstyledButton>
+              </Tooltip>
+            </div>
+            {/* <div className={classes.marqueContainer}>
           <Marquee speed={80} gradientWidth={0} className={classes.marque}>
             <Text className={classes.marqueText} weight={700}>
               Panasonic - A Better Life, A Better World.
             </Text>
           </Marquee>
         </div> */}
-        <div className={classes.deskContainer}>
-          {/* {exhibitor?.company_logo ? ( */}
-          <Image
-            className={classes.deskLogo}
-            src={
-              exhibitor?.company_logo
-                ? getFileUrl(exhibitor.company_logo, "companies")
-                : "/hef-2022/logoipsum.svg"
-            }
-            alt="Desk logo"
+            <div className={classes.deskContainer}>
+              {/* {exhibitor?.company_logo ? ( */}
+              <Image
+                className={classes.deskLogo}
+                src={
+                  exhibitor?.company_logo
+                    ? getFileUrl(exhibitor.company_logo, "companies")
+                    : "/hef-2022/logoipsum.svg"
+                }
+                alt="Desk logo"
+              />
+              {/* ) : null} */}
+            </div>
+            {user?.role === "visitor" && (
+              <div className={classes.addContactContainer}>
+                <Tooltip label="Add Contact">
+                  <UnstyledButton
+                    className={classes.addContact}
+                    onClick={handleAddContact}
+                    disabled={isLoadingAddContact}
+                  >
+                    {isLoadingAddContact ? (
+                      <Loader />
+                    ) : (
+                      <UserPlus color="teal" size={"2vw"} />
+                    )}
+                  </UnstyledButton>
+                </Tooltip>
+              </div>
+            )}
+            {String(user?.id) === String(router.query.id) && (
+              <div className={classes.editBoothButtonContainer}>
+                <Tooltip label="Edit Booth Content">
+                  <UnstyledButton
+                    className={classes.editBoothButton}
+                    onClick={() => setIsOpenEditContent(true)}
+                  >
+                    <Edit color="teal" size={"2vw"} />
+                  </UnstyledButton>
+                </Tooltip>
+              </div>
+            )}
+          </div>
+        </>
+      ) : (
+        <div style={{ height: "100vh", overflow: "auto", paddingBottom: 160 }}>
+          <ModalPoster
+            opened={openPoster}
+            setOpened={setOpenPoster}
+            url={selectedPoster}
           />
-          {/* ) : null} */}
-        </div>
-        {user?.role === "visitor" && (
-          <div className={classes.addContactContainer}>
-            <Tooltip label="Add Contact">
-              <UnstyledButton
-                className={classes.addContact}
+          <Stack
+            sx={(theme) => ({
+              borderTop: "6px solid",
+              borderColor: theme.colors[theme.primaryColor][5],
+            })}
+            pt="md"
+            spacing={0}
+          >
+            <Group position="apart" px="sm">
+              <Anchor component={NextLink} href="/app/exhibitor">
+                <Group align="center" spacing={0} px="sm">
+                  <ArrowLeft size={15} style={{ marginRight: 4 }} />
+                  <span>Back to Exhibitors</span>
+                </Group>
+              </Anchor>
+              <Button
                 onClick={handleAddContact}
-                disabled={isLoadingAddContact}
+                loading={isLoadingAddContact}
+                leftIcon={<UserPlus size={20} />}
+                pl="sm"
               >
-                {isLoadingAddContact ? (
-                  <Loader />
-                ) : (
-                  <UserPlus color="teal" size={"2vw"} />
-                )}
-              </UnstyledButton>
-            </Tooltip>
-          </div>
-        )}
-        {String(user?.id) === String(router.query.id) && (
-          <div className={classes.editBoothButtonContainer}>
-            <Tooltip label="Edit Booth Content">
-              <UnstyledButton
-                className={classes.editBoothButton}
-                onClick={() => setIsOpenEditContent(true)}
+                Add Contact
+              </Button>
+            </Group>
+            <Stack
+              mt="md"
+              pt="lg"
+              align="center"
+              spacing={0}
+              sx={(theme) => ({ backgroundColor: theme.colors.gray[1] })}
+              my={0}
+            >
+              <Image
+                src={
+                  exhibitor?.company_logo
+                    ? getFileUrl(exhibitor.company_logo, "companies")
+                    : "/hef-2022/logoipsum.svg"
+                }
+                width={200}
+                mr={20}
+                alt={exhibitor?.company_name}
+              />
+              <Text mt="xs" weight={600}>
+                {exhibitor?.company_name}
+              </Text>
+              <Group
+                sx={{
+                  justifyContent: "space-around",
+                  backgroundColor: theme.colors.gray[1],
+                }}
+                mt="md"
               >
-                <Edit color="teal" size={"2vw"} />
-              </UnstyledButton>
-            </Tooltip>
-          </div>
-        )}
-      </div>
+                <Group spacing={6}>
+                  <Mail size={20} />
+                  <Text size="sm">{exhibitor?.email}</Text>
+                </Group>
+                <Group spacing={6}>
+                  <Phone size={20} />
+                  <Text size="sm">{exhibitor?.mobile}</Text>
+                </Group>
+              </Group>
+              {!!exhibitor?.company_website && (
+                <Anchor
+                  size="sm"
+                  href={exhibitor?.company_website}
+                  mt="xs"
+                  mb="md"
+                >
+                  {exhibitor?.company_website}
+                </Anchor>
+              )}
+            </Stack>
+            {exhibitor?.company_video_url && (
+              <ReactPlayer
+                loop
+                controls
+                width={"100%"}
+                height={"calc(100vw * 9/16)"}
+                url={exhibitor?.company_video_url}
+              />
+            )}
+            <Text px="sm" mt="xl" size="lg" weight={600} mb="sm">
+              Poster
+            </Text>
+            <Box
+              sx={{
+                overflow: "auto",
+                display: "flex",
+                scrollSnapType: "x mandatory",
+                marginLeft: 12,
+                paddingBottom: 10,
+              }}
+            >
+              {exhibitor?.banners
+                ?.filter((banner) => [1, 2, 3, 4, 5].includes(banner.order))
+                ?.map((poster) => (
+                  <Paper
+                    key={poster.id}
+                    withBorder
+                    shadow="xs"
+                    radius="md"
+                    sx={(theme) => ({
+                      width: "70vw",
+                      marginRight: theme.spacing.xl,
+                      flexShrink: 0,
+                      scrollSnapAlign: "start",
+                      overflow: "hidden",
+                    })}
+                    onClick={() => {
+                      console.log("hit");
+                      setSelectedPoster(getFileUrl(poster.image, "banner"));
+                      setOpenPoster(true);
+                      handleClickPoster();
+                    }}
+                  >
+                    <Image
+                      src={getFileUrl(poster.image, "banner")}
+                      alt={poster.display_name}
+                    />
+                    <Text
+                      align="center"
+                      className="product"
+                      p="md"
+                      weight={600}
+                    >
+                      {poster.display_name}
+                    </Text>
+                  </Paper>
+                ))}
+            </Box>
+            <Text mt={40} px="sm" size="lg" weight={600} mb="sm">
+              Download
+            </Text>
+            <SimpleGrid cols={2} px="sm">
+              {catalog ? (
+                <UnstyledButton
+                  p="xl"
+                  sx={(theme) => ({
+                    backgroundColor: theme.colors[theme.primaryColor][0],
+                    borderRadius: theme.radius.md,
+                    "&:hover": {
+                      backgroundColor: theme.colors[theme.primaryColor][1],
+                    },
+                  })}
+                  component="a"
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={
+                    catalog?.image ? getFileUrl(catalog?.image, "banner") : ""
+                  }
+                >
+                  <Stack align="center" spacing="xs">
+                    <ClipboardList
+                      size={32}
+                      color={theme.colors[theme.primaryColor][9]}
+                    />
+                    <Text
+                      align="center"
+                      weight={700}
+                      sx={(theme) => ({
+                        color: theme.colors[theme.primaryColor][9],
+                      })}
+                    >
+                      Catalog
+                    </Text>
+                  </Stack>
+                </UnstyledButton>
+              ) : null}
+              {nameCard ? (
+                <UnstyledButton
+                  p="xl"
+                  sx={(theme) => ({
+                    backgroundColor: theme.colors[theme.primaryColor][0],
+                    borderRadius: theme.radius.md,
+                    "&:hover": {
+                      backgroundColor: theme.colors[theme.primaryColor][1],
+                    },
+                  })}
+                  component="a"
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={
+                    nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""
+                  }
+                >
+                  <Stack align="center" spacing="xs">
+                    <Id size={32} color={theme.colors[theme.primaryColor][9]} />
+                    <Text
+                      align="center"
+                      weight={700}
+                      sx={(theme) => ({
+                        color: theme.colors[theme.primaryColor][9],
+                      })}
+                    >
+                      Name Card
+                    </Text>
+                  </Stack>
+                </UnstyledButton>
+              ) : null}
+            </SimpleGrid>
+          </Stack>
+        </div>
+      )}
       {settings?.is_chat === "1" && <ChatButton />}
     </SocketProvider>
   );
 };
 
 export default ExhibitorBooth;
+
+type ModalPosterProps = {
+  url: string;
+  opened: boolean;
+  setOpened: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const ModalPoster = ({ opened, setOpened, url }: ModalPosterProps) => {
+  return (
+    <Modal
+      opened={opened}
+      onClose={() => setOpened(false)}
+      size="100vw"
+      sx={{ margin: 0 }}
+    >
+      <Image src={url} alt="Image" />
+    </Modal>
+  );
+};

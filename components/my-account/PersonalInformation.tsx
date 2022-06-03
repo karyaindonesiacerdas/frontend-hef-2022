@@ -165,6 +165,7 @@ const PersonalInformation = () => {
             placeholder="Email"
             label="Email"
             required
+            readOnly
             {...form.getInputProps("email")}
           />
           <TextInput
@@ -214,6 +215,7 @@ const PersonalInformation = () => {
                 <input
                   id="file"
                   type="file"
+                  accept="image/png, image/gif, image/jpeg"
                   className={classes.inputFile}
                   ref={imgRef}
                   onChange={(e) => {

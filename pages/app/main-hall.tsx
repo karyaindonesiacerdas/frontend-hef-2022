@@ -9,6 +9,7 @@ import {
   Group,
   Image,
   keyframes,
+  SimpleGrid,
   Stack,
   Text,
   Title,
@@ -125,18 +126,22 @@ const useStyles = createStyles((theme) => ({
   },
   link: {
     backgroundColor: theme.colors[theme.primaryColor][0],
-    padding: theme.spacing.xl * 1.5,
+    paddingTop: theme.spacing.xl * 2,
+    paddingBottom: theme.spacing.xl * 2,
+    paddingLeft: theme.spacing.xl,
+    paddingRight: theme.spacing.xl,
     borderRadius: theme.radius.md,
     // border: "1px solid",
     // borderColor: theme.colors[theme.primaryColor][1],
-    boxShadow: theme.shadows.xs,
     "&:hover": {
       backgroundColor: theme.colors[theme.primaryColor][1],
     },
   },
   linkText: {
     fontSize: theme.fontSizes.xl,
+    textAlign: "center",
     fontWeight: 600,
+    color: theme.colors[theme.primaryColor][9],
   },
 }));
 
@@ -226,24 +231,30 @@ const MainHall = () => {
         <Stack mt={55}>
           <Title className={classes.title}>Welcome to HEF 2022</Title>
           <Advertisement url={settings?.ads1_link} />
-          <Stack px="md" mt="md">
-            <UnstyledButton className={classes.link}>
-              <Group position="center" ml="xl">
+          <SimpleGrid mt={20} cols={2} px="sm">
+            <UnstyledButton
+              className={classes.link}
+              onClick={() => router.push("/app/seminar")}
+            >
+              <Stack align="center">
                 <Text align="center" className={classes.linkText}>
                   Webinar
                 </Text>
-                <DoorEnter />
-              </Group>
+                {/* <DoorEnter color={theme.colors[theme.primaryColor][9]} /> */}
+              </Stack>
             </UnstyledButton>
-            <UnstyledButton className={classes.link}>
-              <Group position="center" ml="xl">
+            <UnstyledButton
+              className={classes.link}
+              onClick={() => router.push("/app/exhibitor")}
+            >
+              <Stack align="center">
                 <Text align="center" className={classes.linkText}>
                   Virtual Exhibition
                 </Text>
-                <DoorEnter />
-              </Group>
+                {/* <DoorEnter color={theme.colors[theme.primaryColor][9]} /> */}
+              </Stack>
             </UnstyledButton>
-          </Stack>
+          </SimpleGrid>
         </Stack>
       )}
     </div>

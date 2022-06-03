@@ -46,6 +46,10 @@ const useStyles = createStyles((theme) => ({
       animation: "none",
       opacity: 1,
     },
+    [theme.fn.smallerThan("sm")]: {
+      bottom: 80,
+      right: 20,
+    },
   },
   newMessageCount: {
     position: "absolute",

@@ -166,7 +166,7 @@ const Programs: NextPage = () => {
           <Center style={{ perspective: "1000px" }} className={classes.content}>
             <Image
               fit="contain"
-              src="/hef-2022/product-simulation.png"
+              src="/hef-2022/product-simulation.jpg"
               alt="About HEF"
               className={classes.imageRight}
             />

@@ -2,7 +2,7 @@
   overflow-y: scroll;
 } */
 
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
@@ -12,5 +12,5 @@
   background-clip: padding-box;
   border-radius: 9999px;
   background-color: #ccc;
-} */
+}
 

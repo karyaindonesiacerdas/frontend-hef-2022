@@ -7,6 +7,8 @@ import {
   Text,
   UnstyledButton,
 } from "@mantine/core";
+import { useModals } from "@mantine/modals";
+import { useAuth } from "contexts/auth.context";
 import { useRouter } from "next/router";
 import React from "react";
 import {
@@ -38,6 +40,19 @@ const BottomNav = () => {
   const router = useRouter();
   const { classes } = useStyles();
   const pathname = router.pathname;
+  const { logout } = useAuth();
+
+  const modals = useModals();
+
+  const openLogoutModal = () =>
+    modals.openConfirmModal({
+      title: "Logout",
+      centered: true,
+      children: <Text size="sm">Do you want to logout?</Text>,
+      labels: { confirm: "Yes, logout", cancel: "Cancel" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => logout(),
+    });
 
   return (
     <Box component="nav" className={classes.container}>
@@ -110,7 +125,7 @@ const BottomNav = () => {
             </Text>
           </Stack>
         </UnstyledButton>
-        <UnstyledButton pt="sm" pb={6}>
+        <UnstyledButton pt="sm" pb={6} onClick={openLogoutModal}>
           <Stack align="center" spacing={8}>
             <DoorExit color="white" />
             <Text size="xs" weight={700} color="white">
