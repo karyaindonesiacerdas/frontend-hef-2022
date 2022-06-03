@@ -36,6 +36,7 @@ import { countries } from "data/countries";
 import { provinces } from "data/provinces";
 import { RegisterInputs } from "services/auth.service";
 import { useNotifications } from "@mantine/notifications";
+import { usePackages } from "services/package/hooks/usePackages";
 
 const useStyles = createStyles((theme) => ({
   // wrapper: {
@@ -87,6 +88,7 @@ const useStyles = createStyles((theme) => ({
     // }`,
     height: "100vh",
     maxWidth: 600,
+    width: "100%",
     overflow: "auto",
     padding: theme.spacing.xl,
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
@@ -248,6 +250,7 @@ export default function RegisterVisitor() {
       name: "",
       password: "",
       password_confirmation: "",
+      package_id: "",
       // product_interest: [],
       // province: "",
       // visit_purpose: [],
@@ -255,6 +258,13 @@ export default function RegisterVisitor() {
       // allow_share_info: "",
     },
   });
+
+  const { data: packages } = usePackages();
+  const listTopics =
+    packages?.map((p) => ({
+      label: `${p.order}. ${p.name}`,
+      value: String(p.id),
+    })) || [];
 
   useEffect(() => {
     if (isInitialized && isAuthenticated) {
@@ -265,6 +275,7 @@ export default function RegisterVisitor() {
   const handleSubmit = async (values: typeof form.values) => {
     const payload: RegisterInputs = {
       ...values,
+      package_id: +values.package_id,
       role: "visitor",
     };
 
@@ -405,7 +416,13 @@ export default function RegisterVisitor() {
                   required
                   {...form.getInputProps("name")}
                 />
-                <div />
+                <Select
+                  required
+                  label="Topics"
+                  placeholder="Select Topics"
+                  data={listTopics}
+                  {...form.getInputProps("package_id")}
+                />
                 <PasswordInput
                   label={t("password")}
                   placeholder="Your password"
