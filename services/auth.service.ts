@@ -60,7 +60,7 @@ export type RegisterInputs = {
   job_function?: string;
   country?: string;
   province?: string;
-  package_id?: number;
+  package_id?: number[];
   institution_name?: string; //Visitor
   institution_type?: string; //Visitor
   visitor_type?: string; //Visitor

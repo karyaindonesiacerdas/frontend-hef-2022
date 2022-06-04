@@ -22,6 +22,7 @@ import {
   Image,
   LoadingOverlay,
   useMantineTheme,
+  MultiSelect,
 } from "@mantine/core";
 import { CircleCheck } from "tabler-icons-react";
 import { useRouter } from "next/router";
@@ -236,6 +237,7 @@ export default function RegisterVisitor() {
   const notifications = useNotifications();
   const { t } = useTranslation("auth");
   const theme = useMantineTheme();
+  const [packageId, setPackageId] = useState<string[]>([]);
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -250,7 +252,7 @@ export default function RegisterVisitor() {
       name: "",
       password: "",
       password_confirmation: "",
-      package_id: "",
+      // package_id: "",
       // product_interest: [],
       // province: "",
       // visit_purpose: [],
@@ -275,7 +277,7 @@ export default function RegisterVisitor() {
   const handleSubmit = async (values: typeof form.values) => {
     const payload: RegisterInputs = {
       ...values,
-      package_id: +values.package_id,
+      package_id: packageId?.map((p) => +p),
       role: "visitor",
     };
 
@@ -393,7 +395,7 @@ export default function RegisterVisitor() {
               <SimpleGrid
                 cols={2}
                 breakpoints={[{ maxWidth: "xs", cols: 1 }]}
-                mb="lg"
+                mb="md"
               >
                 <TextInput
                   label={t("email")}
@@ -409,20 +411,30 @@ export default function RegisterVisitor() {
                   required
                   {...form.getInputProps("mobile")}
                 />
-                <TextInput
-                  label={t("name")}
-                  placeholder="Dr. John Doe"
-                  size="sm"
-                  required
-                  {...form.getInputProps("name")}
-                />
-                <Select
-                  required
-                  label="Topics"
-                  placeholder="Select Topics"
-                  data={listTopics}
-                  {...form.getInputProps("package_id")}
-                />
+              </SimpleGrid>
+              <TextInput
+                mb="md"
+                label={t("name")}
+                placeholder="Dr. John Doe"
+                size="sm"
+                required
+                {...form.getInputProps("name")}
+              />
+              <MultiSelect
+                required
+                clearable
+                mb="md"
+                label="Topics"
+                placeholder="Select Topics"
+                data={listTopics}
+                value={packageId}
+                onChange={setPackageId}
+              />
+              <SimpleGrid
+                cols={2}
+                breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+                mb="lg"
+              >
                 <PasswordInput
                   label={t("password")}
                   placeholder="Your password"
