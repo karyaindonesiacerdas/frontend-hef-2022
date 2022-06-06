@@ -44,7 +44,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const countDate = new Date("Juni 11, 2022 07:30:00").getTime();
+const countDate = new Date("June 11, 2022 07:30:00").getTime();
 
 export const CountDown = () => {
   const { classes } = useStyles();
