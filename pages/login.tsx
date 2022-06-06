@@ -170,15 +170,15 @@ export default function LoginPage() {
           <Divider my="xs" label="Or" labelPosition="center" />
 
           <SimpleGrid
-            cols={2}
+            cols={1}
             mt="md"
             breakpoints={[{ maxWidth: "xs", cols: 1 }]}
           >
-            <Link href="/register/exhibitor" passHref>
+            {/* <Link href="/register/exhibitor" passHref>
               <Button component="a" variant="outline">
                 {t("register-as-exhibitor")}
               </Button>
-            </Link>
+            </Link> */}
             <Link href="/register/visitor" passHref>
               <Button component="a" variant="outline">
                 {t("register-as-visitor")}

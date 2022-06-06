@@ -429,7 +429,7 @@ export default function RegisterVisitor() {
                 ))}
               </CheckboxGroup>
 
-              <Button type="submit" fullWidth mt="xl" size="md">
+              <Button type="submit" fullWidth mt="xl" size="md" disabled>
                 {t("register-as-exhibitor")}
               </Button>
             </form>

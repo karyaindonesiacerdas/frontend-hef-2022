@@ -146,11 +146,11 @@ const authLinks = [
         // label: "Register as Visitor",
         label: "register-as-visitor",
       },
-      {
-        link: "/register/exhibitor",
-        // label: "Register as Exhibitor",
-        label: "register-as-exhibitor",
-      },
+      // {
+      //   link: "/register/exhibitor",
+      //   // label: "Register as Exhibitor",
+      //   label: "register-as-exhibitor",
+      // },
     ],
   },
 ];
@@ -425,19 +425,19 @@ export function HeaderMenu() {
                     {mobileLinks}
                     <Divider mt="sm" />
                     <Box p="md">
-                      <SimpleGrid cols={2}>
+                      <SimpleGrid cols={1}>
                         <Button
                           variant="outline"
                           onClick={() => push("/register/visitor")}
                         >
                           {t("register-as-visitor")}
                         </Button>
-                        <Button
+                        {/* <Button
                           variant="outline"
                           onClick={() => push("/register/exhibitor")}
                         >
                           {t("register-as-exhibitor")}
-                        </Button>
+                        </Button> */}
                       </SimpleGrid>
                       <Button mt="sm" fullWidth onClick={() => push("/login")}>
                         {t("login")}
