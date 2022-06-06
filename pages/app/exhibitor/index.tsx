@@ -646,7 +646,7 @@ const useStyles = createStyles((theme) => ({
 
 const Exhibitor = () => {
   const router = useRouter();
-  const { isAuthenticated, isInitialized } = useAuth();
+  const { isAuthenticated, isInitialized, user } = useAuth();
   const { classes } = useStyles();
   const { data: exhibitors } = useExhibitors({ showAll: false });
   const [value, setValue] = useLocalStorage({
@@ -661,6 +661,12 @@ const Exhibitor = () => {
       router.replace("/login");
     }
   }, [router, isInitialized, isAuthenticated]);
+
+  useEffect(() => {
+    if (isInitialized && isAuthenticated && user?.role !== "admin") {
+      router.replace("/app/main-hall");
+    }
+  }, [router, isInitialized, isAuthenticated, user?.role]);
 
   const exhibitor1 = exhibitors?.find((exhibitor) => exhibitor.position === 1);
   const exhibitor2 = exhibitors?.find((exhibitor) => exhibitor.position === 2);

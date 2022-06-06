@@ -3,6 +3,7 @@ import { createStyles, UnstyledButton, useMantineTheme } from "@mantine/core";
 import { useRouter } from "next/router";
 import { Volume, Volume3 } from "tabler-icons-react";
 import { useLocalStorage } from "@mantine/hooks";
+import { useAuth } from "contexts/auth.context";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -59,11 +60,18 @@ const useStyles = createStyles((theme) => ({
 export default function EnterExhibitor() {
   const { classes } = useStyles();
   const router = useRouter();
+  const { isAuthenticated, isInitialized, user } = useAuth();
   const [muted, setMuted] = useState(true);
   const [value, setValue] = useLocalStorage({
     key: "skip-enter",
     defaultValue: false,
   });
+
+  useEffect(() => {
+    if (isInitialized && isAuthenticated && user?.role !== "admin") {
+      router.replace("/app/main-hall");
+    }
+  }, [router, isInitialized, isAuthenticated, user?.role]);
 
   useEffect(() => {
     const video = document.getElementById(

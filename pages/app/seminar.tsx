@@ -139,6 +139,12 @@ const Seminar = () => {
     }
   }, [router, isInitialized, isAuthenticated]);
 
+  useEffect(() => {
+    if (isInitialized && isAuthenticated && user?.role !== "admin") {
+      router.replace("/app/main-hall");
+    }
+  }, [router, isInitialized, isAuthenticated, user?.role]);
+
   if (!isInitialized || !isAuthenticated) {
     return null;
   }
