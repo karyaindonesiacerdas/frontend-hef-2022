@@ -6,6 +6,7 @@ import {
   ActionIcon,
   Image,
   Text,
+  Anchor,
 } from "@mantine/core";
 import { BrandTwitter, BrandYoutube, BrandInstagram } from "tabler-icons-react";
 
@@ -56,15 +57,23 @@ export const Footer = () => {
         </Group>
         <Text>© 2022 Hospital Engineering Forum. All rights reserved.</Text>
         <Group spacing={10} className={classes.links} position="right" noWrap>
-          <ActionIcon size="lg">
+          {/* <ActionIcon size="lg">
             <BrandTwitter size={24} />
-          </ActionIcon>
-          <ActionIcon size="lg">
+          </ActionIcon> */}
+          <ActionIcon
+            size="lg"
+            component="a"
+            href="https://www.youtube.com/channel/UCtTYDMMLYGfI8Hq4yA9Y5_Q"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {/* <Anchor href="https://www.youtube.com/channel/UCtTYDMMLYGfI8Hq4yA9Y5_Q"> */}
             <BrandYoutube size={24} />
+            {/* </Anchor> */}
           </ActionIcon>
-          <ActionIcon size="lg">
+          {/* <ActionIcon size="lg">
             <BrandInstagram size={24} />
-          </ActionIcon>
+          </ActionIcon> */}
         </Group>
       </Container>
     </div>
