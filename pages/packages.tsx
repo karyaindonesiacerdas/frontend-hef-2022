@@ -138,7 +138,7 @@ const Packages: NextPage = () => {
                     color: theme.colors.dark[6],
                   }}
                 >
-                  Start
+                  Star
                 </th>
                 <th
                   style={{
