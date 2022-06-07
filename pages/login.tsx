@@ -145,6 +145,7 @@ export default function LoginPage() {
               required
               label={t("email")}
               placeholder="me@example.com"
+              autoCapitalize="false"
               {...form.getInputProps("email")}
             />
             <PasswordInput

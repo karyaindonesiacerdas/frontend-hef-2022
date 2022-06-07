@@ -6,15 +6,11 @@ import {
   createStyles,
   TextInput,
   PasswordInput,
-  Checkbox,
   Button,
   Title,
   Text,
   Select,
-  CheckboxGroup,
   SimpleGrid,
-  RadioGroup,
-  Radio,
   Divider,
   Container,
   List,
@@ -23,6 +19,9 @@ import {
   LoadingOverlay,
   useMantineTheme,
   MultiSelect,
+  CheckboxGroup,
+  Checkbox,
+  NativeSelect,
 } from "@mantine/core";
 import { CircleCheck } from "tabler-icons-react";
 import { useRouter } from "next/router";
@@ -39,6 +38,7 @@ import { RegisterInputs } from "services/auth.service";
 import { useNotifications } from "@mantine/notifications";
 import { usePackages } from "services/package/hooks/usePackages";
 import { usePositions } from "services/position/hooks/usePositions";
+import { useOs } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   // wrapper: {
@@ -240,6 +240,7 @@ export default function RegisterVisitor() {
   const { t } = useTranslation("auth");
   const theme = useMantineTheme();
   const [packageId, setPackageId] = useState<string[]>([]);
+  const os = useOs();
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -292,24 +293,26 @@ export default function RegisterVisitor() {
       role: "visitor",
     };
 
-    setVisible(true);
-    try {
-      await register(payload);
-      setVisible(false);
-      router.replace("/app");
-    } catch (error: any) {
-      setVisible(false);
-      notifications.showNotification({
-        title: "Error",
-        message: error?.message
-          ? JSON.stringify(error?.message)
-              .replace(/{|}|\[|\]|\"/g, "")
-              .replace(":", ": ")
-              .replace(",", ", ")
-          : "Error",
-        color: "red",
-      });
-    }
+    console.log({ payload });
+
+    // setVisible(true);
+    // try {
+    //   await register(payload);
+    //   setVisible(false);
+    //   router.replace("/app");
+    // } catch (error: any) {
+    //   setVisible(false);
+    //   notifications.showNotification({
+    //     title: "Error",
+    //     message: error?.message
+    //       ? JSON.stringify(error?.message)
+    //           .replace(/{|}|\[|\]|\"/g, "")
+    //           .replace(":", ": ")
+    //           .replace(",", ", ")
+    //       : "Error",
+    //     color: "red",
+    //   });
+    // }
   };
 
   if (!isInitialized || isAuthenticated) {
@@ -413,6 +416,7 @@ export default function RegisterVisitor() {
                   placeholder="hello@gmail.com"
                   size="sm"
                   required
+                  autoCapitalize="false"
                   {...form.getInputProps("email")}
                 />
                 <TextInput
@@ -429,26 +433,41 @@ export default function RegisterVisitor() {
                   required
                   {...form.getInputProps("name")}
                 />
-                <Select
-                  placeholder="Choose"
-                  size="sm"
-                  required
-                  label="Professions"
-                  data={listProfessions}
-                  {...form.getInputProps("position_id")}
-                />
+                {os === "ios" ? (
+                  <NativeSelect
+                    placeholder="Choose"
+                    size="sm"
+                    required
+                    label="Professions"
+                    data={listProfessions}
+                    {...form.getInputProps("position_id")}
+                  />
+                ) : (
+                  <Select
+                    placeholder="Choose"
+                    size="sm"
+                    required
+                    label="Professions"
+                    data={listProfessions}
+                    {...form.getInputProps("position_id")}
+                  />
+                )}
               </SimpleGrid>
 
-              <MultiSelect
+              <CheckboxGroup
+                label="Select Topics"
                 required
-                clearable
                 mb="md"
-                label="Topics"
-                placeholder="Select Topics"
-                data={listTopics}
                 value={packageId}
                 onChange={setPackageId}
-              />
+                orientation="vertical"
+                spacing="md"
+              >
+                {listTopics?.map((topic, i) => (
+                  <Checkbox key={i} value={topic.value} label={topic.label} />
+                ))}
+              </CheckboxGroup>
+
               <SimpleGrid
                 cols={2}
                 breakpoints={[{ maxWidth: "xs", cols: 1 }]}
