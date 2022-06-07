@@ -295,24 +295,24 @@ export default function RegisterVisitor() {
 
     console.log({ payload });
 
-    // setVisible(true);
-    // try {
-    //   await register(payload);
-    //   setVisible(false);
-    //   router.replace("/app");
-    // } catch (error: any) {
-    //   setVisible(false);
-    //   notifications.showNotification({
-    //     title: "Error",
-    //     message: error?.message
-    //       ? JSON.stringify(error?.message)
-    //           .replace(/{|}|\[|\]|\"/g, "")
-    //           .replace(":", ": ")
-    //           .replace(",", ", ")
-    //       : "Error",
-    //     color: "red",
-    //   });
-    // }
+    setVisible(true);
+    try {
+      await register(payload);
+      setVisible(false);
+      router.replace("/app");
+    } catch (error: any) {
+      setVisible(false);
+      notifications.showNotification({
+        title: "Error",
+        message: error?.message
+          ? JSON.stringify(error?.message)
+              .replace(/{|}|\[|\]|\"/g, "")
+              .replace(":", ": ")
+              .replace(",", ", ")
+          : "Error",
+        color: "red",
+      });
+    }
   };
 
   if (!isInitialized || isAuthenticated) {
