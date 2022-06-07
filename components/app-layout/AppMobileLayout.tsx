@@ -10,12 +10,14 @@ import {
 } from "@mantine/core";
 import { useBooleanToggle, useLocalStorage } from "@mantine/hooks";
 import { NextLink } from "@mantine/next";
+import { useAuth } from "contexts/auth.context";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import React from "react";
 import {
   DeviceDesktopAnalytics,
   Home2,
+  Logout,
   Microphone2,
   User,
 } from "tabler-icons-react";
@@ -87,6 +89,7 @@ const AppMobileLayout = () => {
     defaultValue: false,
   });
   const { t } = useTranslation("common");
+  const { logout } = useAuth();
 
   const links = mockdata.map((link) => {
     if (value === true && link.label === "Exhibitor") {
@@ -159,6 +162,26 @@ const AppMobileLayout = () => {
             style={{ ...styles, width: "95vw" }}
           >
             {mobileLinks}
+            <UnstyledButton
+              style={{
+                textDecoration: "none",
+                padding: theme.spacing.sm,
+              }}
+              className={classes.control}
+              onClick={logout}
+            >
+              <Group position="apart" spacing={0} py={0}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", paddingLeft: 3 }}
+                  py={0}
+                >
+                  <Logout />
+                  <Box ml={14} p={0}>
+                    Logout
+                  </Box>
+                </Box>
+              </Group>
+            </UnstyledButton>
           </Paper>
         )}
       </Transition>
