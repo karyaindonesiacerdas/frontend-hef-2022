@@ -146,6 +146,42 @@ export const register = async (
   };
 };
 
+export const registerWithPhone = async (
+  mobile: string
+): Promise<AuthResponse> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      mobile,
+      role: "visitor",
+      isShortForm: 1,
+    }),
+  });
+
+  if (!res.ok) {
+    throw await res.json();
+  }
+
+  const json: AuthResponse = await res.json();
+
+  Cookies.set("accessToken", json?.data?.token);
+
+  const userData = await me();
+
+  Cookies.set("user", userData.data);
+
+  return {
+    ...json,
+    data: {
+      ...json.data,
+      user: userData.data,
+    },
+  };
+};
+
 export const me = async () => {
   const cookies = Cookies.get("accessToken");
 

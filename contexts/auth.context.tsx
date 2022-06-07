@@ -5,6 +5,7 @@ import {
   login as loginApi,
   register as registerApi,
   me,
+  registerWithPhone as registerWithPhoneApi,
 } from "services/auth.service";
 import type {
   AuthResponse,
@@ -20,6 +21,7 @@ interface AuthContextType {
   isInitialized: boolean;
   login: (inputs: LoginInputs) => Promise<void>;
   register: (inputs: RegisterInputs) => Promise<void>;
+  registerWithPhone: (mobile: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -130,6 +132,18 @@ export const AuthProvider: FC = ({ children }) => {
     });
   };
 
+  const registerWithPhone = async (mobile: string) => {
+    const data = await registerWithPhoneApi(mobile);
+
+    dispatch({
+      type: AuthActionKind.REGISTER,
+      payload: {
+        user: data.data.user,
+        isAuthenticated: true,
+      },
+    });
+  };
+
   const login = async (inputs: LoginInputs) => {
     const data = await loginApi(inputs);
 
@@ -156,7 +170,9 @@ export const AuthProvider: FC = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, register, login, logout }}>
+    <AuthContext.Provider
+      value={{ ...state, register, login, logout, registerWithPhone }}
+    >
       {children}
     </AuthContext.Provider>
   );
