@@ -162,6 +162,8 @@ const MainHall = () => {
   const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
   const os = useOs();
 
+  const isMobile = os === "android" || os === "ios";
+
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
       router.replace("/login");
@@ -176,18 +178,19 @@ const MainHall = () => {
 
   return (
     <div>
-      {os === "android" || os === "ios" ? (
-        <div style={{ position: "absolute", top: 40, left: 16, zIndex: 100 }}>
-          <AppMobileLayout />
-        </div>
-      ) : (
+      {largerThanXs && !isMobile ? (
         <div
           style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
-          // className={classes.sidebar}
+          className={classes.sidebar}
         >
           <AppLayout />
         </div>
-      )}
+      ) : isMobile && largerThanXs ? (
+        <div style={{ position: "absolute", top: 40, left: 16, zIndex: 100 }}>
+          <AppMobileLayout />
+        </div>
+      ) : null}
+
       <div
         style={{
           position: "absolute",

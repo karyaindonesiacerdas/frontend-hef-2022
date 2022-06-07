@@ -103,12 +103,14 @@ const Seminar = () => {
   const theme = useMantineTheme();
   const { isAuthenticated, isInitialized, user } = useAuth();
   const { classes } = useStyles();
-  const [openRundown, setOpenRundown] = useState(true);
+  const [openRundown, setOpenRundown] = useState(false);
   const queryClient = useQueryClient();
   const [collecting, setCollecting] = useState(false);
   const notifications = useNotifications();
   const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
   const os = useOs();
+
+  const isMobile = os === "android" || os === "ios";
 
   const { data: rundown } = useRundownClosing();
   console.log({ rundown });
@@ -153,18 +155,18 @@ const Seminar = () => {
 
   return (
     <div>
-      {os === "android" || os === "ios" ? (
-        <div style={{ position: "absolute", top: 40, left: 16, zIndex: 100 }}>
-          <AppMobileLayout />
-        </div>
-      ) : (
+      {largerThanXs && !isMobile ? (
         <div
           style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
-          // className={classes.sidebar}
+          className={classes.sidebar}
         >
           <AppLayout />
         </div>
-      )}
+      ) : isMobile && largerThanXs ? (
+        <div style={{ position: "absolute", top: 40, left: 16, zIndex: 100 }}>
+          <AppMobileLayout />
+        </div>
+      ) : null}
       <div
         style={{
           position: "absolute",

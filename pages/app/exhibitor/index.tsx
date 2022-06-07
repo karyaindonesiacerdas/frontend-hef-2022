@@ -760,18 +760,18 @@ const Exhibitor = () => {
 
   return (
     <div>
-      {isMobile ? (
-        <div style={{ position: "absolute", top: 20, left: 16, zIndex: 100 }}>
-          <AppMobileLayout />
-        </div>
-      ) : (
+      {largerThanXs && !isMobile ? (
         <div
           style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
-          // className={classes.sidebar}
+          className={classes.sidebar}
         >
           <AppLayout />
         </div>
-      )}
+      ) : isMobile && largerThanXs ? (
+        <div style={{ position: "absolute", top: 20, left: 16, zIndex: 100 }}>
+          <AppMobileLayout />
+        </div>
+      ) : null}
 
       <div
         style={{

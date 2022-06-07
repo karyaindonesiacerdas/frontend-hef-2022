@@ -16,6 +16,8 @@ import ChangePassword from "@/components/my-account/ChangePassword";
 import { useActivityList } from "services/activity/hooks";
 import { Trophy } from "tabler-icons-react";
 import BottomNav from "@/components/app-layout/BottomNav";
+import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
+import { useOs } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -61,8 +63,11 @@ const MyAccount = () => {
   const router = useRouter();
   const { isAuthenticated, isInitialized, user } = useAuth();
   const { classes } = useStyles();
+  const os = useOs();
 
   const { data: activity } = useActivityList();
+
+  const isMobile = os === "android" || os === "ios";
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -76,12 +81,18 @@ const MyAccount = () => {
 
   return (
     <div className={classes.root}>
-      <div
-        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
-        className={classes.sidebar}
-      >
-        <AppLayout />
-      </div>
+      {isMobile ? (
+        <div style={{ position: "absolute", top: 20, left: 16, zIndex: 100 }}>
+          <AppMobileLayout />
+        </div>
+      ) : (
+        <div
+          style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+          className={classes.sidebar}
+        >
+          <AppLayout />
+        </div>
+      )}
 
       <div
         style={{
