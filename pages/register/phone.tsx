@@ -27,6 +27,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useAuth } from "contexts/auth.context";
 import { NextLink } from "@mantine/next";
 import { GetStaticPropsContext } from "next";
+import { registerWithPhone } from "services/auth.service";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -54,7 +55,7 @@ export default function RegisterWithPhonePage() {
   const { classes } = useStyles();
   const router = useRouter();
   const notifications = useNotifications();
-  const { registerWithPhone, isAuthenticated, isInitialized } = useAuth();
+  const { isAuthenticated, isInitialized } = useAuth();
   const [visible, setVisible] = useState(false);
   const { t } = useTranslation("auth");
 
@@ -74,9 +75,15 @@ export default function RegisterWithPhonePage() {
   const handleSubmit = async (values: typeof form.values) => {
     setVisible(true);
     try {
+      // await registerWithPhone(values.mobile);
       await registerWithPhone(values.mobile);
       setVisible(false);
-      router.replace("/app");
+      notifications.showNotification({
+        title: "Success",
+        message: t("success-register-with-phone"),
+        color: "green",
+      });
+      form.reset();
     } catch (error: any) {
       setVisible(false);
       notifications.showNotification({
