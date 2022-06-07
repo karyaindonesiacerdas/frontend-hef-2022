@@ -47,7 +47,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const schema = z.object({
-  email: z.string().email().nonempty(),
+  email: z.string().nonempty(),
   password: z.string().nonempty(),
 });
 
@@ -143,7 +143,7 @@ export default function LoginPage() {
           <form onSubmit={form.onSubmit(handleSubmit)}>
             <TextInput
               required
-              label={t("email")}
+              label={t("email-phone")}
               placeholder="me@example.com"
               autoCapitalize="false"
               {...form.getInputProps("email")}
