@@ -394,15 +394,19 @@ export function HeaderMenu() {
           <div className={classes.inner}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Image
-                width={42}
-                height={42}
+                width={largerThanSm ? 42 : 30}
+                height={largerThanSm ? 42 : 30}
                 style={{ flexShrink: 0 }}
                 src="/logo.png"
                 alt="Logo HEF"
               />
 
               <Box ml="md">
-                <Text size="xl" weight={700} style={{ whiteSpace: "nowrap" }}>
+                <Text
+                  size={largerThanSm ? "xl" : "lg"}
+                  weight={700}
+                  style={{ whiteSpace: "nowrap" }}
+                >
                   {largerThanSm ? t("event-title") : t("event-title-short")}
                 </Text>
                 <Text mt={-6} size="sm" className={classes.tagline}>

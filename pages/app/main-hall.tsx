@@ -18,7 +18,7 @@ import {
 } from "@mantine/core";
 import { NextLink } from "@mantine/next";
 import { DoorEnter } from "tabler-icons-react";
-import { useLocalStorage, useMediaQuery } from "@mantine/hooks";
+import { useLocalStorage, useMediaQuery, useOs } from "@mantine/hooks";
 import Marquee from "react-fast-marquee";
 
 import { useSettings } from "services/settings/hooks";
@@ -27,6 +27,7 @@ import RightAdvertisement from "@/components/main-hall/RightAdvertisement";
 import RunningText from "@/components/RunningText";
 import BottomNav from "@/components/app-layout/BottomNav";
 import Advertisement from "@/components/main-hall/Advertisement";
+import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
 // import ChatButton from "@/components/chat/ChatButton";
 
 export const pulse = keyframes({
@@ -159,6 +160,7 @@ const MainHall = () => {
     defaultValue: false,
   });
   const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
+  const os = useOs();
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -174,12 +176,18 @@ const MainHall = () => {
 
   return (
     <div>
-      <div
-        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
-        className={classes.sidebar}
-      >
-        <AppLayout />
-      </div>
+      {os === "android" || os === "ios" ? (
+        <div style={{ position: "absolute", top: 40, left: 16, zIndex: 100 }}>
+          <AppMobileLayout />
+        </div>
+      ) : (
+        <div
+          style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+          // className={classes.sidebar}
+        >
+          <AppLayout />
+        </div>
+      )}
       <div
         style={{
           position: "absolute",

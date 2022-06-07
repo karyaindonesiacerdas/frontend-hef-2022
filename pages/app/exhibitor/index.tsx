@@ -23,10 +23,11 @@ import {
   DoorEnter,
   DoorExit,
 } from "tabler-icons-react";
-import { useLocalStorage, useMediaQuery } from "@mantine/hooks";
+import { useLocalStorage, useMediaQuery, useOs } from "@mantine/hooks";
 import BottomNav from "@/components/app-layout/BottomNav";
 import RunningText from "@/components/RunningText";
 import { getFileUrl } from "utils/file-storage";
+import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -78,6 +79,31 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: theme.spacing.xs,
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
+    display: "flex",
+    alignItems: "center",
+    "&:hover": {
+      color: theme.colors[theme.primaryColor][6],
+    },
+  },
+  backButtonMobile: {
+    zIndex: 10,
+    position: "fixed",
+    top: 20,
+    right: 20,
+    fontWeight: 600,
+    fontSize: theme.fontSizes.md,
+    color: theme.colors.dark,
+    background: "rgba( 255, 255, 255, 0.5  )",
+    boxShadow: "0 3px 8px 0 rgba( 0, 0, 0, 0.17 )",
+    backdropFilter: "blur(4px)",
+    WebkitBackdropFilter: "blur(4px)",
+    borderRadius: "10px",
+    border: "1px solid rgba( 255, 255, 255, 0.18 )",
+    textDecoration: "none",
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingLeft: theme.spacing.xs,
+    paddingRight: theme.spacing.xs,
     display: "flex",
     alignItems: "center",
     "&:hover": {
@@ -655,6 +681,7 @@ const Exhibitor = () => {
   });
   const theme = useMantineTheme();
   const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
+  const os = useOs();
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -729,15 +756,22 @@ const Exhibitor = () => {
   }
 
   console.log({ exhibitor2 });
+  const isMobile = os === "android" || os === "ios";
 
   return (
     <div>
-      <div
-        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
-        className={classes.sidebar}
-      >
-        <AppLayout />
-      </div>
+      {isMobile ? (
+        <div style={{ position: "absolute", top: 20, left: 16, zIndex: 100 }}>
+          <AppMobileLayout />
+        </div>
+      ) : (
+        <div
+          style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+          // className={classes.sidebar}
+        >
+          <AppLayout />
+        </div>
+      )}
 
       <div
         style={{
@@ -768,10 +802,10 @@ const Exhibitor = () => {
       {largerThanXs ? (
         <>
           <NextLink
-            className={classes.backButton}
+            className={isMobile ? classes.backButtonMobile : classes.backButton}
             href={value === true ? "/app/main-hall" : "/app/exit-exhibitor"}
           >
-            <DoorExit size={28} style={{ marginRight: 8 }} />
+            <DoorExit size={isMobile ? 16 : 28} style={{ marginRight: 8 }} />
             <span>Exit</span>
           </NextLink>
           <div className={classes.container}>

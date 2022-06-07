@@ -55,9 +55,10 @@ import EditBoothDrawer from "@/components/booth/EditBoothDrawer";
 import { postActivity } from "services/activity/activity";
 import { useSettings } from "services/settings/hooks";
 import BottomNav from "@/components/app-layout/BottomNav";
-import { useMediaQuery } from "@mantine/hooks";
+import { useMediaQuery, useOs } from "@mantine/hooks";
 import RunningText from "@/components/RunningText";
 import ReactPlayer from "react-player";
+import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
 
 export const pulse = keyframes({
   "from, to": { opacity: 1 },
@@ -242,6 +243,30 @@ const useStyles = createStyles((theme) => ({
       color: theme.colors[theme.primaryColor][6],
     },
   },
+  backButtonMobile: {
+    zIndex: 10,
+    position: "fixed",
+    top: 20,
+    left: 70,
+    fontWeight: 600,
+    color: theme.colors.dark,
+    background: "rgba( 255, 255, 255, 0.5  )",
+    boxShadow: "0 3px 8px 0 rgba( 0, 0, 0, 0.17 )",
+    backdropFilter: "blur(4px)",
+    WebkitBackdropFilter: "blur(4px)",
+    borderRadius: "10px",
+    border: "1px solid rgba( 255, 255, 255, 0.18 )",
+    textDecoration: "none",
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: theme.spacing.xs,
+    paddingRight: theme.spacing.xs,
+    display: "flex",
+    alignItems: "center",
+    "&:hover": {
+      color: theme.colors[theme.primaryColor][6],
+    },
+  },
   editBoothButtonContainer: {
     position: "absolute",
     width: "3%",
@@ -293,6 +318,7 @@ const ExhibitorBooth: NextPage = () => {
   const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
   const [openPoster, setOpenPoster] = useState(false);
   const [selectedPoster, setSelectedPoster] = useState("");
+  const os = useOs();
 
   const {
     data: exhibitor,
@@ -384,19 +410,26 @@ const ExhibitorBooth: NextPage = () => {
   const nameCard = exhibitor?.banners?.find((banner) => banner.order === 11);
   const catalog = exhibitor?.banners?.find((banner) => banner.order === 12);
 
+  const isMobile = os === "android" || os === "ios";
+
   if (!isInitialized || !isAuthenticated || isLoading) {
     return null;
   }
 
   return (
     <SocketProvider>
-      <div
-        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
-        className={classes.sidebar}
-      >
-        <AppLayout />
-      </div>
-
+      {isMobile ? (
+        <div style={{ position: "absolute", top: 20, left: 16, zIndex: 100 }}>
+          <AppMobileLayout />
+        </div>
+      ) : (
+        <div
+          style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+          // className={classes.sidebar}
+        >
+          <AppLayout />
+        </div>
+      )}
       <div
         style={{
           position: "absolute",
@@ -411,9 +444,14 @@ const ExhibitorBooth: NextPage = () => {
 
       {largerThanXs ? (
         <>
-          <NextLink className={classes.backButton} href="/app/exhibitor">
+          <NextLink
+            className={isMobile ? classes.backButtonMobile : classes.backButton}
+            href="/app/exhibitor"
+          >
             <ArrowLeft size={15} style={{ marginRight: 4 }} />
-            <span>Back to Exhibitor Hall</span>
+            <Text component="span" size={isMobile ? "sm" : "md"}>
+              Back to Exhibitor Hall
+            </Text>
           </NextLink>
           <CatalogModal
             opened={isOpenCatalog}

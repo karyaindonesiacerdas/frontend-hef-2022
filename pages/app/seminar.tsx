@@ -25,8 +25,9 @@ import { useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
 import RunningText from "@/components/RunningText";
 import BottomNav from "@/components/app-layout/BottomNav";
-import { useMediaQuery } from "@mantine/hooks";
+import { useMediaQuery, useOs } from "@mantine/hooks";
 import MobileSeminarScreen from "@/components/seminar/MobileSeminarScreen";
+import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -107,6 +108,7 @@ const Seminar = () => {
   const [collecting, setCollecting] = useState(false);
   const notifications = useNotifications();
   const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
+  const os = useOs();
 
   const { data: rundown } = useRundownClosing();
   console.log({ rundown });
@@ -151,12 +153,18 @@ const Seminar = () => {
 
   return (
     <div>
-      <div
-        style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
-        className={classes.sidebar}
-      >
-        <AppLayout />
-      </div>
+      {os === "android" || os === "ios" ? (
+        <div style={{ position: "absolute", top: 40, left: 16, zIndex: 100 }}>
+          <AppMobileLayout />
+        </div>
+      ) : (
+        <div
+          style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}
+          // className={classes.sidebar}
+        >
+          <AppLayout />
+        </div>
+      )}
       <div
         style={{
           position: "absolute",
@@ -186,15 +194,22 @@ const Seminar = () => {
         <>
           <div className={classes.container}>
             <SeminarScreen />
-            <SeminarRundown opened={openRundown} setOpened={setOpenRundown} />
-            <div className={classes.rundownButtonContainer}>
-              <UnstyledButton
-                className={classes.rundownButton}
-                onClick={() => setOpenRundown((prev) => !prev)}
-              >
-                {openRundown ? "Close" : "Open"} Rundown
-              </UnstyledButton>
-            </div>
+            {os === "android" || os === "ios" ? null : (
+              <>
+                <SeminarRundown
+                  opened={openRundown}
+                  setOpened={setOpenRundown}
+                />
+                <div className={classes.rundownButtonContainer}>
+                  <UnstyledButton
+                    className={classes.rundownButton}
+                    onClick={() => setOpenRundown((prev) => !prev)}
+                  >
+                    {openRundown ? "Close" : "Open"} Rundown
+                  </UnstyledButton>
+                </div>
+              </>
+            )}
           </div>
           {rundown?.isJoined === 0 && (
             <UnstyledButton

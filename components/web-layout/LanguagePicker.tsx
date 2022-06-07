@@ -93,9 +93,12 @@ export function LanguagePicker() {
       radius="md"
       size={largerThanSm ? "md" : "xs"}
       control={
-        <UnstyledButton className={classes.control}>
-          <Language size={20} color="gray" />
-          <Group spacing="xs">
+        <UnstyledButton
+          className={classes.control}
+          sx={{ padding: largerThanSm ? 8 : 4 }}
+        >
+          <Language size={largerThanSm ? 20 : 16} color="gray" />
+          <Group spacing={largerThanSm ? "xs" : 0}>
             <Image
               src={selected.image}
               width={22}
