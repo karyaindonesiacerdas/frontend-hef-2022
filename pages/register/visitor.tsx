@@ -241,6 +241,7 @@ export default function RegisterVisitor() {
   const theme = useMantineTheme();
   const [packageId, setPackageId] = useState<string[]>([]);
   const os = useOs();
+  const [errorTopic, setErrorTopic] = useState("");
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -286,6 +287,10 @@ export default function RegisterVisitor() {
   }, [router, isInitialized, isAuthenticated]);
 
   const handleSubmit = async (values: typeof form.values) => {
+    if (packageId.length < 1) {
+      setErrorTopic("Choose at least 1 topic");
+      return;
+    }
     const payload: RegisterInputs = {
       ...values,
       package_id: packageId?.map((p) => +p),
@@ -459,9 +464,13 @@ export default function RegisterVisitor() {
                 required
                 mb="md"
                 value={packageId}
-                onChange={setPackageId}
+                onChange={(v) => {
+                  setErrorTopic("");
+                  setPackageId(v);
+                }}
                 orientation="vertical"
                 spacing="md"
+                error={errorTopic}
               >
                 {listTopics?.map((topic, i) => (
                   <Checkbox key={i} value={topic.value} label={topic.label} />
