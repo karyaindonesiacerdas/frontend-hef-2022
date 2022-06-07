@@ -58,6 +58,7 @@ export type RegisterInputs = {
   password: string;
   password_confirmation: string;
   job_function?: string;
+  position_id?: number;
   country?: string;
   province?: string;
   package_id?: number[];
@@ -115,6 +116,7 @@ export const login = async (inputs: LoginInputs): Promise<AuthResponse> => {
 export const register = async (
   inputs: RegisterInputs
 ): Promise<AuthResponse> => {
+  console.log({ inputs });
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
     method: "POST",
     headers: {

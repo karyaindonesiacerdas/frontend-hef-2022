@@ -38,6 +38,7 @@ import { provinces } from "data/provinces";
 import { RegisterInputs } from "services/auth.service";
 import { useNotifications } from "@mantine/notifications";
 import { usePackages } from "services/package/hooks/usePackages";
+import { usePositions } from "services/position/hooks/usePositions";
 
 const useStyles = createStyles((theme) => ({
   // wrapper: {
@@ -214,6 +215,7 @@ const schema = z
     name: z.string().nonempty(),
     password: z.string().min(5).nonempty(),
     password_confirmation: z.string().nonempty(),
+    position_id: z.string().nonempty(),
     // product_interest: z
     //   .array(z.string())
     //   .nonempty({ message: "choose at least 1" }),
@@ -252,6 +254,7 @@ export default function RegisterVisitor() {
       name: "",
       password: "",
       password_confirmation: "",
+      position_id: "",
       // package_id: "",
       // product_interest: [],
       // province: "",
@@ -260,11 +263,18 @@ export default function RegisterVisitor() {
       // allow_share_info: "",
     },
   });
+  console.log({ error: form.errors });
 
   const { data: packages } = usePackages();
   const listTopics =
     packages?.map((p) => ({
       label: `${p.order}. ${p.name}`,
+      value: String(p.id),
+    })) || [];
+  const { data: positions } = usePositions();
+  const listProfessions =
+    positions?.map((p) => ({
+      label: p.name,
       value: String(p.id),
     })) || [];
 
@@ -278,6 +288,7 @@ export default function RegisterVisitor() {
     const payload: RegisterInputs = {
       ...values,
       package_id: packageId?.map((p) => +p),
+      position_id: +values.position_id,
       role: "visitor",
     };
 
@@ -411,15 +422,23 @@ export default function RegisterVisitor() {
                   required
                   {...form.getInputProps("mobile")}
                 />
+                <TextInput
+                  label={t("name")}
+                  placeholder="Dr. John Doe"
+                  size="sm"
+                  required
+                  {...form.getInputProps("name")}
+                />
+                <Select
+                  placeholder="Choose"
+                  size="sm"
+                  required
+                  label="Professions"
+                  data={listProfessions}
+                  {...form.getInputProps("position_id")}
+                />
               </SimpleGrid>
-              <TextInput
-                mb="md"
-                label={t("name")}
-                placeholder="Dr. John Doe"
-                size="sm"
-                required
-                {...form.getInputProps("name")}
-              />
+
               <MultiSelect
                 required
                 clearable
