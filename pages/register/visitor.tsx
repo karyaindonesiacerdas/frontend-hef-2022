@@ -267,6 +267,16 @@ export default function RegisterVisitor() {
   });
   console.log({ error: form.errors });
 
+  useEffect(() => {
+    try {
+      fetch("/api/counter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ route: "Register Visitor" }),
+      });
+    } catch (error) {}
+  }, []);
+
   const { data: packages } = usePackages();
   const listTopics =
     packages?.map((p) => ({

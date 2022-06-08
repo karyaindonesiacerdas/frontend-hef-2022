@@ -53,6 +53,16 @@ export default function RegisterWithPhonePage() {
   const { t } = useTranslation("auth");
 
   useEffect(() => {
+    try {
+      fetch("/api/counter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ route: "Register with Phone" }),
+      });
+    } catch (error) {}
+  }, []);
+
+  useEffect(() => {
     if (isInitialized && isAuthenticated) {
       router.push("/app");
     }

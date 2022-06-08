@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { AppShell, Container, Title } from "@mantine/core";
+import { AppShell, Container, Stack, Title } from "@mantine/core";
 
 import AdminSidebar from "components/admin-layout/AdminSidebar";
 import { useAuth } from "contexts/auth.context";
 import { StatsGrid } from "components/admin/analytics/StatsGrid";
 import { useGraphAccumulative, useGraphTotal } from "services/tracker/hooks";
+import { usePageCounters } from "services/counter/hook";
 
 const StatsGraph = dynamic(
   () => import("components/admin/analytics/StatsGraph"),
@@ -37,6 +38,9 @@ const AdminDashboard: NextPage = () => {
   const totalUniqueVisitor = graphAccumulative?.map(
     (statistic: any) => statistic.total
   )[graphAccumulative.length - 1];
+
+  const { data: pageCounters } = usePageCounters();
+  console.log({ pageCounters });
 
   if (!isInitialized || !isAuthenticated) {
     return null;
@@ -88,6 +92,23 @@ const AdminDashboard: NextPage = () => {
           ]}
         />
         <StatsGraph />
+        <Title
+          px={3}
+          mb={-8}
+          sx={(theme) => ({ fontSize: theme.fontSizes.xl })}
+        >
+          Page Visit Counter
+        </Title>
+        <StatsGrid
+          data={
+            pageCounters?.map((p) => ({
+              title: p.route,
+              value: String(p.totalVisit),
+              icon: "visitor",
+            })) || []
+          }
+          columns={6}
+        />
       </Container>
     </AppShell>
   );
