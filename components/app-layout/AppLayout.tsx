@@ -507,7 +507,6 @@ export const UpdateProfileModal = () => {
             placeholder="Email"
             label="Email"
             required
-            readOnly
             {...form.getInputProps("email")}
           />
           <TextInput

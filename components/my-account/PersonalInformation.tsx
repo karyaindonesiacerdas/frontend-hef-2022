@@ -196,7 +196,6 @@ const PersonalInformation = ({ title }: Props) => {
             placeholder="Email"
             label="Email"
             required
-            readOnly
             {...form.getInputProps("email")}
           />
           <TextInput
