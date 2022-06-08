@@ -54,7 +54,7 @@ export default function RegisterWithPhonePage() {
 
   useEffect(() => {
     if (isInitialized && isAuthenticated) {
-      router.replace("/app");
+      router.push("/app");
     }
   }, [router, isInitialized, isAuthenticated]);
 
@@ -75,8 +75,8 @@ export default function RegisterWithPhonePage() {
         title: "Success",
         message: t("success-register-with-phone"),
         color: "green",
+        autoClose: false,
       });
-      router.replace("/app");
     } catch (error: any) {
       setVisible(false);
       notifications.showNotification({
@@ -91,8 +91,6 @@ export default function RegisterWithPhonePage() {
   if (!isInitialized || isAuthenticated) {
     return null;
   }
-
-  console.log({ t });
 
   return (
     <div className={classes.wrapper}>

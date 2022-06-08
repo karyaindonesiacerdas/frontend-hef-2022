@@ -23,21 +23,19 @@ import {
   Divider,
   Title,
   LoadingOverlay,
+  Alert,
 } from "@mantine/core";
 import {
   Icon as TablerIcon,
   Home2,
   DeviceDesktopAnalytics,
-  CalendarStats,
   User,
-  Settings,
-  Logout,
   Microphone2,
-  ChevronRight,
   Dashboard,
   At,
   Phone,
   Trash,
+  CircleCheck,
 } from "tabler-icons-react";
 import { NextLink } from "@mantine/next";
 import { useRouter } from "next/router";
@@ -55,6 +53,7 @@ import { updateProfile, UpdateProfilePayload } from "services/auth.service";
 import { usePackages } from "services/package/hooks/usePackages";
 import { usePositions } from "services/position/hooks/usePositions";
 import { z } from "zod";
+import { useTranslation } from "next-i18next";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -375,6 +374,7 @@ const schema = z.object({
 });
 
 export const UpdateProfileModal = () => {
+  const router = useRouter();
   const { classes } = useStyles2();
   const { data } = useMe();
   const { user } = useAuth();
@@ -393,6 +393,8 @@ export const UpdateProfileModal = () => {
     key: "first-login",
     defaultValue: "true",
   });
+  const { t } = useTranslation("auth");
+  const [showSuccess, setShowSuccess] = useState(true);
 
   const previewURL = imgProfile ? URL.createObjectURL(imgProfile) : "";
 
@@ -480,137 +482,151 @@ export const UpdateProfileModal = () => {
   };
 
   return (
-    <Modal
-      centered
-      closeOnClickOutside={false}
-      opened={openUpdateProfile === "true"}
-      onClose={() => {
-        setOpenUpdateProfile("close");
-        setFirstLogin("false");
-      }}
-      size="lg"
-      title={
-        <Title sx={(theme) => ({ fontSize: theme.fontSizes.lg })}>
-          Update Profile
-        </Title>
-      }
-    >
-      <Box
-        mt="md"
-        component="form"
-        onSubmit={form.onSubmit(handleSubmit)}
-        style={{ position: "relative" }}
+    <>
+      <Modal
+        centered
+        closeOnClickOutside={false}
+        opened={openUpdateProfile === "true"}
+        onClose={() => {
+          setOpenUpdateProfile("close");
+          setFirstLogin("false");
+        }}
+        size="lg"
+        title={
+          <Title sx={(theme) => ({ fontSize: theme.fontSizes.lg })}>
+            Update Profile
+          </Title>
+        }
       >
-        <LoadingOverlay visible={visible} />
-        <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
-          <TextInput
-            placeholder="Email"
-            label="Email"
-            required
-            {...form.getInputProps("email")}
-          />
-          <TextInput
-            placeholder="Mobile (Whatsapp)"
-            label="Mobile (Whatsapp)"
-            required
-            {...form.getInputProps("mobile")}
-          />
-          <TextInput
-            placeholder="Full Name"
-            label="Full Name (used in the certificate)"
-            required
-            {...form.getInputProps("name")}
-          />
-          {os === "ios" ? (
-            <NativeSelect
-              placeholder="Choose"
-              size="sm"
-              required
-              label="Professions"
-              data={listProfessions}
-              {...form.getInputProps("position_id")}
-            />
-          ) : (
-            <Select
-              placeholder="Choose"
-              size="sm"
-              label="Professions"
-              data={listProfessions}
-              {...form.getInputProps("position_id")}
-            />
-          )}
-          <InputWrapper label="Photo">
-            <Group>
-              <Avatar
-                src={
-                  previewURL
-                    ? previewURL
-                    : data?.img_profile
-                    ? getFileUrl(data.img_profile, "profiles")
-                    : undefined
-                }
-                size="lg"
-                radius="xl"
-              />
-              {previewURL ? (
-                <ActionIcon onClick={reset}>
-                  <Trash color="red" />
-                </ActionIcon>
-              ) : null}
-              <Box mt={4} className={classes.inputFileWrapper}>
-                <label htmlFor="file" className={classes.inputLabel}>
-                  Select File
-                </label>
-                <input
-                  id="file"
-                  type="file"
-                  accept="image/png, image/gif, image/jpeg"
-                  className={classes.inputFile}
-                  ref={imgRef}
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      setImgProfile(e.target.files[0]);
-                    }
-                  }}
-                />
-              </Box>
-            </Group>
-          </InputWrapper>
-        </SimpleGrid>
-        <CheckboxGroup
+        {showSuccess && (
+          <Alert
+            title={router.locale === "en" ? "Success!" : "Berhasil"}
+            color="teal"
+            withCloseButton
+            onClose={() => setShowSuccess(false)}
+          >
+            {router.locale === "en"
+              ? "Zoom link will be sent to your whatsapp number"
+              : "Link zoom akan dikirim ke nomor whatsapp anda"}
+          </Alert>
+        )}
+        <Box
           mt="md"
-          label="Select Topics"
-          mb="md"
-          value={packageId}
-          onChange={setPackageId}
-          orientation="vertical"
-          spacing="md"
+          component="form"
+          onSubmit={form.onSubmit(handleSubmit)}
+          style={{ position: "relative" }}
         >
-          {listTopics?.map((topic, i) => (
-            <Checkbox
-              key={i}
-              value={topic.value}
-              label={topic.label}
-              checked={packageId?.includes(topic.value)}
+          <LoadingOverlay visible={visible} />
+          <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
+            <TextInput
+              placeholder="Email"
+              label="Email"
+              required
+              {...form.getInputProps("email")}
             />
-          ))}
-        </CheckboxGroup>
-        <Group mt="xs" position="right"></Group>
-        <Button mt="lg" type="submit" fullWidth>
-          Save
-        </Button>
-        <Divider my="md" label="Or" labelPosition="center" />
-        <Button
-          fullWidth
-          variant="subtle"
-          onClick={() => {
-            setOpenUpdateProfile("close");
-            setFirstLogin("false");
-          }}
-        >
-          Skip for now
-        </Button>
-      </Box>
-    </Modal>
+            <TextInput
+              placeholder="Mobile (Whatsapp)"
+              label="Mobile (Whatsapp)"
+              required
+              {...form.getInputProps("mobile")}
+            />
+            <TextInput
+              placeholder="Full Name"
+              label="Full Name (used in the certificate)"
+              required
+              {...form.getInputProps("name")}
+            />
+            {os === "ios" ? (
+              <NativeSelect
+                placeholder="Choose"
+                size="sm"
+                required
+                label="Professions"
+                data={listProfessions}
+                {...form.getInputProps("position_id")}
+              />
+            ) : (
+              <Select
+                placeholder="Choose"
+                size="sm"
+                label="Professions"
+                data={listProfessions}
+                {...form.getInputProps("position_id")}
+              />
+            )}
+            <InputWrapper label="Photo">
+              <Group>
+                <Avatar
+                  src={
+                    previewURL
+                      ? previewURL
+                      : data?.img_profile
+                      ? getFileUrl(data.img_profile, "profiles")
+                      : undefined
+                  }
+                  size="lg"
+                  radius="xl"
+                />
+                {previewURL ? (
+                  <ActionIcon onClick={reset}>
+                    <Trash color="red" />
+                  </ActionIcon>
+                ) : null}
+                <Box mt={4} className={classes.inputFileWrapper}>
+                  <label htmlFor="file" className={classes.inputLabel}>
+                    Select File
+                  </label>
+                  <input
+                    id="file"
+                    type="file"
+                    accept="image/png, image/gif, image/jpeg"
+                    className={classes.inputFile}
+                    ref={imgRef}
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        setImgProfile(e.target.files[0]);
+                      }
+                    }}
+                  />
+                </Box>
+              </Group>
+            </InputWrapper>
+          </SimpleGrid>
+          <CheckboxGroup
+            mt="md"
+            label="Select Topics"
+            mb="md"
+            value={packageId}
+            onChange={setPackageId}
+            orientation="vertical"
+            spacing="md"
+          >
+            {listTopics?.map((topic, i) => (
+              <Checkbox
+                key={i}
+                value={topic.value}
+                label={topic.label}
+                checked={packageId?.includes(topic.value)}
+              />
+            ))}
+          </CheckboxGroup>
+          <Group mt="xs" position="right"></Group>
+          <Button mt="lg" type="submit" fullWidth>
+            Save
+          </Button>
+          <Divider my="md" label="Or" labelPosition="center" />
+          <Button
+            fullWidth
+            variant="subtle"
+            onClick={() => {
+              setOpenUpdateProfile("close");
+              setFirstLogin("false");
+            }}
+          >
+            Skip for now
+          </Button>
+        </Box>
+      </Modal>
+    </>
   );
 };
