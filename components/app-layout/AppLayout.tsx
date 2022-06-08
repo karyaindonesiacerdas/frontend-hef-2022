@@ -370,7 +370,7 @@ const useStyles2 = createStyles((theme) => ({
   },
 }));
 
-const institutionTypes = [
+export const institutionTypes = [
   { value: "Comunity Health Services", label: "Comunity Health Services" },
   { value: "Consultancy Services", label: "Consultancy Services" },
   { value: "Contractor (Hospital)", label: "Contractor (Hospital)" },

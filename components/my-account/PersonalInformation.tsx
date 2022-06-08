@@ -30,6 +30,9 @@ import { usePackages } from "services/package/hooks/usePackages";
 import { usePositions } from "services/position/hooks/usePositions";
 import { useOs } from "@mantine/hooks";
 import { trimString } from "utils/string";
+import { institutionTypes } from "../app-layout/AppLayout";
+import { countries } from "data/countries";
+import { provinces } from "data/provinces";
 
 const useStyles = createStyles((theme) => ({
   sectionTitle: {
@@ -83,6 +86,10 @@ const schema = z.object({
   mobile: z.string().nonempty(),
   email: z.preprocess(trimString, z.string().email()),
   position_id: z.string().optional(),
+  country: z.string().optional(),
+  province: z.string().optional(),
+  institution_name: z.string().optional(),
+  institution_type: z.string().optional(),
 });
 
 type Props = {
@@ -110,6 +117,10 @@ const PersonalInformation = ({ title }: Props) => {
       mobile: "",
       email: "",
       position_id: "",
+      country: "",
+      province: "",
+      institution_name: "",
+      institution_type: "",
     },
   });
   const { setValues } = form;
@@ -134,6 +145,10 @@ const PersonalInformation = ({ title }: Props) => {
         name: data?.name || "",
         mobile: data?.mobile || "",
         position_id: String(data?.position_id) || "",
+        province: data?.province || "",
+        country: data?.country || "",
+        institution_name: data?.institution_name || "",
+        institution_type: data?.institution_type || "",
       });
     }
     if (typeof data?.package_id === "string") {
@@ -228,6 +243,75 @@ const PersonalInformation = ({ title }: Props) => {
               data={listProfessions}
               {...form.getInputProps("position_id")}
             />
+          )}
+          <TextInput
+            label="Institution Name"
+            placeholder="Rumah Sakit A"
+            size="sm"
+            {...form.getInputProps("institution_name")}
+          />
+
+          {os === "ios" ? (
+            <NativeSelect
+              label="Institution Type"
+              placeholder="Choose"
+              size="sm"
+              data={institutionTypes}
+              {...form.getInputProps("institution_type")}
+            />
+          ) : (
+            <Select
+              label="Institution Type"
+              placeholder="Choose"
+              size="sm"
+              searchable
+              nothingFound="No options"
+              data={institutionTypes}
+              {...form.getInputProps("institution_type")}
+            />
+          )}
+          {os === "ios" ? (
+            <NativeSelect
+              label="Country"
+              placeholder="Choose"
+              size="sm"
+              data={countries}
+              {...form.getInputProps("country")}
+            />
+          ) : (
+            <Select
+              label="Country"
+              placeholder="Choose"
+              size="sm"
+              searchable
+              nothingFound="No options"
+              data={countries}
+              {...form.getInputProps("country")}
+            />
+          )}
+
+          {form.values.country === "Indonesia" ? (
+            os === "ios" ? (
+              <NativeSelect
+                label="Province"
+                placeholder="Choose"
+                size="sm"
+                data={provinces}
+                {...form.getInputProps("province")}
+              />
+            ) : (
+              <Select
+                label="Province"
+                placeholder="Choose"
+                size="sm"
+                searchable
+                nothingFound="No options"
+                data={provinces}
+                {...form.getInputProps("province")}
+              />
+            )
+          ) : (
+            <div />
           )}
           <InputWrapper label="Photo">
             <Group>
