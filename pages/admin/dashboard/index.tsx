@@ -107,7 +107,7 @@ const AdminDashboard: NextPage = () => {
               icon: "visitor",
             })) || []
           }
-          columns={6}
+          columns={4}
         />
       </Container>
     </AppShell>
