@@ -151,6 +151,7 @@ export default function RegisterWithPhonePage() {
               label={t("mobile")}
               placeholder="081234567890"
               autoCapitalize="false"
+              type="number"
               {...form.getInputProps("mobile")}
             />
             <Button type="submit" fullWidth mt="md" mb="md">
