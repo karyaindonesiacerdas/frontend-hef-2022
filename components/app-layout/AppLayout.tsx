@@ -259,7 +259,7 @@ export default function AppLayout() {
           !user?.mobile ||
           !user.name ||
           openUpdateProfile === "true") && <UpdateProfileModal />} */}
-      {isInitialized && user?.role === "visitor" && <UpdateProfileModal />}
+      {/* {isInitialized && user?.role === "visitor" && <UpdateProfileModal />} */}
       <Navbar
         height={"95vh"}
         className={classes.navbar}

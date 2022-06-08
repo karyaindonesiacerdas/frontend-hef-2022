@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
-import AppLayout from "@/components/app-layout/AppLayout";
+import AppLayout, {
+  UpdateProfileModal,
+} from "@/components/app-layout/AppLayout";
 import { useAuth } from "contexts/auth.context";
 import {
   Box,
@@ -153,7 +155,7 @@ const useStyles = createStyles((theme) => ({
 const MainHall = () => {
   const router = useRouter();
   const theme = useMantineTheme();
-  const { isAuthenticated, isInitialized } = useAuth();
+  const { isAuthenticated, isInitialized, user } = useAuth();
   const { classes } = useStyles();
   const [value, setValue] = useLocalStorage({
     key: "skip-enter",
@@ -178,6 +180,7 @@ const MainHall = () => {
 
   return (
     <div>
+      {isInitialized && user?.role === "visitor" && <UpdateProfileModal />}
       {largerThanXs && !isMobile ? (
         <div
           style={{ position: "absolute", top: 16, left: 10, zIndex: 50 }}

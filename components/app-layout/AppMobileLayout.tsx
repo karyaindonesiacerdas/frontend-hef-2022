@@ -21,7 +21,7 @@ import {
   Microphone2,
   User,
 } from "tabler-icons-react";
-import { UpdateProfileModal } from "./AppLayout";
+// import { UpdateProfileModal } from "./AppLayout";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -132,7 +132,7 @@ const AppMobileLayout = () => {
 
   return (
     <>
-      {isInitialized && user?.role === "visitor" && <UpdateProfileModal />}
+      {/* {isInitialized && user?.role === "visitor" && <UpdateProfileModal />} */}
       <UnstyledButton
         onClick={() => toggleOpened()}
         sx={{

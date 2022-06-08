@@ -18,7 +18,7 @@ import {
   Microphone2,
   User,
 } from "tabler-icons-react";
-import { UpdateProfileModal } from "./AppLayout";
+// import { UpdateProfileModal } from "./AppLayout";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -57,7 +57,7 @@ const BottomNav = () => {
 
   return (
     <>
-      {isInitialized && user?.role === "visitor" && <UpdateProfileModal />}
+      {/* {isInitialized && user?.role === "visitor" && <UpdateProfileModal />} */}
       <Box component="nav" className={classes.container}>
         <SimpleGrid cols={5} spacing={0}>
           <UnstyledButton
