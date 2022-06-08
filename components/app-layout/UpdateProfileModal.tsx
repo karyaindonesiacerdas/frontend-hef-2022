@@ -570,7 +570,7 @@ export const UpdateProfileModal = () => {
                 {router.locale === "en"
                   ? "Points will be used for the draw at the end of the event."
                   : "Point akan digunakan untuk undian diakhir acara."}{" "}
-                <Anchor size="xs" component={NextLink} href="/app/my-profile">
+                <Anchor size="xs" component={NextLink} href="/app/my-account">
                   Details
                 </Anchor>
               </Text>

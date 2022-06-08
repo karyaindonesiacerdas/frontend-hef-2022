@@ -86,7 +86,7 @@ const schema = z.object({
   mobile: z.string().nonempty(),
   email: z.preprocess(trimString, z.string().email()),
   position_id: z.string().optional(),
-  country: z.string().optional(),
+  // country: z.string().optional(),
   province: z.string().optional(),
   institution_name: z.string().optional(),
   institution_type: z.string().optional(),
@@ -117,7 +117,7 @@ const PersonalInformation = ({ title }: Props) => {
       mobile: "",
       email: "",
       position_id: "",
-      country: "",
+      // country: "",
       province: "",
       institution_name: "",
       institution_type: "",
@@ -146,7 +146,7 @@ const PersonalInformation = ({ title }: Props) => {
         mobile: data?.mobile || "",
         position_id: String(data?.position_id) || "",
         province: data?.province || "",
-        country: data?.country || "",
+        // country: data?.country || "",
         institution_name: data?.institution_name || "",
         institution_type: data?.institution_type || "",
       });
@@ -174,7 +174,7 @@ const PersonalInformation = ({ title }: Props) => {
       img_profile: imgProfile || undefined,
       position_id: Number(values.position_id),
       package_id: packageId?.map((p) => +p),
-      country: values.country,
+      // country: values.country,
       province: values.province,
       institution_name: values.institution_name,
       institution_type: values.institution_type,
@@ -274,7 +274,7 @@ const PersonalInformation = ({ title }: Props) => {
               {...form.getInputProps("institution_type")}
             />
           )}
-          {os === "ios" ? (
+          {/* {os === "ios" ? (
             <NativeSelect
               label="Country"
               placeholder="Choose"
@@ -292,31 +292,28 @@ const PersonalInformation = ({ title }: Props) => {
               data={countries}
               {...form.getInputProps("country")}
             />
-          )}
+          )} */}
 
-          {form.values.country === "Indonesia" ? (
-            os === "ios" ? (
-              <NativeSelect
-                label="Province"
-                placeholder="Choose"
-                size="sm"
-                data={provinces}
-                {...form.getInputProps("province")}
-              />
-            ) : (
-              <Select
-                label="Province"
-                placeholder="Choose"
-                size="sm"
-                searchable
-                nothingFound="No options"
-                data={provinces}
-                {...form.getInputProps("province")}
-              />
-            )
+          {os === "ios" ? (
+            <NativeSelect
+              label="Province"
+              placeholder="Choose"
+              size="sm"
+              data={provinces}
+              {...form.getInputProps("province")}
+            />
           ) : (
-            <div />
+            <Select
+              label="Province"
+              placeholder="Choose"
+              size="sm"
+              searchable
+              nothingFound="No options"
+              data={provinces}
+              {...form.getInputProps("province")}
+            />
           )}
+          <div />
           <InputWrapper label="Photo">
             <Group>
               <Avatar
