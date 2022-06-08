@@ -38,6 +38,8 @@ export type UserDetail = {
   company_logo?: string;
   company_video_url?: string | null;
   company_description?: string;
+  position_id?: number;
+  package_id?: number[];
 };
 
 export type AuthResponse = {

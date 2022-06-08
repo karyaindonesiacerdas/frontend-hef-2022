@@ -492,7 +492,13 @@ export const UpdateProfileModal = () => {
     }
   };
 
-  const showUpdateForm = !user?.email || !user.name || !user.mobile;
+  const showUpdateForm =
+    !user?.email ||
+    !user.name ||
+    !user.mobile ||
+    !user.country ||
+    !user.position_id ||
+    !user.package_id;
   console.log({ openModal });
   console.log({ user });
 
@@ -501,7 +507,7 @@ export const UpdateProfileModal = () => {
       <Modal
         centered
         closeOnClickOutside={false}
-        opened={openModal}
+        opened={openModal && showUpdateForm}
         onClose={() => {
           setOpenModal(false);
         }}
@@ -587,8 +593,8 @@ export const UpdateProfileModal = () => {
               />
             )}
 
-            {form.values.country === "Indonesia" &&
-              (os === "ios" ? (
+            {form.values.country === "Indonesia" ? (
+              os === "ios" ? (
                 <NativeSelect
                   label="Province"
                   placeholder="Choose"
@@ -606,7 +612,10 @@ export const UpdateProfileModal = () => {
                   data={provinces}
                   {...form.getInputProps("province")}
                 />
-              ))}
+              )
+            ) : (
+              <div />
+            )}
             <InputWrapper label="Photo">
               <Group>
                 <Avatar
