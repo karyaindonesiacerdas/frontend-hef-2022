@@ -54,6 +54,7 @@ import { usePackages } from "services/package/hooks/usePackages";
 import { usePositions } from "services/position/hooks/usePositions";
 import { z } from "zod";
 import { useTranslation } from "next-i18next";
+import { trimString } from "utils/string";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -369,7 +370,7 @@ const useStyles2 = createStyles((theme) => ({
 const schema = z.object({
   name: z.string().nonempty(),
   mobile: z.string().nonempty(),
-  email: z.string().email().nonempty(),
+  email: z.preprocess(trimString, z.string().email()),
   position_id: z.string().optional(),
 });
 
@@ -448,7 +449,7 @@ export const UpdateProfileModal = () => {
 
   const handleSubmit = async (values: typeof form.values) => {
     const data: UpdateProfilePayload = {
-      email: values.email,
+      email: values.email?.trim(),
       name: values.name,
       mobile: values.mobile,
       img_profile: imgProfile || undefined,

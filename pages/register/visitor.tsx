@@ -39,6 +39,7 @@ import { useNotifications } from "@mantine/notifications";
 import { usePackages } from "services/package/hooks/usePackages";
 import { usePositions } from "services/position/hooks/usePositions";
 import { useOs } from "@mantine/hooks";
+import { trimString } from "utils/string";
 
 const useStyles = createStyles((theme) => ({
   // wrapper: {
@@ -205,7 +206,8 @@ const useStyles = createStyles((theme) => ({
 
 const schema = z
   .object({
-    email: z.string().email().nonempty(),
+    // email: z.string().email().nonempty(),
+    email: z.preprocess(trimString, z.string().email()),
     // country: z.string().nonempty(),
     // institution_name: z.string().nonempty(),
     // institution_type: z.string().nonempty(),
@@ -303,6 +305,7 @@ export default function RegisterVisitor() {
     }
     const payload: RegisterInputs = {
       ...values,
+      email: values.email.trim(),
       package_id: packageId?.map((p) => +p),
       position_id: +values.position_id,
       role: "visitor",

@@ -27,6 +27,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useAuth } from "contexts/auth.context";
 import { NextLink } from "@mantine/next";
 import { GetStaticPropsContext } from "next";
+import { trimString } from "utils/string";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -47,7 +48,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const schema = z.object({
-  email: z.string().nonempty(),
+  email: z.preprocess(trimString, z.string().email()),
   password: z.string().nonempty(),
 });
 
@@ -76,7 +77,7 @@ export default function LoginPage() {
   const handleSubmit = async (values: typeof form.values) => {
     setVisible(true);
     try {
-      await login(values);
+      await login({ email: values.email?.trim(), password: values.password });
       setVisible(false);
       router.replace("/app");
     } catch (error: any) {

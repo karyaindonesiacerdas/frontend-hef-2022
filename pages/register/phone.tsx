@@ -20,6 +20,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useAuth } from "contexts/auth.context";
 import { NextLink } from "@mantine/next";
 import { GetStaticPropsContext } from "next";
+import { trimString } from "utils/string";
 // import { registerWithPhone } from "services/auth.service";
 
 const useStyles = createStyles((theme) => ({
@@ -41,7 +42,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const schema = z.object({
-  mobile: z.string().nonempty(),
+  mobile: z.preprocess(trimString, z.string()),
 });
 
 export default function RegisterWithPhonePage() {
@@ -76,10 +77,10 @@ export default function RegisterWithPhonePage() {
   });
 
   const handleSubmit = async (values: typeof form.values) => {
-    setVisible(true);
     try {
+      setVisible(true);
       // await registerWithPhone(values.mobile);
-      await registerWithPhone(values.mobile);
+      await registerWithPhone(values.mobile?.trim());
       setVisible(false);
       notifications.showNotification({
         title: "Success",
