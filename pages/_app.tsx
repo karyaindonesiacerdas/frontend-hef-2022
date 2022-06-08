@@ -13,6 +13,7 @@ import { appWithTranslation } from "next-i18next";
 
 import { AuthProvider } from "contexts/auth.context";
 import ChatButton from "@/components/chat/ChatButton";
+import { AppModalProvider } from "contexts/modal.context";
 
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);
@@ -63,7 +64,9 @@ function App(props: AppProps) {
           />
           <ModalsProvider>
             <NotificationsProvider position="top-right">
-              <Component {...pageProps} />
+              <AppModalProvider>
+                <Component {...pageProps} />
+              </AppModalProvider>
             </NotificationsProvider>
           </ModalsProvider>
         </MantineProvider>

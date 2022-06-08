@@ -55,6 +55,9 @@ import { usePositions } from "services/position/hooks/usePositions";
 import { z } from "zod";
 import { useTranslation } from "next-i18next";
 import { trimString } from "utils/string";
+import { useAppModal } from "contexts/modal.context";
+import { countries } from "data/countries";
+import { provinces } from "data/provinces";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -372,6 +375,8 @@ const schema = z.object({
   mobile: z.string().nonempty(),
   email: z.preprocess(trimString, z.string().email()),
   position_id: z.string().optional(),
+  country: z.string().optional(),
+  province: z.string().optional(),
 });
 
 export const UpdateProfileModal = () => {
@@ -386,16 +391,17 @@ export const UpdateProfileModal = () => {
   const [imgProfile, setImgProfile] = useState<any>();
   const [packageId, setPackageId] = useState<string[]>([]);
   const os = useOs();
-  const [openUpdateProfile, setOpenUpdateProfile] = useLocalStorage({
-    key: "open-update-profile",
-    defaultValue: "true",
-  });
-  const [firstLogin, setFirstLogin] = useLocalStorage({
-    key: "first-login",
-    defaultValue: "true",
-  });
+  // const [openUpdateProfile, setOpenUpdateProfile] = useLocalStorage({
+  //   key: "open-update-profile",
+  //   defaultValue: "true",
+  // });
+  // const [firstLogin, setFirstLogin] = useLocalStorage({
+  //   key: "first-login",
+  //   defaultValue: "true",
+  // });
   const { t } = useTranslation("auth");
   const [showSuccess, setShowSuccess] = useState(true);
+  const { openModal, setOpenModal } = useAppModal();
 
   const previewURL = imgProfile ? URL.createObjectURL(imgProfile) : "";
 
@@ -406,6 +412,8 @@ export const UpdateProfileModal = () => {
       mobile: "",
       email: "",
       position_id: "",
+      country: "",
+      province: "",
     },
   });
   const { setValues } = form;
@@ -430,6 +438,8 @@ export const UpdateProfileModal = () => {
         name: data?.name || "",
         mobile: data?.mobile || "",
         position_id: String(data?.position_id) || "",
+        province: data?.province || "",
+        country: data?.country || "",
       });
     }
     if (typeof data?.package_id === "string") {
@@ -471,7 +481,7 @@ export const UpdateProfileModal = () => {
         message: "Personal information changed successfully",
         color: "green",
       });
-      setOpenUpdateProfile("close");
+      setOpenModal(false);
     } catch (error: any) {
       setVisible(false);
       notifications.showNotification({
@@ -482,26 +492,27 @@ export const UpdateProfileModal = () => {
     }
   };
 
+  const showUpdateForm = !user?.email || !user.name || !user.mobile;
+  console.log({ openModal });
+  console.log({ user });
+
   return (
     <>
       <Modal
         centered
         closeOnClickOutside={false}
-        opened={openUpdateProfile === "true"}
+        opened={openModal}
         onClose={() => {
-          setOpenUpdateProfile("close");
-          setFirstLogin("false");
+          setOpenModal(false);
         }}
         size="lg"
         title={
-          <Title sx={(theme) => ({ fontSize: theme.fontSizes.lg })}>
-            Update Profile
-          </Title>
+          <Title sx={(theme) => ({ fontSize: theme.fontSizes.lg })}>Info</Title>
         }
       >
         {showSuccess && (
           <Alert
-            title={router.locale === "en" ? "Success!" : "Berhasil"}
+            title={router.locale === "en" ? "Welcome!" : "Selamat Datang!"}
             color="teal"
             withCloseButton
             onClose={() => setShowSuccess(false)}
@@ -511,6 +522,7 @@ export const UpdateProfileModal = () => {
               : "Link zoom akan dikirim ke nomor whatsapp anda"}
           </Alert>
         )}
+        {/* {showUpdateForm && ( */}
         <Box
           mt="md"
           component="form"
@@ -555,6 +567,46 @@ export const UpdateProfileModal = () => {
                 {...form.getInputProps("position_id")}
               />
             )}
+            {os === "ios" ? (
+              <NativeSelect
+                label="Country"
+                placeholder="Choose"
+                size="sm"
+                data={countries}
+                {...form.getInputProps("country")}
+              />
+            ) : (
+              <Select
+                label="Country"
+                placeholder="Choose"
+                size="sm"
+                searchable
+                nothingFound="No options"
+                data={countries}
+                {...form.getInputProps("country")}
+              />
+            )}
+
+            {form.values.country === "Indonesia" &&
+              (os === "ios" ? (
+                <NativeSelect
+                  label="Province"
+                  placeholder="Choose"
+                  size="sm"
+                  data={provinces}
+                  {...form.getInputProps("province")}
+                />
+              ) : (
+                <Select
+                  label="Province"
+                  placeholder="Choose"
+                  size="sm"
+                  searchable
+                  nothingFound="No options"
+                  data={provinces}
+                  {...form.getInputProps("province")}
+                />
+              ))}
             <InputWrapper label="Photo">
               <Group>
                 <Avatar
@@ -620,13 +672,13 @@ export const UpdateProfileModal = () => {
             fullWidth
             variant="subtle"
             onClick={() => {
-              setOpenUpdateProfile("close");
-              setFirstLogin("false");
+              setOpenModal(false);
             }}
           >
-            Skip for now
+            Skip
           </Button>
         </Box>
+        {/* )} */}
       </Modal>
     </>
   );
