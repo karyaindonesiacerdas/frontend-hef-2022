@@ -334,6 +334,10 @@ export type UpdateProfilePayload = {
   img_profile?: File;
   package_id?: number[];
   position_id?: number;
+  country?: string;
+  province?: string;
+  institution_name?: string;
+  institution_type?: string;
 };
 
 export const updateProfile = async (payload: UpdateProfilePayload) => {
@@ -346,6 +350,10 @@ export const updateProfile = async (payload: UpdateProfilePayload) => {
     img_profile,
     package_id,
     position_id,
+    country,
+    province,
+    institution_name,
+    institution_type,
   } = payload;
 
   const data = new FormData();
@@ -357,6 +365,10 @@ export const updateProfile = async (payload: UpdateProfilePayload) => {
   job_function && data.append("job_function", job_function);
   package_id && data.append("package_id", JSON.stringify(package_id));
   position_id && data.append("position_id", String(position_id));
+  country && data.append("country", country);
+  province && data.append("province", province);
+  institution_name && data.append("institution_name", institution_name);
+  institution_type && data.append("institution_type", institution_type);
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/update`, {
     method: "POST",

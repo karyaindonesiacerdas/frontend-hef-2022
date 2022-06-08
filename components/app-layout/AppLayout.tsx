@@ -370,6 +370,43 @@ const useStyles2 = createStyles((theme) => ({
   },
 }));
 
+const institutionTypes = [
+  { value: "Comunity Health Services", label: "Comunity Health Services" },
+  { value: "Consultancy Services", label: "Consultancy Services" },
+  { value: "Contractor (Hospital)", label: "Contractor (Hospital)" },
+  { value: "Dealers & Distributors", label: "Dealers & Distributors" },
+  {
+    value: "Educational Institute (Medical)",
+    label: "Educational Institute (Medical)",
+  },
+  {
+    value: "Educational Institute (Non-Medical)",
+    label: "Educational Institute (Non-Medical)",
+  },
+  {
+    value: "Government (Ministry of Health)",
+    label: "Government (Ministry of Health)",
+  },
+  { value: "Hospital (Private)", label: "Hospital (Private)" },
+  { value: "Hospital (Public)", label: "Hospital (Public)" },
+  {
+    value: "Import & Export (Healthcare)",
+    label: "Import & Export (Healthcare)",
+  },
+  {
+    value: "Information Technology/ Software (Healthcare)",
+    label: "Information Technology/ Software (Healthcare)",
+  },
+  { value: "Investor (Healthcare)", label: "Investor (Healthcare)" },
+  { value: "Laboratories (Medical)", label: "Laboratories (Medical)" },
+  { value: "Laboratory", label: "Laboratory" },
+  { value: "Manufacturer (Medical)", label: "Manufacturer (Medical)" },
+  { value: "Medical Practice", label: "Medical Practice" },
+  { value: "Medical Travel", label: "Medical Travel" },
+  { value: "Technology (Medical)", label: "Technology (Medical)" },
+  { value: "Other", label: "Other" },
+];
+
 const schema = z.object({
   name: z.string().nonempty(),
   mobile: z.string().nonempty(),
@@ -377,6 +414,8 @@ const schema = z.object({
   position_id: z.string().optional(),
   country: z.string().optional(),
   province: z.string().optional(),
+  institution_name: z.string().optional(),
+  institution_type: z.string().optional(),
 });
 
 export const UpdateProfileModal = () => {
@@ -414,6 +453,8 @@ export const UpdateProfileModal = () => {
       position_id: "",
       country: "",
       province: "",
+      institution_name: "",
+      institution_type: "",
     },
   });
   const { setValues } = form;
@@ -440,6 +481,8 @@ export const UpdateProfileModal = () => {
         position_id: String(data?.position_id) || "",
         province: data?.province || "",
         country: data?.country || "",
+        institution_name: data?.institution_name || "",
+        institution_type: data?.institution_type || "",
       });
     }
     if (typeof data?.package_id === "string") {
@@ -465,6 +508,10 @@ export const UpdateProfileModal = () => {
       img_profile: imgProfile || undefined,
       position_id: Number(values.position_id),
       package_id: packageId?.map((p) => +p),
+      country: values.country,
+      province: values.province,
+      institution_name: values.institution_name,
+      institution_type: values.institution_type,
     };
 
     setVisible(true);
@@ -498,7 +545,9 @@ export const UpdateProfileModal = () => {
     !user.mobile ||
     !user.country ||
     !user.position_id ||
-    !user.package_id;
+    !user.package_id ||
+    !user.institution_name ||
+    !user.institution_type;
   console.log({ openModal });
   console.log({ user });
 
@@ -571,6 +620,32 @@ export const UpdateProfileModal = () => {
                 label="Professions"
                 data={listProfessions}
                 {...form.getInputProps("position_id")}
+              />
+            )}
+            <TextInput
+              label="Institution Name"
+              placeholder="Rumah Sakit A"
+              size="sm"
+              {...form.getInputProps("institution_name")}
+            />
+
+            {os === "ios" ? (
+              <NativeSelect
+                label="Institution Type"
+                placeholder="Choose"
+                size="sm"
+                data={institutionTypes}
+                {...form.getInputProps("institution_type")}
+              />
+            ) : (
+              <Select
+                label="Institution Type"
+                placeholder="Choose"
+                size="sm"
+                searchable
+                nothingFound="No options"
+                data={institutionTypes}
+                {...form.getInputProps("institution_type")}
               />
             )}
             {os === "ios" ? (
