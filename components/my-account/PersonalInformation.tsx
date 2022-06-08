@@ -30,7 +30,7 @@ import { usePackages } from "services/package/hooks/usePackages";
 import { usePositions } from "services/position/hooks/usePositions";
 import { useOs } from "@mantine/hooks";
 import { trimString } from "utils/string";
-import { institutionTypes } from "../app-layout/AppLayout";
+import { institutionTypes } from "../app-layout/UpdateProfileModal";
 import { countries } from "data/countries";
 import { provinces } from "data/provinces";
 

@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
-import AppLayout, {
-  UpdateProfileModal,
-} from "@/components/app-layout/AppLayout";
+import AppLayout from "@/components/app-layout/AppLayout";
 import { useAuth } from "contexts/auth.context";
 import {
   Box,
@@ -30,6 +28,7 @@ import RunningText from "@/components/RunningText";
 import BottomNav from "@/components/app-layout/BottomNav";
 import Advertisement from "@/components/main-hall/Advertisement";
 import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
+import { UpdateProfileModal } from "@/components/app-layout/UpdateProfileModal";
 // import ChatButton from "@/components/chat/ChatButton";
 
 export const pulse = keyframes({
