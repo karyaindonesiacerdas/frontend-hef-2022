@@ -21,6 +21,7 @@ import {
   Microphone2,
   User,
 } from "tabler-icons-react";
+import { UpdateProfileModal } from "./AppLayout";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -83,6 +84,7 @@ const AppMobileLayout = () => {
   const { pathname } = useRouter();
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
+  const { user, isInitialized } = useAuth();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [value, setValue] = useLocalStorage({
     key: "skip-enter",
@@ -130,6 +132,7 @@ const AppMobileLayout = () => {
 
   return (
     <>
+      {isInitialized && user?.role === "visitor" && <UpdateProfileModal />}
       <UnstyledButton
         onClick={() => toggleOpened()}
         sx={{

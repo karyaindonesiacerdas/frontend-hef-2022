@@ -18,6 +18,7 @@ import {
   Microphone2,
   User,
 } from "tabler-icons-react";
+import { UpdateProfileModal } from "./AppLayout";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -40,7 +41,7 @@ const BottomNav = () => {
   const router = useRouter();
   const { classes } = useStyles();
   const pathname = router.pathname;
-  const { logout } = useAuth();
+  const { logout, isInitialized, user } = useAuth();
 
   const modals = useModals();
 
@@ -55,86 +56,89 @@ const BottomNav = () => {
     });
 
   return (
-    <Box component="nav" className={classes.container}>
-      <SimpleGrid cols={5} spacing={0}>
-        <UnstyledButton
-          pt="sm"
-          pb={6}
-          sx={(theme) => ({
-            backgroundColor: pathname.includes("/app/main-hall")
-              ? theme.colors[theme.primaryColor][7]
-              : theme.colors[theme.primaryColor][5],
-          })}
-          onClick={() => router.push("/app/main-hall")}
-        >
-          <Stack align="center" spacing={4}>
-            <Home2 color="white" />
-            <Text size="xs" weight={700} color="white">
-              Main Hall
-            </Text>
-          </Stack>
-        </UnstyledButton>
-        <UnstyledButton
-          pt="sm"
-          pb={6}
-          onClick={() => router.push("/app/seminar")}
-          sx={(theme) => ({
-            backgroundColor: pathname.includes("/app/seminar")
-              ? theme.colors[theme.primaryColor][7]
-              : theme.colors[theme.primaryColor][5],
-          })}
-        >
-          <Stack align="center" spacing={4}>
-            <Microphone2 color="white" />
-            <Text size="xs" weight={700} color="white">
-              Webinar
-            </Text>
-          </Stack>
-        </UnstyledButton>
-        <UnstyledButton
-          pt="sm"
-          pb={6}
-          onClick={() => router.push("/app/exhibitor")}
-          sx={(theme) => ({
-            backgroundColor: pathname.includes("/app/exhibitor")
-              ? theme.colors[theme.primaryColor][7]
-              : theme.colors[theme.primaryColor][5],
-          })}
-        >
-          <Stack align="center" spacing={4}>
-            <DeviceDesktopAnalytics color="white" />
-            <Text size="xs" weight={700} color="white">
-              Exhibitors
-            </Text>
-          </Stack>
-        </UnstyledButton>
-        <UnstyledButton
-          pt="sm"
-          pb={6}
-          onClick={() => router.push("/app/my-account")}
-          sx={(theme) => ({
-            backgroundColor: pathname.includes("/app/my-account")
-              ? theme.colors[theme.primaryColor][7]
-              : theme.colors[theme.primaryColor][5],
-          })}
-        >
-          <Stack align="center" spacing={4}>
-            <User color="white" />
-            <Text size="xs" weight={700} color="white">
-              Account
-            </Text>
-          </Stack>
-        </UnstyledButton>
-        <UnstyledButton pt="sm" pb={6} onClick={openLogoutModal}>
-          <Stack align="center" spacing={4}>
-            <DoorExit color="white" />
-            <Text size="xs" weight={700} color="white">
-              Logout
-            </Text>
-          </Stack>
-        </UnstyledButton>
-      </SimpleGrid>
-    </Box>
+    <>
+      {isInitialized && user?.role === "visitor" && <UpdateProfileModal />}
+      <Box component="nav" className={classes.container}>
+        <SimpleGrid cols={5} spacing={0}>
+          <UnstyledButton
+            pt="sm"
+            pb={6}
+            sx={(theme) => ({
+              backgroundColor: pathname.includes("/app/main-hall")
+                ? theme.colors[theme.primaryColor][7]
+                : theme.colors[theme.primaryColor][5],
+            })}
+            onClick={() => router.push("/app/main-hall")}
+          >
+            <Stack align="center" spacing={4}>
+              <Home2 color="white" />
+              <Text size="xs" weight={700} color="white">
+                Main Hall
+              </Text>
+            </Stack>
+          </UnstyledButton>
+          <UnstyledButton
+            pt="sm"
+            pb={6}
+            onClick={() => router.push("/app/seminar")}
+            sx={(theme) => ({
+              backgroundColor: pathname.includes("/app/seminar")
+                ? theme.colors[theme.primaryColor][7]
+                : theme.colors[theme.primaryColor][5],
+            })}
+          >
+            <Stack align="center" spacing={4}>
+              <Microphone2 color="white" />
+              <Text size="xs" weight={700} color="white">
+                Webinar
+              </Text>
+            </Stack>
+          </UnstyledButton>
+          <UnstyledButton
+            pt="sm"
+            pb={6}
+            onClick={() => router.push("/app/exhibitor")}
+            sx={(theme) => ({
+              backgroundColor: pathname.includes("/app/exhibitor")
+                ? theme.colors[theme.primaryColor][7]
+                : theme.colors[theme.primaryColor][5],
+            })}
+          >
+            <Stack align="center" spacing={4}>
+              <DeviceDesktopAnalytics color="white" />
+              <Text size="xs" weight={700} color="white">
+                Exhibitors
+              </Text>
+            </Stack>
+          </UnstyledButton>
+          <UnstyledButton
+            pt="sm"
+            pb={6}
+            onClick={() => router.push("/app/my-account")}
+            sx={(theme) => ({
+              backgroundColor: pathname.includes("/app/my-account")
+                ? theme.colors[theme.primaryColor][7]
+                : theme.colors[theme.primaryColor][5],
+            })}
+          >
+            <Stack align="center" spacing={4}>
+              <User color="white" />
+              <Text size="xs" weight={700} color="white">
+                Account
+              </Text>
+            </Stack>
+          </UnstyledButton>
+          <UnstyledButton pt="sm" pb={6} onClick={openLogoutModal}>
+            <Stack align="center" spacing={4}>
+              <DoorExit color="white" />
+              <Text size="xs" weight={700} color="white">
+                Logout
+              </Text>
+            </Stack>
+          </UnstyledButton>
+        </SimpleGrid>
+      </Box>
+    </>
   );
 };
 

@@ -374,7 +374,7 @@ const schema = z.object({
   position_id: z.string().optional(),
 });
 
-const UpdateProfileModal = () => {
+export const UpdateProfileModal = () => {
   const { classes } = useStyles2();
   const { data } = useMe();
   const { user } = useAuth();

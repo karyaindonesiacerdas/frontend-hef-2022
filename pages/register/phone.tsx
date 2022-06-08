@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   TextInput,
-  PasswordInput,
-  Checkbox,
-  Anchor,
   Paper,
   Title,
   Container,
-  Group,
   Button,
-  SimpleGrid,
-  Divider,
   LoadingOverlay,
   createStyles,
   Image,
