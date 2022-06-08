@@ -327,22 +327,34 @@ export const changePassword = async (newPassword: string) => {
 export type UpdateProfilePayload = {
   email: string;
   name: string;
-  job_function: string;
+  job_function?: string;
   mobile: string;
   img_profile?: File;
+  package_id?: number[];
+  position_id?: number;
 };
 
 export const updateProfile = async (payload: UpdateProfilePayload) => {
   const cookies = Cookies.get("accessToken");
-  const { email, job_function, mobile, name, img_profile } = payload;
+  const {
+    email,
+    job_function,
+    mobile,
+    name,
+    img_profile,
+    package_id,
+    position_id,
+  } = payload;
 
   const data = new FormData();
   img_profile && data.append("img_profile", img_profile);
   data.append("_method", "PUT");
   data.append("email", email);
   data.append("name", name);
-  data.append("job_function", job_function);
   data.append("mobile", mobile);
+  job_function && data.append("job_function", job_function);
+  package_id && data.append("package_id", JSON.stringify(package_id));
+  position_id && data.append("position_id", String(position_id));
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/update`, {
     method: "POST",

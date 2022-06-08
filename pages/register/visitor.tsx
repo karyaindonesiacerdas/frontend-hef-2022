@@ -429,6 +429,7 @@ export default function RegisterVisitor() {
                   placeholder="081234567890"
                   size="sm"
                   required
+                  type="number"
                   {...form.getInputProps("mobile")}
                 />
                 <TextInput

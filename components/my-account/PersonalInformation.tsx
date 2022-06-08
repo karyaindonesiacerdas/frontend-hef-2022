@@ -4,10 +4,13 @@ import {
   Avatar,
   Box,
   Button,
+  Checkbox,
+  CheckboxGroup,
   createStyles,
   Group,
   InputWrapper,
   LoadingOverlay,
+  NativeSelect,
   Select,
   SimpleGrid,
   TextInput,
@@ -23,6 +26,9 @@ import { useAuth } from "contexts/auth.context";
 import { useQueryClient } from "react-query";
 import { getFileUrl } from "utils/file-storage";
 import { Trash } from "tabler-icons-react";
+import { usePackages } from "services/package/hooks/usePackages";
+import { usePositions } from "services/position/hooks/usePositions";
+import { useOs } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   sectionTitle: {
@@ -75,10 +81,14 @@ const schema = z.object({
   name: z.string().nonempty(),
   mobile: z.string().nonempty(),
   email: z.string().email().nonempty(),
-  job_function: z.string().nonempty(),
+  position_id: z.string().optional(),
 });
 
-const PersonalInformation = () => {
+type Props = {
+  title?: string;
+};
+
+const PersonalInformation = ({ title }: Props) => {
   const { classes } = useStyles();
   const { data } = useMe();
   const { user } = useAuth();
@@ -87,6 +97,8 @@ const PersonalInformation = () => {
   const notifications = useNotifications();
   const queryClient = useQueryClient();
   const [imgProfile, setImgProfile] = useState<any>();
+  const [packageId, setPackageId] = useState<string[]>([]);
+  const os = useOs();
 
   const previewURL = imgProfile ? URL.createObjectURL(imgProfile) : "";
 
@@ -96,20 +108,38 @@ const PersonalInformation = () => {
       name: "",
       mobile: "",
       email: "",
-      job_function: "",
+      position_id: "",
     },
   });
-
   const { setValues } = form;
+
+  const { data: packages } = usePackages();
+  const listTopics =
+    packages?.map((p) => ({
+      label: `${p.order}. ${p.name}`,
+      value: String(p.id),
+    })) || [];
+  const { data: positions } = usePositions();
+  const listProfessions =
+    positions?.map((p) => ({
+      label: p.name,
+      value: String(p.id),
+    })) || [];
 
   useEffect(() => {
     if (data) {
       setValues({
         email: data?.email || "",
         name: data?.name || "",
-        job_function: data?.job_function || "",
         mobile: data?.mobile || "",
+        position_id: String(data?.position_id) || "",
       });
+    }
+    if (typeof data?.package_id === "string") {
+      setPackageId(JSON.parse(data?.package_id)?.map((p: any) => String(p)));
+    } else {
+      data?.package_id &&
+        setPackageId(data?.package_id?.map((p: any) => String(p)));
     }
   }, [data, setValues]);
 
@@ -124,9 +154,10 @@ const PersonalInformation = () => {
     const data: UpdateProfilePayload = {
       email: values.email,
       name: values.name,
-      job_function: values.job_function,
       mobile: values.mobile,
       img_profile: imgProfile || undefined,
+      position_id: Number(values.position_id),
+      package_id: packageId?.map((p) => +p),
     };
 
     setVisible(true);
@@ -157,7 +188,7 @@ const PersonalInformation = () => {
     <>
       <LoadingOverlay visible={visible} />
       <Title className={classes.sectionTitle} order={2}>
-        Personal Information
+        {title || "Personal Information"}
       </Title>
       <Box mt="md" component="form" onSubmit={form.onSubmit(handleSubmit)}>
         <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
@@ -180,16 +211,24 @@ const PersonalInformation = () => {
             required
             {...form.getInputProps("name")}
           />
-          <Select
-            label="Job Function"
-            placeholder="Choose"
-            size="sm"
-            required
-            searchable
-            nothingFound="No options"
-            data={jobs}
-            {...form.getInputProps("job_function")}
-          />
+          {os === "ios" ? (
+            <NativeSelect
+              placeholder="Choose"
+              size="sm"
+              required
+              label="Professions"
+              data={listProfessions}
+              {...form.getInputProps("position_id")}
+            />
+          ) : (
+            <Select
+              placeholder="Choose"
+              size="sm"
+              label="Professions"
+              data={listProfessions}
+              {...form.getInputProps("position_id")}
+            />
+          )}
           <InputWrapper label="Photo">
             <Group>
               <Avatar
@@ -228,6 +267,24 @@ const PersonalInformation = () => {
             </Group>
           </InputWrapper>
         </SimpleGrid>
+        <CheckboxGroup
+          mt="md"
+          label="Select Topics"
+          mb="md"
+          value={packageId}
+          onChange={setPackageId}
+          orientation="vertical"
+          spacing="md"
+        >
+          {listTopics?.map((topic, i) => (
+            <Checkbox
+              key={i}
+              value={topic.value}
+              label={topic.label}
+              checked={packageId?.includes(topic.value)}
+            />
+          ))}
+        </CheckboxGroup>
         <Group mt="xs" position="right">
           <Button type="submit">Save</Button>
         </Group>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Navbar,
   Center,
@@ -11,6 +11,18 @@ import {
   Avatar,
   Text,
   Modal,
+  SimpleGrid,
+  TextInput,
+  Select,
+  InputWrapper,
+  CheckboxGroup,
+  Checkbox,
+  NativeSelect,
+  Button,
+  ActionIcon,
+  Divider,
+  Title,
+  LoadingOverlay,
 } from "@mantine/core";
 import {
   Icon as TablerIcon,
@@ -25,6 +37,7 @@ import {
   Dashboard,
   At,
   Phone,
+  Trash,
 } from "tabler-icons-react";
 import { NextLink } from "@mantine/next";
 import { useRouter } from "next/router";
@@ -32,9 +45,16 @@ import { useAuth } from "contexts/auth.context";
 import { useMe } from "services/user/hooks";
 import { getFileUrl } from "utils/file-storage";
 import MyBooth from "icons/MyBooth";
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useOs } from "@mantine/hooks";
 import { ContactIconsList } from "../home/ContactIcons";
 import { useExhibitor } from "services/exhibitor/hooks";
+import { useNotifications } from "@mantine/notifications";
+import { useQueryClient } from "react-query";
+import { useForm, zodResolver } from "@mantine/form";
+import { updateProfile, UpdateProfilePayload } from "services/auth.service";
+import { usePackages } from "services/package/hooks/usePackages";
+import { usePositions } from "services/position/hooks/usePositions";
+import { z } from "zod";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -167,7 +187,7 @@ export default function AppLayout() {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState(2);
   const { pathname } = useRouter();
-  const { logout, user } = useAuth();
+  const { logout, user, isInitialized } = useAuth();
   const { data: me } = useMe();
   const [openInfo, setOpenInfo] = useLocalStorage({
     key: "open",
@@ -177,6 +197,14 @@ export default function AppLayout() {
   const [value, setValue] = useLocalStorage({
     key: "skip-enter",
     defaultValue: false,
+  });
+  const [openUpdateProfile, setOpenUpdateProfile] = useLocalStorage({
+    key: "open-update-profile",
+    defaultValue: "true",
+  });
+  const [firstLogin, setFirstLogin] = useLocalStorage({
+    key: "first-login",
+    defaultValue: "true",
   });
 
   const dataLinks = mockdata.map((link) => {
@@ -226,6 +254,13 @@ export default function AppLayout() {
           <ContactIconsList data={CONTACT} />
         </Modal>
       )}
+      {/* {isInitialized &&
+        user?.role === "visitor" &&
+        (!user?.email ||
+          !user?.mobile ||
+          !user.name ||
+          openUpdateProfile === "true") && <UpdateProfileModal />} */}
+      {isInitialized && user?.role === "visitor" && <UpdateProfileModal />}
       <Navbar
         height={"95vh"}
         className={classes.navbar}
@@ -297,3 +332,286 @@ export default function AppLayout() {
     </>
   );
 }
+
+//Update Profile Modal
+const useStyles2 = createStyles((theme) => ({
+  sectionTitle: {
+    fontSize: theme.fontSizes.lg,
+    fontWeight: 500,
+  },
+  inputFileWrapper: {},
+  inputFile: {
+    opacity: 0,
+    width: "0.1px",
+    height: "0.1px",
+    position: "absolute",
+  },
+  inputLabel: {
+    position: "relative",
+    borderRadius: theme.radius.sm,
+    background: theme.colors["gray"][1],
+    color: theme.colors["gray"][7],
+    border: `1px solid ${theme.colors.gray[3]}`,
+    fontWeight: 600,
+    cursor: "pointer",
+    transition: "transform .2s ease-out",
+    fontSize: theme.fontSizes.sm,
+    paddingTop: theme.spacing.xs * 0.8,
+    paddingBottom: theme.spacing.xs * 0.8,
+    paddingLeft: theme.spacing.xs,
+    paddingRight: theme.spacing.xs,
+
+    "&:hover": {
+      background: theme.colors["gray"][2],
+    },
+  },
+}));
+
+const schema = z.object({
+  name: z.string().nonempty(),
+  mobile: z.string().nonempty(),
+  email: z.string().email().nonempty(),
+  position_id: z.string().optional(),
+});
+
+const UpdateProfileModal = () => {
+  const { classes } = useStyles2();
+  const { data } = useMe();
+  const { user } = useAuth();
+  const [visible, setVisible] = useState(false);
+  const imgRef = useRef<HTMLInputElement>(null);
+  const notifications = useNotifications();
+  const queryClient = useQueryClient();
+  const [imgProfile, setImgProfile] = useState<any>();
+  const [packageId, setPackageId] = useState<string[]>([]);
+  const os = useOs();
+  const [openUpdateProfile, setOpenUpdateProfile] = useLocalStorage({
+    key: "open-update-profile",
+    defaultValue: "true",
+  });
+  const [firstLogin, setFirstLogin] = useLocalStorage({
+    key: "first-login",
+    defaultValue: "true",
+  });
+
+  const previewURL = imgProfile ? URL.createObjectURL(imgProfile) : "";
+
+  const form = useForm({
+    schema: zodResolver(schema),
+    initialValues: {
+      name: "",
+      mobile: "",
+      email: "",
+      position_id: "",
+    },
+  });
+  const { setValues } = form;
+
+  const { data: packages } = usePackages();
+  const listTopics =
+    packages?.map((p) => ({
+      label: `${p.order}. ${p.name}`,
+      value: String(p.id),
+    })) || [];
+  const { data: positions } = usePositions();
+  const listProfessions =
+    positions?.map((p) => ({
+      label: p.name,
+      value: String(p.id),
+    })) || [];
+
+  useEffect(() => {
+    if (data) {
+      setValues({
+        email: data?.email || "",
+        name: data?.name || "",
+        mobile: data?.mobile || "",
+        position_id: String(data?.position_id) || "",
+      });
+    }
+    if (typeof data?.package_id === "string") {
+      setPackageId(JSON.parse(data?.package_id)?.map((p: any) => String(p)));
+    } else {
+      data?.package_id &&
+        setPackageId(data?.package_id?.map((p: any) => String(p)));
+    }
+  }, [data, setValues]);
+
+  const reset = () => {
+    if (imgRef.current?.value) {
+      imgRef.current.value = "";
+    }
+    setImgProfile(undefined);
+  };
+
+  const handleSubmit = async (values: typeof form.values) => {
+    const data: UpdateProfilePayload = {
+      email: values.email,
+      name: values.name,
+      mobile: values.mobile,
+      img_profile: imgProfile || undefined,
+      position_id: Number(values.position_id),
+      package_id: packageId?.map((p) => +p),
+    };
+
+    setVisible(true);
+    try {
+      await updateProfile(data);
+      if (user?.role === "exhibitor") {
+        await queryClient.invalidateQueries(["exhibitor", user?.id]);
+      }
+      await queryClient.invalidateQueries("me");
+      setVisible(false);
+      setImgProfile(undefined);
+      notifications.showNotification({
+        title: "Success",
+        message: "Personal information changed successfully",
+        color: "green",
+      });
+      setOpenUpdateProfile("close");
+    } catch (error: any) {
+      setVisible(false);
+      notifications.showNotification({
+        title: "Error",
+        message: error?.message || "Error change personal information",
+        color: "red",
+      });
+    }
+  };
+
+  return (
+    <Modal
+      centered
+      closeOnClickOutside={false}
+      opened={openUpdateProfile === "true"}
+      onClose={() => {
+        setOpenUpdateProfile("close");
+        setFirstLogin("false");
+      }}
+      size="lg"
+      title={
+        <Title sx={(theme) => ({ fontSize: theme.fontSizes.lg })}>
+          Update Profile
+        </Title>
+      }
+    >
+      <Box
+        mt="md"
+        component="form"
+        onSubmit={form.onSubmit(handleSubmit)}
+        style={{ position: "relative" }}
+      >
+        <LoadingOverlay visible={visible} />
+        <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
+          <TextInput
+            placeholder="Email"
+            label="Email"
+            required
+            readOnly
+            {...form.getInputProps("email")}
+          />
+          <TextInput
+            placeholder="Mobile (Whatsapp)"
+            label="Mobile (Whatsapp)"
+            required
+            {...form.getInputProps("mobile")}
+          />
+          <TextInput
+            placeholder="Full Name"
+            label="Full Name (used in the certificate)"
+            required
+            {...form.getInputProps("name")}
+          />
+          {os === "ios" ? (
+            <NativeSelect
+              placeholder="Choose"
+              size="sm"
+              required
+              label="Professions"
+              data={listProfessions}
+              {...form.getInputProps("position_id")}
+            />
+          ) : (
+            <Select
+              placeholder="Choose"
+              size="sm"
+              label="Professions"
+              data={listProfessions}
+              {...form.getInputProps("position_id")}
+            />
+          )}
+          <InputWrapper label="Photo">
+            <Group>
+              <Avatar
+                src={
+                  previewURL
+                    ? previewURL
+                    : data?.img_profile
+                    ? getFileUrl(data.img_profile, "profiles")
+                    : undefined
+                }
+                size="lg"
+                radius="xl"
+              />
+              {previewURL ? (
+                <ActionIcon onClick={reset}>
+                  <Trash color="red" />
+                </ActionIcon>
+              ) : null}
+              <Box mt={4} className={classes.inputFileWrapper}>
+                <label htmlFor="file" className={classes.inputLabel}>
+                  Select File
+                </label>
+                <input
+                  id="file"
+                  type="file"
+                  accept="image/png, image/gif, image/jpeg"
+                  className={classes.inputFile}
+                  ref={imgRef}
+                  onChange={(e) => {
+                    if (e.target.files) {
+                      setImgProfile(e.target.files[0]);
+                    }
+                  }}
+                />
+              </Box>
+            </Group>
+          </InputWrapper>
+        </SimpleGrid>
+        <CheckboxGroup
+          mt="md"
+          label="Select Topics"
+          mb="md"
+          value={packageId}
+          onChange={setPackageId}
+          orientation="vertical"
+          spacing="md"
+        >
+          {listTopics?.map((topic, i) => (
+            <Checkbox
+              key={i}
+              value={topic.value}
+              label={topic.label}
+              checked={packageId?.includes(topic.value)}
+            />
+          ))}
+        </CheckboxGroup>
+        <Group mt="xs" position="right"></Group>
+        <Button mt="lg" type="submit" fullWidth>
+          Save
+        </Button>
+        <Divider my="md" label="Or" labelPosition="center" />
+        <Button
+          fullWidth
+          variant="subtle"
+          onClick={() => {
+            setOpenUpdateProfile("close");
+            setFirstLogin("false");
+          }}
+        >
+          Skip for now
+        </Button>
+      </Box>
+    </Modal>
+  );
+};
