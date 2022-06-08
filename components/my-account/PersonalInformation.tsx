@@ -174,6 +174,10 @@ const PersonalInformation = ({ title }: Props) => {
       img_profile: imgProfile || undefined,
       position_id: Number(values.position_id),
       package_id: packageId?.map((p) => +p),
+      country: values.country,
+      province: values.province,
+      institution_name: values.institution_name,
+      institution_type: values.institution_type,
     };
 
     setVisible(true);
