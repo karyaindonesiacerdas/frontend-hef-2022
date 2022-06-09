@@ -225,6 +225,8 @@ export const UpdateProfileModal = () => {
     packages?.map((p) => ({
       label: `${p.order}. ${p.name}`,
       value: String(p.id),
+      description: p.description,
+      link: p.link,
     })) || [];
   const { data: positions } = usePositions();
   const listProfessions =
@@ -527,8 +529,36 @@ export const UpdateProfileModal = () => {
                   <Checkbox
                     key={i}
                     value={topic.value}
-                    label={topic.label}
                     checked={packageId?.includes(topic.value)}
+                    label={
+                      <div>
+                        <Text
+                          sx={(theme) => ({
+                            [theme.fn.largerThan("sm")]: {
+                              fontSize: theme.fontSizes.md,
+                            },
+                            fontSize: theme.fontSizes.sm,
+                          })}
+                        >
+                          {topic.label}
+                        </Text>
+                        <Text size="xs" color="dimmed">
+                          {topic.description}{" "}
+                          {topic.link ? (
+                            <Anchor
+                              size="xs"
+                              href={topic.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              (Brosur)
+                            </Anchor>
+                          ) : (
+                            ""
+                          )}
+                        </Text>
+                      </div>
+                    }
                   />
                 ))}
               </CheckboxGroup>

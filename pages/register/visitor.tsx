@@ -18,10 +18,10 @@ import {
   Image,
   LoadingOverlay,
   useMantineTheme,
-  MultiSelect,
   CheckboxGroup,
   Checkbox,
   NativeSelect,
+  Anchor,
 } from "@mantine/core";
 import { CircleCheck } from "tabler-icons-react";
 import { useRouter } from "next/router";
@@ -284,6 +284,8 @@ export default function RegisterVisitor() {
     packages?.map((p) => ({
       label: `${p.order}. ${p.name}`,
       value: String(p.id),
+      description: p.description,
+      link: p.link,
     })) || [];
   const { data: positions } = usePositions();
   const listProfessions =
@@ -487,7 +489,39 @@ export default function RegisterVisitor() {
                 error={errorTopic}
               >
                 {listTopics?.map((topic, i) => (
-                  <Checkbox key={i} value={topic.value} label={topic.label} />
+                  <Checkbox
+                    key={i}
+                    value={topic.value}
+                    label={
+                      <div>
+                        <Text
+                          sx={{
+                            [theme.fn.largerThan("sm")]: {
+                              fontSize: theme.fontSizes.md,
+                            },
+                            fontSize: theme.fontSizes.sm,
+                          }}
+                        >
+                          {topic.label}
+                        </Text>
+                        <Text size="xs" color="dimmed">
+                          {topic.description}{" "}
+                          {topic.link ? (
+                            <Anchor
+                              size="xs"
+                              href={topic.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              (Brosur)
+                            </Anchor>
+                          ) : (
+                            ""
+                          )}
+                        </Text>
+                      </div>
+                    }
+                  />
                 ))}
               </CheckboxGroup>
 
