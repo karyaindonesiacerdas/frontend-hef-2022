@@ -2,13 +2,21 @@ import { useEffect } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { AppShell, Container, Stack, Title } from "@mantine/core";
+import {
+  AppShell,
+  Box,
+  Container,
+  SimpleGrid,
+  Stack,
+  Title,
+} from "@mantine/core";
 
 import AdminSidebar from "components/admin-layout/AdminSidebar";
 import { useAuth } from "contexts/auth.context";
 import { StatsGrid } from "components/admin/analytics/StatsGrid";
 import { useGraphAccumulative, useGraphTotal } from "services/tracker/hooks";
 import { usePageCounters } from "services/counter/hook";
+import { useTotalVisitorByRegistrationMethod } from "services/admin/useTotalVisitorByRegistrationMethod";
 
 const StatsGraph = dynamic(
   () => import("components/admin/analytics/StatsGraph"),
@@ -41,6 +49,19 @@ const AdminDashboard: NextPage = () => {
 
   const { data: pageCounters } = usePageCounters();
   console.log({ pageCounters });
+  const { data: totalVisitorByRegistration } =
+    useTotalVisitorByRegistrationMethod();
+  console.log({ totalVisitorByRegistration });
+  const registeredVisitors = [
+    {
+      label: "Full Form",
+      value: totalVisitorByRegistration?.total_full_registration,
+    },
+    {
+      label: "By Phone",
+      value: totalVisitorByRegistration?.total_phone_registration,
+    },
+  ];
 
   if (!isInitialized || !isAuthenticated) {
     return null;
@@ -92,23 +113,47 @@ const AdminDashboard: NextPage = () => {
           ]}
         />
         <StatsGraph />
-        <Title
-          px={3}
-          mb={-8}
-          sx={(theme) => ({ fontSize: theme.fontSizes.xl })}
-        >
-          Page Visit Counter
-        </Title>
-        <StatsGrid
-          data={
-            pageCounters?.map((p) => ({
-              title: p.route,
-              value: String(p.totalVisit),
-              icon: "visitor",
-            })) || []
-          }
-          columns={4}
-        />
+        <SimpleGrid cols={2} breakpoints={[{ maxWidth: "lg", cols: 1 }]}>
+          <Box>
+            <Title
+              px={3}
+              mb={-8}
+              sx={(theme) => ({ fontSize: theme.fontSizes.xl })}
+            >
+              Total Registered Visitor
+            </Title>
+            <StatsGrid
+              data={
+                registeredVisitors?.map((r) => ({
+                  title: r.label,
+
+                  value: String(r.value) || "0",
+                  icon: "visitor",
+                })) || []
+              }
+              columns={2}
+            />
+          </Box>
+          <Box>
+            <Title
+              px={3}
+              mb={-8}
+              sx={(theme) => ({ fontSize: theme.fontSizes.xl })}
+            >
+              Page Visit Counter
+            </Title>
+            <StatsGrid
+              data={
+                pageCounters?.map((p) => ({
+                  title: p.route,
+                  value: String(p.totalVisit),
+                  icon: "visitor",
+                })) || []
+              }
+              columns={2}
+            />
+          </Box>
+        </SimpleGrid>
       </Container>
     </AppShell>
   );
