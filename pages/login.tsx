@@ -48,7 +48,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const schema = z.object({
-  email: z.preprocess(trimString, z.string().email()),
+  email: z.preprocess(trimString, z.string()),
   password: z.string().nonempty(),
 });
 
