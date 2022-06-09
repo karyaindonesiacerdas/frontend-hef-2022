@@ -22,10 +22,11 @@ import {
   Text,
   Stack,
   Anchor,
+  PasswordInput,
 } from "@mantine/core";
 import { Trash, Trophy } from "tabler-icons-react";
 import { useRouter } from "next/router";
-import { useOs } from "@mantine/hooks";
+import { useInputState, useLocalStorage, useOs } from "@mantine/hooks";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { useForm, zodResolver } from "@mantine/form";
@@ -35,7 +36,11 @@ import ReactCanvasConfetti from "react-canvas-confetti";
 import { useAuth } from "contexts/auth.context";
 import { useMe } from "services/user/hooks";
 import { getFileUrl } from "utils/file-storage";
-import { updateProfile, UpdateProfilePayload } from "services/auth.service";
+import {
+  changePassword,
+  updateProfile,
+  UpdateProfilePayload,
+} from "services/auth.service";
 import { usePackages } from "services/package/hooks/usePackages";
 import { usePositions } from "services/position/hooks/usePositions";
 import { trimString } from "utils/string";
@@ -138,19 +143,26 @@ export const UpdateProfileModal = () => {
   const router = useRouter();
   const { classes } = useStyles();
   const { data } = useMe();
-  const { user } = useAuth();
+  const { user, fromRegisterPhone } = useAuth();
   const [visible, setVisible] = useState(false);
   const imgRef = useRef<HTMLInputElement>(null);
   const notifications = useNotifications();
   const queryClient = useQueryClient();
   const [imgProfile, setImgProfile] = useState<any>();
   const [packageId, setPackageId] = useState<string[]>([]);
-  const [step, setStep] = useState(1);
+  const [isNewPassword, setIsNewPassword] = useLocalStorage({
+    key: "new-password",
+    defaultValue: "0",
+  });
+
+  const [step, setStep] = useState(
+    router.query?.from === "register" && isNewPassword !== String(user?.id)
+      ? 0
+      : 1
+  );
   const os = useOs();
-  // const [openUpdateProfile, setOpenUpdateProfile] = useLocalStorage({
-  //   key: "open-update-profile",
-  //   defaultValue: "true",
-  // });
+  console.log({ query: router.query });
+
   // const [firstLogin, setFirstLogin] = useLocalStorage({
   //   key: "first-login",
   //   defaultValue: "true",
@@ -350,10 +362,48 @@ export const UpdateProfileModal = () => {
         size="lg"
         title={
           <Title sx={(theme) => ({ fontSize: theme.fontSizes.lg })}>
-            {step === 1 ? "Update Profile" : "Success"}
+            {step === 0
+              ? "Change Password"
+              : step === 1
+              ? "Update Profile"
+              : "Success"}
           </Title>
         }
       >
+        {step === 0 && (
+          <div>
+            {showSuccess && (
+              <Alert
+                title={router.locale === "en" ? "Welcome!" : "Selamat Datang!"}
+                color="teal"
+                withCloseButton
+                onClose={() => setShowSuccess(false)}
+              >
+                {router.locale === "en"
+                  ? "Zoom link will be sent to your whatsapp number. Your current password is '12345'. Pleas change your password"
+                  : "Link zoom akan dikirim ke nomor whatsapp anda. Password anda adalah '12345'. Mohon ubah password anda"}
+              </Alert>
+            )}
+            <Box
+              mt="md"
+              component="form"
+              onSubmit={form.onSubmit(handleSubmit)}
+              style={{ position: "relative" }}
+            >
+              <ChangePassword onSuccess={() => setStep(1)} />
+              <Divider my="md" label="Or" labelPosition="center" />
+              <Button
+                fullWidth
+                variant="subtle"
+                onClick={() => {
+                  setStep(1);
+                }}
+              >
+                Skip
+              </Button>
+            </Box>
+          </div>
+        )}
         {step === 1 && (
           <div>
             {showSuccess && (
@@ -364,8 +414,8 @@ export const UpdateProfileModal = () => {
                 onClose={() => setShowSuccess(false)}
               >
                 {router.locale === "en"
-                  ? "Zoom link will be sent to your whatsapp number"
-                  : "Link zoom akan dikirim ke nomor whatsapp anda"}
+                  ? "Complete your identity data and get points"
+                  : "Lengkapi data identitas anda dan dapatkan point"}
               </Alert>
             )}
             <Box
@@ -616,6 +666,62 @@ export const UpdateProfileModal = () => {
           </Center>
         )}
       </Modal>
+    </>
+  );
+};
+
+const ChangePassword = ({ onSuccess }: { onSuccess: () => void }) => {
+  const [password, setPassword] = useInputState("");
+  const [changing, setChanging] = useState(false);
+  const notifications = useNotifications();
+  const { user } = useAuth();
+  const [isNewPassword, setIsNewPassword] = useLocalStorage({
+    key: "new-password",
+    defaultValue: "0",
+  });
+
+  const handleChangePassword = async () => {
+    try {
+      setChanging(true);
+      await changePassword(password);
+      setChanging(false);
+      setIsNewPassword(String(user?.id));
+      notifications.showNotification({
+        title: "Success",
+        message: "Password changed successfully",
+        color: "green",
+      });
+      onSuccess();
+    } catch (error: any) {
+      setChanging(false);
+      notifications.showNotification({
+        title: "Success",
+        message: "Password changed successfully",
+        color: "green",
+      });
+    }
+  };
+
+  return (
+    <>
+      <Box mt="md">
+        <SimpleGrid cols={1} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
+          <PasswordInput
+            label="New Password"
+            placeholder="New Password"
+            value={password}
+            onChange={setPassword}
+          />
+        </SimpleGrid>
+        <Button
+          mt="md"
+          fullWidth
+          onClick={handleChangePassword}
+          loading={changing}
+        >
+          Change
+        </Button>
+      </Box>
     </>
   );
 };

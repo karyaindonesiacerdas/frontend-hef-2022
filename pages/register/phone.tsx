@@ -53,6 +53,8 @@ export default function RegisterWithPhonePage() {
   const [visible, setVisible] = useState(false);
   const { t } = useTranslation("auth");
 
+  // const query = fromRegisterPhone ? "?from=register-phone" : "";
+
   useEffect(() => {
     try {
       fetch("/api/counter", {
@@ -65,7 +67,7 @@ export default function RegisterWithPhonePage() {
 
   useEffect(() => {
     if (isInitialized && isAuthenticated) {
-      router.push("/app");
+      router.push(`/app/main-hall?from=register`);
     }
   }, [router, isInitialized, isAuthenticated]);
 
@@ -88,6 +90,7 @@ export default function RegisterWithPhonePage() {
         color: "green",
         autoClose: false,
       });
+      router.push(`/app/main-hall?from=register`);
     } catch (error: any) {
       setVisible(false);
       notifications.showNotification({

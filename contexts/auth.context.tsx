@@ -1,5 +1,14 @@
 import Cookies from "js-cookie";
-import { useEffect, createContext, FC, useReducer, useContext } from "react";
+import {
+  useEffect,
+  createContext,
+  FC,
+  useReducer,
+  useContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 import {
   login as loginApi,
@@ -23,6 +32,8 @@ interface AuthContextType {
   register: (inputs: RegisterInputs) => Promise<void>;
   registerWithPhone: (mobile: string) => Promise<void>;
   logout: () => Promise<void>;
+  fromRegisterPhone: boolean;
+  setFromRegisterPhone: Dispatch<SetStateAction<boolean>>;
 }
 
 enum AuthActionKind {
@@ -95,6 +106,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider: FC = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const [fromRegisterPhone, setFromRegisterPhone] = useState(false);
 
   useEffect(() => {
     const initialize = async () => {
@@ -171,7 +183,15 @@ export const AuthProvider: FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ ...state, register, login, logout, registerWithPhone }}
+      value={{
+        ...state,
+        register,
+        login,
+        logout,
+        registerWithPhone,
+        fromRegisterPhone,
+        setFromRegisterPhone,
+      }}
     >
       {children}
     </AuthContext.Provider>
