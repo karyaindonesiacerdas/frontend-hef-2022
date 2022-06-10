@@ -152,7 +152,7 @@ const schema = z
     company_name: z.string().nonempty(),
     company_website: z.string(),
     country: z.string().nonempty(),
-    province: z.string().nonempty(),
+    province: z.string().optional(),
     business_nature: z
       .array(z.string())
       .nonempty({ message: "choose at least 1" }),
@@ -162,7 +162,7 @@ const schema = z
     path: ["password_confirmation"],
   });
 
-export default function RegisterVisitor() {
+export default function RegisterExhibitor() {
   const router = useRouter();
   const { classes } = useStyles();
   const { isAuthenticated, isInitialized, register } = useAuth();
