@@ -207,6 +207,7 @@ export default function RegisterExhibitor() {
     const payload: RegisterInputs = {
       ...values,
       role: "exhibitor",
+      province: values.province ? values.province : "other",
     };
 
     setVisible(true);
