@@ -15,7 +15,7 @@ const RunningText = ({ showJoinZoom = true }: { showJoinZoom?: boolean }) => {
   const theme = useMantineTheme();
   const largerThanSm = useMediaQuery(`(min-width: ${theme.breakpoints.sm}px)`);
 
-  const { data: settings } = useSettings();
+  // const { data: settings } = useSettings();
 
   return (
     <Box
@@ -60,7 +60,7 @@ const RunningText = ({ showJoinZoom = true }: { showJoinZoom?: boolean }) => {
                 },
               }}
               component="a"
-              href={settings?.zoom_business_link}
+              href="https://us02web.zoom.us/j/88390108381?pwd=OWdFSEk5RHhrV2wwc2xIUWx0ZHdydz09"
               target="_blank"
               rel="noopener noreferrer"
               size="xs"
