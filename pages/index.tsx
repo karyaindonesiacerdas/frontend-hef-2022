@@ -47,7 +47,12 @@ export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
 
   try {
     const res2 = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API}/sponsors`);
-    sponsors = await res2.json();
+    const data = await res2.json();
+    const platinums = data?.filter((i: any) => i.level === "Platinum") || [];
+    const golds = data?.filter((i: any) => i.level === "Gold") || [];
+    const silvers = data?.filter((i: any) => i.level === "Silver") || [];
+    const sortedSponsors = [...platinums, ...golds, ...silvers];
+    sponsors = sortedSponsors;
   } catch (error) {
     sponsors = [];
   }
