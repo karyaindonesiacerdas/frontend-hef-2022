@@ -360,8 +360,8 @@ const ExhibitorBooth: NextPage = () => {
       await createConversation({
         sender: {
           id: user?.id,
-          email: user?.email,
-          name: user?.name,
+          email: user?.email || "No name",
+          name: user?.name || "No email",
           img_profile:
             user?.img_profile && user?.img_profile !== "undefined"
               ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/profiles/${user?.img_profile}`
@@ -547,13 +547,21 @@ const ExhibitorBooth: NextPage = () => {
               />
               {/* ) : null} */}
             </div>
-            {user?.role === "visitor" && (
+            {/* {user?.role === "visitor" && (
               <div className={classes.addContactContainer}>
-                <Tooltip label="Add Contact">
+                <Tooltip
+                  label={
+                    !user?.name || !user?.email
+                      ? "Set your name and email first!"
+                      : "Add Contact"
+                  }
+                >
                   <UnstyledButton
                     className={classes.addContact}
                     onClick={handleAddContact}
-                    disabled={isLoadingAddContact}
+                    disabled={
+                      isLoadingAddContact || !user?.email || !user?.name
+                    }
                   >
                     {isLoadingAddContact ? (
                       <Loader />
@@ -563,7 +571,7 @@ const ExhibitorBooth: NextPage = () => {
                   </UnstyledButton>
                 </Tooltip>
               </div>
-            )}
+            )} */}
             {String(user?.id) === String(router.query.id) && (
               <div className={classes.editBoothButtonContainer}>
                 <Tooltip label="Edit Booth Content">
@@ -600,7 +608,7 @@ const ExhibitorBooth: NextPage = () => {
                   <span>Back to Exhibitors</span>
                 </Group>
               </Anchor>
-              <Button
+              {/* <Button
                 onClick={handleAddContact}
                 loading={isLoadingAddContact}
                 leftIcon={<UserPlus size={16} />}
@@ -608,7 +616,7 @@ const ExhibitorBooth: NextPage = () => {
                 size="xs"
               >
                 Add Contact
-              </Button>
+              </Button> */}
             </Group>
             <Stack
               mt="md"
@@ -791,7 +799,9 @@ const ExhibitorBooth: NextPage = () => {
           </Stack>
         </div>
       )}
-      {settings?.is_chat === "1" && <ChatButton />}
+      {settings?.is_chat === "1" && exhibitor && (
+        <ChatButton exhibitor={exhibitor} />
+      )}
     </SocketProvider>
   );
 };

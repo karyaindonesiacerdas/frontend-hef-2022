@@ -70,6 +70,7 @@ export const Conversations = ({
   );
 
   console.log({ formattedConversations });
+  console.log({ conversations });
 
   return (
     <div>
@@ -92,8 +93,8 @@ export const Conversations = ({
         {conversations?.filter((conversation) =>
           conversation.members
             .filter((member) => member.id !== user?.id)[0]
-            .name.toLowerCase()
-            .includes(query.toLocaleLowerCase())
+            .name?.toLowerCase()
+            ?.includes(query.toLocaleLowerCase())
         ).length === 0 && (
           <Center sx={{ height: 300 }}>
             <Stack align="center" spacing={4}>
@@ -120,7 +121,7 @@ export const Conversations = ({
                 // onClick={() => setSelectedChat(chat)}
                 onClick={() => setSelectedConversation(conversation)}
               >
-                <Group>
+                <Group noWrap>
                   <div style={{ position: "relative" }}>
                     <Avatar
                       src={
@@ -141,7 +142,7 @@ export const Conversations = ({
                     ) : null}
                   </div>
                   <Stack spacing={0}>
-                    <Text weight={500}>
+                    <Text weight={500} size="sm">
                       {
                         conversation.members.filter(
                           (member) => member.id !== user?.id

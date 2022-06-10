@@ -129,14 +129,16 @@ export const Chat = ({
 
   return (
     <div onClick={handleReadMessage}>
-      <Group>
+      <Group noWrap>
         <ActionIcon onClick={() => setSelectedConversation(undefined)}>
           <ArrowLeft />
         </ActionIcon>
         <Avatar src={you.img_profile} radius="xl" />
         <Stack spacing={0}>
-          <Text weight={500}>{you.name}</Text>
-          <Text size="sm" mt={-6} color="dimmed">
+          <Text weight={500} size="xs">
+            {you.name}
+          </Text>
+          <Text size="xs" mt={-3} color="dimmed">
             {you.email}
           </Text>
         </Stack>
