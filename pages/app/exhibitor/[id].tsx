@@ -344,10 +344,10 @@ const ExhibitorBooth: NextPage = () => {
   console.log({ isLoading });
 
   useEffect(() => {
-    if (!exhibitor?.package_id && isSuccess) {
+    if (!exhibitor?.exhibitor_type && isSuccess) {
       router.push("/app/exhibitor");
     }
-  }, [exhibitor?.package_id, isSuccess, router]);
+  }, [exhibitor?.exhibitor_type, isSuccess, router]);
 
   const handleAddContact = async () => {
     if (!user?.id || !exhibitor?.id) return;
