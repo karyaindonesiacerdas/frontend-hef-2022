@@ -20,6 +20,7 @@ const AdminSettings: NextPage = () => {
     package_id: number;
     package_name: string;
     position: number;
+    exhibitor_type: string | null;
   }>();
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const AdminSettings: NextPage = () => {
         package_name: exhibitor?.package?.name,
         ala_carte: exhibitor?.ala_carte,
         position: exhibitor?.position,
+        exhibitor_type: exhibitor?.exhibitor_type,
       })),
     [exhibitors, isSuccessExhibitors]
   );
