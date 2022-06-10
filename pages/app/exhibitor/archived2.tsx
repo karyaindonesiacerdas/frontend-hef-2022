@@ -39,7 +39,7 @@ const useStyles = createStyles((theme) => ({
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    backgroundImage: "url('/hef-2022/exhibitors-hall-2.jpg')",
+    backgroundImage: "url('/hef-2022/exhibitors-hall.jpg')",
     width: "100%",
     height: "100%",
     aspectRatio: "2 / 1",
@@ -112,13 +112,12 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer1: {
     position: "absolute",
-    top: "67%",
-    right: "41%",
+    top: "69%",
+    right: "39%",
     perspective: "600px",
     width: "5vw",
     height: "5vw",
     // height: "31.2%",
-
     ":hover": {
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       ":svg": {
@@ -135,8 +134,8 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer2: {
     position: "absolute",
-    top: "55%",
-    right: "30.5%",
+    top: "57%",
+    right: "28%",
     perspective: "600px",
     width: "5vw",
     height: "5vw",
@@ -158,7 +157,7 @@ const useStyles = createStyles((theme) => ({
   exhibitorContainer3: {
     position: "absolute",
     top: "62%",
-    right: "46.5%",
+    right: "45%",
     perspective: "600px",
     width: "5vw",
     height: "5vw",
@@ -180,7 +179,7 @@ const useStyles = createStyles((theme) => ({
   exhibitorContainer4: {
     position: "absolute",
     top: "50%",
-    right: "35.5%",
+    right: "34%",
     perspective: "600px",
     width: "5vw",
     height: "5vw",
@@ -202,7 +201,7 @@ const useStyles = createStyles((theme) => ({
   exhibitorContainer5: {
     position: "absolute",
     top: "56%",
-    right: "51.5%",
+    right: "50.5%",
     perspective: "600px",
     width: "5vw",
     height: "5vw",
@@ -224,7 +223,7 @@ const useStyles = createStyles((theme) => ({
   exhibitorContainer6: {
     position: "absolute",
     top: "44%",
-    right: "40.5%",
+    right: "39.5%",
     perspective: "600px",
     width: "5vw",
     height: "5vw",
@@ -245,11 +244,11 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer7: {
     position: "absolute",
-    top: "50%",
-    right: "56%",
+    top: "53%",
+    right: "59.75%",
     perspective: "600px",
-    width: "5vw",
-    height: "5vw",
+    width: "3vw",
+    height: "3vw",
     // height: "31.2%",
     ":hover": {
       backgroundColor: "rgba(0, 0, 0, 0.2)",
@@ -267,13 +266,12 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer8: {
     position: "absolute",
-    top: "39%",
-    right: "45.25%",
+    top: "49%",
+    right: "57%",
     perspective: "600px",
-    width: "5vw",
-    height: "5vw",
+    width: "3vw",
+    height: "3vw",
     // height: "31.2%",
-
     ":hover": {
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       ":svg": {
@@ -290,13 +288,12 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer9: {
     position: "absolute",
-    top: "48%",
-    right: "63.75%",
+    top: "46%",
+    right: "54.5%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
     // height: "31.2%",
-
     ":hover": {
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       ":svg": {
@@ -313,8 +310,8 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer10: {
     position: "absolute",
-    top: "44%",
-    right: "60.5%",
+    top: "42%",
+    right: "51%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
@@ -335,8 +332,8 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer11: {
     position: "absolute",
-    top: "40%",
-    right: "57.25%",
+    top: "39%",
+    right: "48.25%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
@@ -357,8 +354,8 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer12: {
     position: "absolute",
-    top: "37%",
-    right: "54%",
+    top: "36%",
+    right: "45.75%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
@@ -379,13 +376,12 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer13: {
     position: "absolute",
-    top: "33%",
-    right: "51%",
+    top: "49%",
+    right: "62.75%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
     // height: "31.2%",
-
     ":hover": {
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       ":svg": {
@@ -402,13 +398,12 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer14: {
     position: "absolute",
-    top: "44%",
-    right: "67%",
+    top: "46%",
+    right: "60%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
     // height: "31.2%",
-
     ":hover": {
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       ":svg": {
@@ -425,8 +420,8 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer15: {
     position: "absolute",
-    top: "40.5%",
-    right: "63.75%",
+    top: "43%",
+    right: "57.5%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
@@ -447,8 +442,8 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer16: {
     position: "absolute",
-    top: "36.75%",
-    right: "60.25%",
+    top: "38%",
+    right: "54%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
@@ -469,8 +464,8 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer17: {
     position: "absolute",
-    top: "33%",
-    right: "57.25%",
+    top: "35%",
+    right: "51.25%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
@@ -491,13 +486,144 @@ const useStyles = createStyles((theme) => ({
   },
   exhibitorContainer18: {
     position: "absolute",
-    top: "29.25%",
-    right: "54.25%",
+    top: "32%",
+    right: "48.75%",
     perspective: "600px",
     width: "3vw",
     height: "3vw",
     // height: "31.2%",
-
+    ":hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      ":svg": {
+        color: "rgba(255,0,0, 1)",
+      },
+    },
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 9999,
+    "&:svg": {
+      color: "rgba(255,0,0, 0.3)",
+    },
+  },
+  exhibitorContainer19: {
+    position: "absolute",
+    top: "45%",
+    right: "66%",
+    perspective: "600px",
+    width: "3vw",
+    height: "3vw",
+    // height: "31.2%",
+    ":hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      ":svg": {
+        color: "rgba(255,0,0, 1)",
+      },
+    },
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 9999,
+    "&:svg": {
+      color: "rgba(255,0,0, 0.3)",
+    },
+  },
+  exhibitorContainer20: {
+    position: "absolute",
+    top: "42%",
+    right: "63.25%",
+    perspective: "600px",
+    width: "3vw",
+    height: "3vw",
+    // height: "31.2%",
+    ":hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      ":svg": {
+        color: "rgba(255,0,0, 1)",
+      },
+    },
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 9999,
+    "&:svg": {
+      color: "rgba(255,0,0, 0.3)",
+    },
+  },
+  exhibitorContainer21: {
+    position: "absolute",
+    top: "39%",
+    right: "60.75%",
+    perspective: "600px",
+    width: "3vw",
+    height: "3vw",
+    // height: "31.2%",
+    ":hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      ":svg": {
+        color: "rgba(255,0,0, 1)",
+      },
+    },
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 9999,
+    "&:svg": {
+      color: "rgba(255,0,0, 0.3)",
+    },
+  },
+  exhibitorContainer22: {
+    position: "absolute",
+    top: "34.5%",
+    right: "57.25%",
+    perspective: "600px",
+    width: "3vw",
+    height: "3vw",
+    // height: "31.2%",
+    ":hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      ":svg": {
+        color: "rgba(255,0,0, 1)",
+      },
+    },
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 9999,
+    "&:svg": {
+      color: "rgba(255,0,0, 0.3)",
+    },
+  },
+  exhibitorContainer23: {
+    position: "absolute",
+    top: "31.5%",
+    right: "54.5%",
+    perspective: "600px",
+    width: "3vw",
+    height: "3vw",
+    // height: "31.2%",
+    ":hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      ":svg": {
+        color: "rgba(255,0,0, 1)",
+      },
+    },
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 9999,
+    "&:svg": {
+      color: "rgba(255,0,0, 0.3)",
+    },
+  },
+  exhibitorContainer24: {
+    position: "absolute",
+    top: "28.5%",
+    right: "52%",
+    perspective: "600px",
+    width: "3vw",
+    height: "3vw",
+    // height: "31.2%",
     ":hover": {
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       ":svg": {
@@ -605,6 +731,24 @@ const Exhibitor = () => {
   );
   const exhibitor18 = exhibitors?.find(
     (exhibitor) => exhibitor.position === 18
+  );
+  const exhibitor19 = exhibitors?.find(
+    (exhibitor) => exhibitor.position === 19
+  );
+  const exhibitor20 = exhibitors?.find(
+    (exhibitor) => exhibitor.position === 20
+  );
+  const exhibitor21 = exhibitors?.find(
+    (exhibitor) => exhibitor.position === 21
+  );
+  const exhibitor22 = exhibitors?.find(
+    (exhibitor) => exhibitor.position === 22
+  );
+  const exhibitor23 = exhibitors?.find(
+    (exhibitor) => exhibitor.position === 23
+  );
+  const exhibitor24 = exhibitors?.find(
+    (exhibitor) => exhibitor.position === 24
   );
 
   if (!isInitialized || !isAuthenticated) {
@@ -761,6 +905,7 @@ const Exhibitor = () => {
                 <Empty />
               )}
             </div>
+            {/* Small */}
             <div className={classes.exhibitorContainer7}>
               {exhibitor7 ? (
                 <Tooltip label={exhibitor7.company_name}>
@@ -793,8 +938,6 @@ const Exhibitor = () => {
                 <Empty />
               )}
             </div>
-            {/* Small */}
-
             <div className={classes.exhibitorContainer9}>
               {exhibitor9 ? (
                 <Tooltip label={exhibitor9.company_name}>
@@ -945,6 +1088,102 @@ const Exhibitor = () => {
                   <NextLink
                     className={classes.exhibitor}
                     href={`/app/exhibitor/${exhibitor18.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer19}>
+              {exhibitor19 ? (
+                <Tooltip label={exhibitor19.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor19.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer20}>
+              {exhibitor20 ? (
+                <Tooltip label={exhibitor20.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor20.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer21}>
+              {exhibitor21 ? (
+                <Tooltip label={exhibitor21.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor21.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer22}>
+              {exhibitor22 ? (
+                <Tooltip label={exhibitor22.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor22.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer23}>
+              {exhibitor23 ? (
+                <Tooltip label={exhibitor23.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor23.id}`}
+                    style={{ textAlign: "center" }}
+                  >
+                    <div style={{ width: 60, height: 60 }} />
+                    {/* <BuildingStore size={52} /> */}
+                  </NextLink>
+                </Tooltip>
+              ) : (
+                <Empty />
+              )}
+            </div>
+            <div className={classes.exhibitorContainer24}>
+              {exhibitor24 ? (
+                <Tooltip label={exhibitor24.company_name}>
+                  <NextLink
+                    className={classes.exhibitor}
+                    href={`/app/exhibitor/${exhibitor24.id}`}
                     style={{ textAlign: "center" }}
                   >
                     <div style={{ width: 60, height: 60 }} />
