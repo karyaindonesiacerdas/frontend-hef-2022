@@ -330,15 +330,18 @@ const ExhibitorBooth: NextPage = () => {
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
-      router.replace("/login");
+      router.replace({
+        pathname: "/login",
+        query: { returnUrl: router.asPath },
+      });
     }
   }, [router, isInitialized, isAuthenticated]);
 
-  useEffect(() => {
-    if (isInitialized && isAuthenticated && user?.role === "visitor") {
-      router.replace("/app/main-hall");
-    }
-  }, [router, isInitialized, isAuthenticated, user?.role]);
+  // useEffect(() => {
+  //   if (isInitialized && isAuthenticated && user?.role === "visitor") {
+  //     router.replace("/app/main-hall");
+  //   }
+  // }, [router, isInitialized, isAuthenticated, user?.role]);
 
   console.log({ package: exhibitor?.package_id });
   console.log({ isLoading });

@@ -139,7 +139,10 @@ const Seminar = () => {
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
-      router.replace("/login");
+      router.replace({
+        pathname: "/login",
+        query: { returnUrl: router.asPath },
+      });
     }
   }, [router, isInitialized, isAuthenticated]);
 

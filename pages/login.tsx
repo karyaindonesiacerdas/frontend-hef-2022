@@ -59,12 +59,14 @@ export default function LoginPage() {
   const { login, isAuthenticated, isInitialized } = useAuth();
   const [visible, setVisible] = useState(false);
   const { t } = useTranslation("auth");
+  const returnUrl = router.query.returnUrl;
+  console.log({ returnUrl });
 
   useEffect(() => {
     if (isInitialized && isAuthenticated) {
-      router.replace("/app");
+      router.replace(returnUrl ? String(returnUrl) : "/app");
     }
-  }, [router, isInitialized, isAuthenticated]);
+  }, [router, isInitialized, isAuthenticated, returnUrl]);
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -79,7 +81,7 @@ export default function LoginPage() {
     try {
       await login({ email: values.email?.trim(), password: values.password });
       setVisible(false);
-      router.replace("/app");
+      router.replace(returnUrl ? String(returnUrl) : "/app");
     } catch (error: any) {
       setVisible(false);
       notifications.showNotification({

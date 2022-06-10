@@ -28,7 +28,7 @@ type Props = {
 
 const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
   const theme = useMantineTheme();
-  const [showNameCard, setShowNameCard] = useState(true);
+  const [showNameCard, setShowNameCard] = useState(false);
 
   const nameCard = exhibitor?.banners?.find((banner) => banner.order === 11);
   const catalog = exhibitor?.banners?.find((banner) => banner.order === 12);

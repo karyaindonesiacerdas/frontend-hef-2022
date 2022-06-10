@@ -563,11 +563,11 @@ const Exhibitor = () => {
     }
   }, [router, isInitialized, isAuthenticated]);
 
-  useEffect(() => {
-    if (isInitialized && isAuthenticated && user?.role === "visitor") {
-      router.replace("/app/main-hall");
-    }
-  }, [router, isInitialized, isAuthenticated, user?.role]);
+  // useEffect(() => {
+  //   if (isInitialized && isAuthenticated && user?.role === "visitor") {
+  //     router.replace("/app/main-hall");
+  //   }
+  // }, [router, isInitialized, isAuthenticated, user?.role]);
 
   const exhibitor1 = exhibitors?.find((exhibitor) => exhibitor.position === 1);
   const exhibitor2 = exhibitors?.find((exhibitor) => exhibitor.position === 2);
