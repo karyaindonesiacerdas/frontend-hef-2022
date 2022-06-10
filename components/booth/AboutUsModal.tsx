@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import {
+  Anchor,
   Box,
   Button,
   Center,
@@ -158,7 +159,10 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
                 }
                 style={{ fontSize: theme.fontSizes.lg * 0.9 }}
               >
-                {exhibitor?.email}
+                {/* {exhibitor?.email} */}
+                <Anchor size="sm" href={`mailto:${exhibitor?.email}`}>
+                  {exhibitor?.email}
+                </Anchor>
               </List.Item>
               <List.Item
                 icon={
@@ -168,7 +172,15 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
                 }
                 style={{ fontSize: theme.fontSizes.lg * 0.9 }}
               >
-                {exhibitor?.mobile}
+                <Anchor
+                  size="sm"
+                  href={`https://wa.me/${exhibitor?.mobile}`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {exhibitor?.mobile}
+                </Anchor>
+                {/* {exhibitor?.mobile} */}
               </List.Item>
             </SimpleGrid>
           </List>

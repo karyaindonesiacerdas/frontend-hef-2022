@@ -648,11 +648,20 @@ const ExhibitorBooth: NextPage = () => {
               >
                 <Group spacing={6}>
                   <Mail size={20} />
-                  <Text size="sm">{exhibitor?.email}</Text>
+                  <Anchor size="sm" href={`mailto:${exhibitor?.email}`}>
+                    {exhibitor?.email}
+                  </Anchor>
                 </Group>
                 <Group spacing={6}>
                   <Phone size={20} />
-                  <Text size="sm">{exhibitor?.mobile}</Text>
+                  <Anchor
+                    size="sm"
+                    href={`https://wa.me/${exhibitor?.mobile}`}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {exhibitor?.mobile}
+                  </Anchor>
                 </Group>
               </Group>
               {!!exhibitor?.company_website && (
