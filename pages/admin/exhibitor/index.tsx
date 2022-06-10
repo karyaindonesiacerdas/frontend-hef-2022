@@ -131,6 +131,8 @@ const AdminExhibitor: NextPage = () => {
       {mode === "action" && <th>ID</th>}
       <th>Name</th>
       <th>Company</th>
+      <th>Email</th>
+      <th>Phone Number</th>
       <th>Package</th>
       <th>Booth Position</th>
       {mode === "action" && <th>Action</th>}
@@ -138,14 +140,15 @@ const AdminExhibitor: NextPage = () => {
   );
 
   const rows = isLoadingExhibitors ? (
-    <TableSkeleton rows={3} cols={5} />
+    <TableSkeleton rows={3} cols={8} />
   ) : (
     exhibitorResults?.map((exhibitor) => (
       <tr key={exhibitor.id}>
         {mode === "action" && <td>{exhibitor.id}</td>}
         <td>{exhibitor.name}</td>
         <td>{exhibitor.company_name}</td>
-
+        <td>{exhibitor.email}</td>
+        <td>{exhibitor.mobile}</td>
         <td>
           <Badge
             radius="sm"
@@ -160,6 +163,8 @@ const AdminExhibitor: NextPage = () => {
                 ? "violet"
                 : exhibitor.exhibitor_type === "Galaxy"
                 ? "pink"
+                : exhibitor.exhibitor_type === "Ala Carte"
+                ? "blue"
                 : "gray"
             }
             variant={exhibitor.exhibitor_type ? "filled" : "light"}

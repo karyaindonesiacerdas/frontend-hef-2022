@@ -21,6 +21,8 @@ type Exhibitor = {
   published: 0 | 1;
   position: number;
   exhibitor_type: string | null;
+  email: string;
+  mobile: string;
 };
 
 export const useExhibitors = (params: GetExhibitorsParams) => {

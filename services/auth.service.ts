@@ -227,7 +227,7 @@ export const updatePackage = async ({
 }: UpdatePackagePayload) => {
   const cookies = Cookies.get("accessToken");
 
-  if (!user_id || !exhibitor_type) {
+  if (!user_id) {
     throw new Error("Invalid Payload");
   }
 

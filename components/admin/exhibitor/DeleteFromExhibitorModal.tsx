@@ -27,6 +27,7 @@ const DeleteFromExhibitorModal = ({ opened, setOpened, id, name }: Props) => {
         user_id: id,
         role: "visitor",
         position: 0,
+        exhibitor_type: "",
       });
       await queryClient.invalidateQueries("exhibitors");
       setLoading(false);

@@ -45,6 +45,11 @@ const packages = [
     label: "Galaxy",
     value: "Galaxy",
   },
+  {
+    image: "/jupiter.png",
+    label: "Ala Carte",
+    value: "Ala Carte",
+  },
 ];
 
 const schema = z.object({
