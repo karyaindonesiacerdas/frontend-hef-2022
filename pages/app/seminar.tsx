@@ -5,6 +5,7 @@ import AppLayout from "@/components/app-layout/AppLayout";
 import { useAuth } from "contexts/auth.context";
 import {
   Box,
+  Button,
   Center,
   createStyles,
   Group,
@@ -28,6 +29,7 @@ import BottomNav from "@/components/app-layout/BottomNav";
 import { useMediaQuery, useOs } from "@mantine/hooks";
 import MobileSeminarScreen from "@/components/seminar/MobileSeminarScreen";
 import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
+import { useSettings } from "services/settings/hooks";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -114,6 +116,8 @@ const Seminar = () => {
 
   const { data: rundown } = useRundownClosing();
   console.log({ rundown });
+  const { data: settings } = useSettings();
+  console.log({ settings });
 
   const handlePostActivity = async () => {
     if (rundown?.isJoined !== 0 || !rundown?.id || !user?.id) return;
@@ -146,11 +150,11 @@ const Seminar = () => {
     }
   }, [router, isInitialized, isAuthenticated]);
 
-  useEffect(() => {
-    if (isInitialized && isAuthenticated && user?.role !== "admin") {
-      router.replace("/app/main-hall");
-    }
-  }, [router, isInitialized, isAuthenticated, user?.role]);
+  // useEffect(() => {
+  //   if (isInitialized && isAuthenticated && user?.role !== "admin") {
+  //     router.replace("/app/main-hall");
+  //   }
+  // }, [router, isInitialized, isAuthenticated, user?.role]);
 
   if (!isInitialized || !isAuthenticated) {
     return null;
@@ -169,6 +173,43 @@ const Seminar = () => {
         <div style={{ position: "absolute", top: 40, left: 16, zIndex: 100 }}>
           <AppMobileLayout />
         </div>
+      ) : null}
+
+      {settings?.zoom_business_link ? (
+        <Group
+          sx={{
+            position: "absolute",
+            bottom: 20,
+            zIndex: 1000,
+            width: "98vw",
+            [theme.fn.smallerThan("xs")]: {
+              bottom: 85,
+              width: "100vw",
+            },
+          }}
+          position="center"
+        >
+          <Button
+            size="xl"
+            sx={{
+              backgroundColor: "#2D8CFF",
+              "&:hover": {
+                backgroundColor: "#2D8CFF",
+                opacity: 0.9,
+              },
+            }}
+            component="a"
+            href={settings?.zoom_business_link}
+            pl="lg"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Group>
+              <Image width={30} src="/hef-2022/zoom.png" alt="zoom" />
+              <Text size="lg">Join Zoom</Text>
+            </Group>
+          </Button>
+        </Group>
       ) : null}
       <div
         style={{

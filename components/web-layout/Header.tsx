@@ -388,7 +388,7 @@ export function HeaderMenu() {
           </Group>
         </Group>
       </Box> */}
-      <RunningText />
+      <RunningText showJoinZoom={[11, 18, 25].includes(new Date().getDate())} />
       <Header className={classes.header} height={112}>
         <Container size="xl">
           <div className={classes.inner}>

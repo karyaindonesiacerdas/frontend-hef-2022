@@ -90,7 +90,7 @@ const BottomNav = () => {
             <Stack align="center" spacing={4}>
               <Microphone2 color="white" />
               <Text size="xs" weight={700} color="white">
-                Webinar
+                Seminar
               </Text>
             </Stack>
           </UnstyledButton>

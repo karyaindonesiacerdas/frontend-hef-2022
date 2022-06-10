@@ -256,7 +256,7 @@ const MainHall = () => {
               >
                 <Stack align="center">
                   <Text align="center" className={classes.linkText}>
-                    Webinar
+                    Seminar
                   </Text>
                   {/* <DoorEnter color={theme.colors[theme.primaryColor][9]} /> */}
                 </Stack>

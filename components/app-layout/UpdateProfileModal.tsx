@@ -23,6 +23,7 @@ import {
   Stack,
   Anchor,
   PasswordInput,
+  Image,
 } from "@mantine/core";
 import { Trash, Trophy } from "tabler-icons-react";
 import { useRouter } from "next/router";
@@ -48,6 +49,7 @@ import { useAppModal } from "contexts/modal.context";
 import { countries } from "data/countries";
 import { provinces } from "data/provinces";
 import { NextLink } from "@mantine/next";
+import { useSettings } from "services/settings/hooks";
 
 const canvasStyles = {
   position: "fixed",
@@ -246,6 +248,7 @@ export const UpdateProfileModal = () => {
       label: p.name,
       value: String(p.id),
     })) || [];
+  const { data: settings } = useSettings();
 
   useEffect(() => {
     if (data) {
@@ -335,8 +338,6 @@ export const UpdateProfileModal = () => {
     !user.package_id ||
     !user.institution_name ||
     !user.institution_type;
-  console.log({ openModal });
-  console.log({ user });
 
   return (
     <>
@@ -656,8 +657,29 @@ export const UpdateProfileModal = () => {
               </Text>
               <Button
                 mt="xl"
+                sx={{
+                  backgroundColor: "#2D8CFF",
+                  "&:hover": {
+                    backgroundColor: "#2D8CFF",
+                    opacity: 0.9,
+                  },
+                }}
+                // pl={-4}
                 fullWidth
+                component="a"
+                href={settings?.zoom_business_link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Group spacing={6}>
+                  <Image width={20} src="/hef-2022/zoom.png" alt="zoom" />
+                  <Text>Join Zoom</Text>
+                </Group>
+              </Button>
+              <Button
+                mt="xs"
                 variant="light"
+                fullWidth
                 onClick={() => setOpenModal(false)}
               >
                 Close
