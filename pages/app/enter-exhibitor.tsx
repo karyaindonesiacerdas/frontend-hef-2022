@@ -67,11 +67,11 @@ export default function EnterExhibitor() {
     defaultValue: false,
   });
 
-  useEffect(() => {
-    if (isInitialized && isAuthenticated && user?.role !== "admin") {
-      router.replace("/app/main-hall");
-    }
-  }, [router, isInitialized, isAuthenticated, user?.role]);
+  // useEffect(() => {
+  //   if (isInitialized && isAuthenticated && user?.role !== "admin") {
+  //     router.replace("/app/main-hall");
+  //   }
+  // }, [router, isInitialized, isAuthenticated, user?.role]);
 
   useEffect(() => {
     const video = document.getElementById(
