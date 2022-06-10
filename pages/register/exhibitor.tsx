@@ -34,6 +34,7 @@ import { useForm, zodResolver } from "@mantine/form";
 import { provinces } from "data/provinces";
 import { RegisterInputs } from "services/auth.service";
 import { useNotifications } from "@mantine/notifications";
+import { usePackages } from "services/package/hooks/usePackages";
 
 const useStyles = createStyles((theme) => ({
   // wrapper: {
@@ -192,6 +193,15 @@ export default function RegisterVisitor() {
       router.replace("/app");
     }
   }, [router, isInitialized, isAuthenticated]);
+
+  const { data: packages } = usePackages();
+  const listTopics =
+    packages?.map((p) => ({
+      label: `${p.order}. ${p.name}`,
+      value: String(p.id),
+      description: p.description,
+      link: p.link,
+    })) || [];
 
   const handleSubmit = async (values: typeof form.values) => {
     const payload: RegisterInputs = {
@@ -418,7 +428,7 @@ export default function RegisterVisitor() {
                 )}
               </SimpleGrid>
 
-              <CheckboxGroup
+              {/* <CheckboxGroup
                 label={t("business-nature")}
                 required
                 mb="lg"
@@ -426,6 +436,19 @@ export default function RegisterVisitor() {
               >
                 {natureOfBusiness?.map((nb) => (
                   <Checkbox key={nb} value={nb} label={t(nb)} />
+                ))}
+              </CheckboxGroup> */}
+
+              <CheckboxGroup
+                label={t("business-nature")}
+                required
+                mb="md"
+                orientation="vertical"
+                spacing="md"
+                {...form.getInputProps("business_nature")}
+              >
+                {listTopics?.map((topic, i) => (
+                  <Checkbox key={i} value={topic.value} label={topic.label} />
                 ))}
               </CheckboxGroup>
 
