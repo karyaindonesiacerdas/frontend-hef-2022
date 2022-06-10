@@ -690,7 +690,7 @@ const Exhibitor = () => {
   }, [router, isInitialized, isAuthenticated]);
 
   useEffect(() => {
-    if (isInitialized && isAuthenticated && user?.role !== "admin") {
+    if (isInitialized && isAuthenticated && user?.role === "visitor") {
       router.replace("/app/main-hall");
     }
   }, [router, isInitialized, isAuthenticated, user?.role]);
