@@ -20,6 +20,7 @@ type Exhibitor = {
   package: Package;
   published: 0 | 1;
   position: number;
+  exhibitor_type: string | null;
 };
 
 export const useExhibitors = (params: GetExhibitorsParams) => {

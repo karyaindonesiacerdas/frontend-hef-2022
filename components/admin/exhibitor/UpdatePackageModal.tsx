@@ -22,33 +22,33 @@ const packages = [
   {
     image: "/mercury.png",
     label: "Meteorite",
-    value: "1",
+    value: "Meteorite",
   },
 
   {
     image: "/mars.png",
     label: "Satellite",
-    value: "2",
+    value: "Satellite",
   },
   {
     image: "/venus.png",
     label: "Planet",
-    value: "3",
+    value: "Planet",
   },
   {
     image: "/uranus.png",
     label: "Star",
-    value: "4",
+    value: "Star",
   },
   {
     image: "/jupiter.png",
     label: "Galaxy",
-    value: "5",
+    value: "Galaxy",
   },
 ];
 
 const schema = z.object({
-  package_id: z
+  exhibitor_type: z
     .string({ invalid_type_error: "Required" })
     .nonempty({ message: "Required" }),
   position: z.number().min(0).max(24),
@@ -64,6 +64,7 @@ type UpdatePackageModalProps = {
     package_id: number;
     package_name: string;
     position: number;
+    exhibitor_type: string | null;
   };
 };
 
@@ -79,7 +80,7 @@ export const UpdatePackageModal = ({
   const form = useForm({
     schema: zodResolver(schema),
     initialValues: {
-      package_id: String(selectedExhibitor?.package_id),
+      exhibitor_type: String(selectedExhibitor?.exhibitor_type),
       position: selectedExhibitor?.position || 0,
     },
   });
@@ -87,20 +88,26 @@ export const UpdatePackageModal = ({
 
   useEffect(() => {
     setValues({
-      package_id: String(selectedExhibitor?.package_id),
+      exhibitor_type: String(selectedExhibitor?.exhibitor_type),
       position: selectedExhibitor?.position || 0,
     });
-  }, [selectedExhibitor?.package_id, selectedExhibitor?.position, setValues]);
+  }, [
+    selectedExhibitor?.exhibitor_type,
+    selectedExhibitor?.position,
+    setValues,
+  ]);
 
   const handleSubmit = async (values: typeof form.values) => {
     if (!selectedExhibitor) return;
 
     const payload: UpdatePackagePayload = {
-      package_id: Number(values.package_id),
+      exhibitor_type: values.exhibitor_type,
       user_id: selectedExhibitor?.id,
       position: values.position,
       role: "exhibitor",
     };
+
+    console.log({ payload });
 
     setVisible(true);
     try {
@@ -153,12 +160,8 @@ export const UpdatePackageModal = ({
             // itemComponent={SelectItem}
             data={packages}
             searchable
-            maxDropdownHeight={400}
             nothingFound="Nobody here"
-            filter={(value, item) =>
-              !!item?.label?.toLowerCase().includes(value.toLowerCase().trim())
-            }
-            {...form.getInputProps("package_id")}
+            {...form.getInputProps("exhibitor_type")}
           />
           <NumberInput
             required

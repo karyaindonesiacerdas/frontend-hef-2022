@@ -283,7 +283,7 @@ export default function AppLayout() {
         <Navbar.Section grow mt={50}>
           <Group direction="column" align="center" spacing={0}>
             {links}
-            {user?.role === "exhibitor" && exhibitor?.package_id && (
+            {user?.role === "exhibitor" && exhibitor?.exhibitor_type && (
               <Tooltip
                 label="My Booth"
                 position="right"

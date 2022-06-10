@@ -74,6 +74,7 @@ const AdminExhibitor: NextPage = () => {
     package_id: number;
     package_name: string;
     position: number;
+    exhibitor_type: string | null;
   }>();
   const [confirm, setConfirm] = useState<"confirm" | "all">("all");
   const [mode, setMode] = useState<"print" | "action">("action");
@@ -149,21 +150,22 @@ const AdminExhibitor: NextPage = () => {
           <Badge
             radius="sm"
             color={
-              exhibitor.package?.name === "mercury"
+              exhibitor.exhibitor_type === "Meteorite"
                 ? "gray"
-                : exhibitor.package?.name === "mars"
+                : exhibitor.exhibitor_type === "Satellite"
                 ? "red"
-                : exhibitor.package?.name === "venus"
-                ? "yellow"
-                : exhibitor.package?.name === "uranus"
-                ? "blue"
-                : exhibitor.package?.name === "jupiter"
+                : exhibitor.exhibitor_type === "Planet"
                 ? "orange"
+                : exhibitor.exhibitor_type === "Star"
+                ? "violet"
+                : exhibitor.exhibitor_type === "Galaxy"
+                ? "pink"
                 : "gray"
             }
-            variant={exhibitor.package?.name ? "filled" : "light"}
+            variant={exhibitor.exhibitor_type ? "filled" : "light"}
+            // color="gray"
           >
-            {exhibitor.package?.name || "No package"}
+            {exhibitor.exhibitor_type ? exhibitor.exhibitor_type : "No Package"}
           </Badge>
         </td>
 
@@ -182,6 +184,7 @@ const AdminExhibitor: NextPage = () => {
                     package_id: exhibitor.package_id,
                     package_name: exhibitor.package?.name,
                     position: exhibitor.position,
+                    exhibitor_type: exhibitor.exhibitor_type,
                   });
                   setOpenedUpdateModal(true);
                 }}
@@ -200,6 +203,7 @@ const AdminExhibitor: NextPage = () => {
                     package_id: exhibitor.package_id,
                     package_name: exhibitor.package?.name,
                     position: exhibitor.position,
+                    exhibitor_type: exhibitor.exhibitor_type,
                   });
                   setOpenDeleteModal(true);
                 }}

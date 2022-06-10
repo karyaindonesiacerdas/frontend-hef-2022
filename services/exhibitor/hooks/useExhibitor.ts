@@ -36,6 +36,7 @@ export type Exhibitor = {
   published: 0 | 1;
   mobile: string;
   banners: Banner[];
+  exhibitor_type: string | null;
 };
 
 export const useExhibitor = (id: string) => {

@@ -211,31 +211,35 @@ export const me = async () => {
 };
 
 export type UpdatePackagePayload = {
-  package_id?: number;
+  // package_id?: number;
   user_id: number;
   position?: number;
   role: "visitor" | "exhibitor";
+  exhibitor_type?: string;
 };
 
 export const updatePackage = async ({
-  package_id,
+  // package_id,
   user_id,
   position,
   role,
+  exhibitor_type,
 }: UpdatePackagePayload) => {
   const cookies = Cookies.get("accessToken");
 
-  if (!package_id || !user_id) {
+  if (!user_id || !exhibitor_type) {
     throw new Error("Invalid Payload");
   }
 
   const data = {
     _method: "PUT",
-    package_id,
+    // package_id,
     user_id,
     position,
     role,
+    exhibitor_type,
   };
+  console.log({ data });
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/update/status`,

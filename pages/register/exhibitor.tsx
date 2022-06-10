@@ -198,7 +198,7 @@ export default function RegisterVisitor() {
   const listTopics =
     packages?.map((p) => ({
       label: `${p.order}. ${p.name}`,
-      value: String(p.id),
+      value: p.name,
       description: p.description,
       link: p.link,
     })) || [];
