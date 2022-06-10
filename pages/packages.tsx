@@ -512,6 +512,26 @@ const Packages: NextPage = () => {
                   <CircleCheck size={30} color={theme.colors.pink[4]} />
                 </td>
               </tr>
+              <tr>
+                <td colSpan={3} align="center" style={{ fontWeight: 600 }}>
+                  Harga Paket (Juta)
+                </td>
+                <td align="center" style={{ fontWeight: 600 }}>
+                  10
+                </td>
+                <td align="center" style={{ fontWeight: 600 }}>
+                  20
+                </td>
+                <td align="center" style={{ fontWeight: 600 }}>
+                  40
+                </td>
+                <td align="center" style={{ fontWeight: 600 }}>
+                  75
+                </td>
+                <td align="center" style={{ fontWeight: 600 }}>
+                  140
+                </td>
+              </tr>
             </tbody>
           </Table>
         </Paper>
