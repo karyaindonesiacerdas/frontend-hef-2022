@@ -32,7 +32,8 @@ import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
 const useStyles = createStyles((theme) => ({
   root: {
     height: "100vh",
-    overflow: "hidden",
+    // overflow: "hidden",
+    overflow: "auto",
   },
   container: {
     position: "relative",
@@ -959,7 +960,7 @@ const Exhibitor = () => {
         </>
       ) : (
         <div className={classes.root}>
-          <Stack mt={55}>
+          <Stack mt={55} mb={120}>
             <Title className={classes.title}>Exhibitors</Title>
             <SimpleGrid spacing="xs" cols={2} px="md" mt="sm">
               {exhibitors
