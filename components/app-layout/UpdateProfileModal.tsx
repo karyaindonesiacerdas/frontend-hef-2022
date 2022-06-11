@@ -252,6 +252,7 @@ export const UpdateProfileModal = () => {
 
   useEffect(() => {
     if (data) {
+      console.log({ data });
       setValues({
         email: data?.email || "",
         name: data?.name || "",
@@ -265,6 +266,8 @@ export const UpdateProfileModal = () => {
     }
     if (typeof data?.package_id === "string") {
       setPackageId(JSON.parse(data?.package_id)?.map((p: any) => String(p)));
+    } else if (typeof data?.package_id === "number") {
+      setPackageId([String(data?.package_id)]);
     } else {
       data?.package_id &&
         setPackageId(data?.package_id?.map((p: any) => String(p)));
