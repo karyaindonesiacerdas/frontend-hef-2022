@@ -63,12 +63,12 @@ type Props = {
 
 const SeminarRundown = ({ opened, setOpened }: Props) => {
   const { classes, cx } = useStyles();
-  const { data: rundowns } = useRundowns();
   const listRef = useRef<HTMLLIElement>(null);
   const { data: settings } = useSettings();
+  const { data: rundowns } = useRundowns();
 
   const todayRundowns = rundowns?.filter(
-    (rundown) => rundown.date === "2021-10-02"
+    (rundown) => rundown.date === new Date().toISOString().split("T")[0]
   );
 
   useEffect(() => {
@@ -114,7 +114,7 @@ const SeminarRundown = ({ opened, setOpened }: Props) => {
                       <Text size="sm">{rundown.speakers}</Text>
                       {rundown.status === 2 && (
                         <Group position="right" spacing="md">
-                          <Anchor
+                          {/* <Anchor
                             href={settings?.youtube_link}
                             target="_blank"
                             className={classes.link}
@@ -124,7 +124,7 @@ const SeminarRundown = ({ opened, setOpened }: Props) => {
                               alt="Link youtube live"
                               width={30}
                             />
-                          </Anchor>
+                          </Anchor> */}
                           <Anchor
                             href={settings?.zoom_link}
                             target="_blank"

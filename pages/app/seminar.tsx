@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import AppLayout from "@/components/app-layout/AppLayout";
 import { useAuth } from "contexts/auth.context";
 import {
+  Anchor,
+  Badge,
   Box,
   Button,
   Center,
@@ -11,6 +13,8 @@ import {
   Group,
   Image,
   keyframes,
+  List,
+  ScrollArea,
   Stack,
   Text,
   Title,
@@ -20,7 +24,7 @@ import {
 import SeminarScreen from "@/components/seminar/SeminarScreen";
 import SeminarRundown from "@/components/seminar/SeminarRundown";
 import { Award, Trophy } from "tabler-icons-react";
-import { useRundownClosing } from "services/rundown/hooks";
+import { useRundownClosing, useRundowns } from "services/rundown/hooks";
 import { postActivity } from "services/activity/activity";
 import { useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
@@ -34,7 +38,8 @@ import { useSettings } from "services/settings/hooks";
 const useStyles = createStyles((theme) => ({
   root: {
     height: "100vh",
-    overflow: "hidden",
+    // overflow: "hidden",
+    overflow: "auto",
   },
   container: {
     position: "relative",
@@ -91,6 +96,24 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.xl * 1.2,
     textAlign: "center",
   },
+  listItem: {
+    marginBottom: 10,
+    padding: theme.spacing.xs,
+    borderRadius: theme.radius.md,
+    backgroundColor: theme.colors.gray[0],
+  },
+  current: {
+    backgroundColor: theme.colors[theme.primaryColor][6],
+    fontWeight: 500,
+    color: "white",
+  },
+  link: {
+    transition: "all",
+    transitionDuration: "0.1s",
+    "&:hover": {
+      transform: "translateY(-3px)",
+    },
+  },
 }));
 
 export const bounce = keyframes({
@@ -104,7 +127,7 @@ const Seminar = () => {
   const router = useRouter();
   const theme = useMantineTheme();
   const { isAuthenticated, isInitialized, user } = useAuth();
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
   const [openRundown, setOpenRundown] = useState(false);
   const queryClient = useQueryClient();
   const [collecting, setCollecting] = useState(false);
@@ -155,6 +178,11 @@ const Seminar = () => {
   //     router.replace("/app/main-hall");
   //   }
   // }, [router, isInitialized, isAuthenticated, user?.role]);
+  const { data: rundowns } = useRundowns();
+
+  const todayRundowns = rundowns?.filter(
+    (rundown) => rundown.date === new Date().toISOString().split("T")[0]
+  );
 
   if (!isInitialized || !isAuthenticated) {
     return null;
@@ -287,11 +315,63 @@ const Seminar = () => {
         </>
       ) : (
         <div className={classes.root}>
-          <Stack mt={55}>
+          <Stack mt={55} mb={100}>
             <Title className={classes.title}>Webinar</Title>
             <MobileSeminarScreen />
             <Stack px="md">
-              <Text weight={500}>Rundown</Text>
+              <Text weight={600} pl={10} color="teal">
+                Rundown
+              </Text>
+              {/* <ScrollArea> */}
+              <List listStyleType="none" spacing="xs">
+                {todayRundowns?.map((rundown, i) => (
+                  <li
+                    key={rundown.id}
+                    className={cx(classes.listItem, {
+                      [classes.current]: rundown.status === 2,
+                    })}
+                    value={rundown.status}
+                  >
+                    {rundown.status === 2 ? (
+                      <Group align="center" position="apart">
+                        <Text>{rundown.time}</Text>
+                        <Badge>Live</Badge>
+                      </Group>
+                    ) : (
+                      <Text>{rundown.time}</Text>
+                    )}
+                    <Text weight={600}>{rundown.title}</Text>
+                    <Text size="sm">{rundown.speakers}</Text>
+                    {rundown.status === 2 && (
+                      <Group position="right" spacing="md">
+                        {/* <Anchor
+                            href={settings?.youtube_link}
+                            target="_blank"
+                            className={classes.link}
+                          >
+                            <Image
+                              src="/hef-2022/youtube.png"
+                              alt="Link youtube live"
+                              width={30}
+                            />
+                          </Anchor> */}
+                        <Anchor
+                          href={settings?.zoom_link}
+                          target="_blank"
+                          className={classes.link}
+                        >
+                          <Image
+                            src="/hef-2022/zoom.png"
+                            alt="Link zoom"
+                            width={30}
+                          />
+                        </Anchor>
+                      </Group>
+                    )}
+                  </li>
+                ))}
+              </List>
+              {/* </ScrollArea> */}
             </Stack>
           </Stack>
         </div>
