@@ -966,7 +966,7 @@ const Exhibitor = () => {
               {exhibitors
                 ?.filter(
                   (exhibitor) =>
-                    exhibitor.position < 7 && exhibitor.position > 0
+                    exhibitor.position < 3 && exhibitor.position > 0
                 )
                 ?.map((exhibitor) => (
                   <UnstyledButton
@@ -985,7 +985,7 @@ const Exhibitor = () => {
                         }
                         alt={exhibitor.name}
                       />
-                      <Text color="dimmed" size="xs" lineClamp={1}>
+                      <Text color="dimmed" size="xs">
                         {exhibitor.company_name}
                       </Text>
                     </Stack>
@@ -1012,7 +1012,7 @@ const Exhibitor = () => {
                         }
                         alt={exhibitor.name}
                       />
-                      <Text color="dimmed" size="xs" lineClamp={1}>
+                      <Text color="dimmed" size="xs" align="center">
                         {exhibitor.company_name}
                       </Text>
                     </Stack>
