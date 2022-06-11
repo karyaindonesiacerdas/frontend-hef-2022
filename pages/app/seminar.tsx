@@ -128,7 +128,7 @@ const Seminar = () => {
   const theme = useMantineTheme();
   const { isAuthenticated, isInitialized, user } = useAuth();
   const { classes, cx } = useStyles();
-  const [openRundown, setOpenRundown] = useState(false);
+  const [openRundown, setOpenRundown] = useState(true);
   const queryClient = useQueryClient();
   const [collecting, setCollecting] = useState(false);
   const notifications = useNotifications();
