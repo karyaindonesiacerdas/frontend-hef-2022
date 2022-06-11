@@ -72,6 +72,11 @@ const RunningText = ({ showJoinZoom = true }: { showJoinZoom?: boolean }) => {
             </Button>
           </Group>
         ) : null}
+        <Group mr={100}>
+          <Text weight={500} color="white" size={largerThanSm ? "md" : "sm"}>
+            Extrana Cable, Quality Cables, Quality Living
+          </Text>
+        </Group>
       </Group>
     </Box>
   );
