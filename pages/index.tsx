@@ -21,7 +21,7 @@ const Home: NextPage = ({
   return (
     <WebLayout>
       <HeroImage />
-      <CountDown />
+      {/* <CountDown /> */}
       <Event />
       <Topic />
       <Blog blogs={blogs} />
