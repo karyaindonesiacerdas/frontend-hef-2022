@@ -142,7 +142,7 @@ const authLinks = [
     label: "register",
     links: [
       {
-        link: "/register/visitor",
+        link: "/register/phone",
         // label: "Register as Visitor",
         label: "register-as-visitor",
       },
@@ -432,7 +432,7 @@ export function HeaderMenu() {
                       <SimpleGrid cols={1}>
                         <Button
                           variant="outline"
-                          onClick={() => push("/register/visitor")}
+                          onClick={() => push("/register/phone")}
                         >
                           {t("register-as-visitor")}
                         </Button>
