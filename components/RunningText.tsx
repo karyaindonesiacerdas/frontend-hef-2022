@@ -31,7 +31,7 @@ const RunningText = ({ showJoinZoom = true }: { showJoinZoom?: boolean }) => {
         top: 0,
       })}
       component={Marquee}
-      speed={150}
+      speed={50}
       gradientColor={[18, 184, 134]}
       gradientWidth={50}
     >
