@@ -850,7 +850,7 @@ const ExhibitorBooth: NextPage = () => {
             width: 65,
             height: 65,
             backgroundColor: "white",
-            position: "absolute",
+            position: "fixed",
             right: 120,
             bottom: 35,
             borderRadius: 1000,
