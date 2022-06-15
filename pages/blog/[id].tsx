@@ -134,24 +134,7 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
       `${process.env.NEXT_PUBLIC_CHAT_API}/blogs/published`
     );
     const blogs = await res.json();
-    // const pathsID = blogs?.map((blog: any) => {
-    //   return {
-    //     params: {
-    //       id: blog?._id,
-    //     },
-    //     locales: "en",
-    //   };
-    // });
-    // const pathsEN = blogs?.map((blog: any) => {
-    //   return {
-    //     params: {
-    //       id: blog?._id,
-    //     },
-    //     locales: "id",
-    //   };
-    // });
-
-    const paths = blogs?.map((blog: any) => {
+    const pathsID = blogs?.map((blog: any) => {
       return {
         params: {
           id: blog?._id,
@@ -159,9 +142,26 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
         locales: "en",
       };
     });
+    const pathsEN = blogs?.map((blog: any) => {
+      return {
+        params: {
+          id: blog?._id,
+        },
+        locales: "id",
+      };
+    });
+
+    // const paths = blogs?.map((blog: any) => {
+    //   return {
+    //     params: {
+    //       id: blog?._id,
+    //     },
+    //     locales: "en",
+    //   };
+    // });
     return {
-      // paths: [...pathsEN, pathsID],
-      paths,
+      paths: [...pathsEN, pathsID],
+      // paths,
       fallback: true,
     };
   } catch (error) {}
