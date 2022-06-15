@@ -120,27 +120,6 @@ const jobs = [
   { value: "Other", label: "Other" },
 ];
 
-// const natureOfBusiness = [
-//   "Hospital Building",
-//   "Hospital Mechanic",
-//   "Hospital Electric",
-//   "Hospital Environment",
-//   "Hospital Informatics",
-//   "Hospital Devices",
-//   "COVID-19 Related Products",
-//   "Other",
-// ];
-const natureOfBusiness = [
-  "hospital-buildings",
-  "hospital-mechanics",
-  "hospital-devices",
-  "hospital-electrics",
-  "hospital-environments",
-  "hospital-informatics",
-  "covid-19",
-  "other",
-];
-
 const schema = z
   .object({
     email: z.string().email().nonempty(),

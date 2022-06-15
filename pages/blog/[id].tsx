@@ -1,4 +1,5 @@
 import {
+  GetStaticPathsContext,
   // GetStaticPaths,
   // GetStaticPathsContext,
   GetStaticPropsContext,
@@ -127,20 +128,39 @@ const AboutHEF: NextPage = (props: any) => {
 
 export default AboutHEF;
 
-export const getStaticPaths = async () => {
+export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_CHAT_API}/blogs/published`
     );
     const blogs = await res.json();
+    // const pathsID = blogs?.map((blog: any) => {
+    //   return {
+    //     params: {
+    //       id: blog?._id,
+    //     },
+    //     locales: "en",
+    //   };
+    // });
+    // const pathsEN = blogs?.map((blog: any) => {
+    //   return {
+    //     params: {
+    //       id: blog?._id,
+    //     },
+    //     locales: "id",
+    //   };
+    // });
+
     const paths = blogs?.map((blog: any) => {
       return {
         params: {
           id: blog?._id,
         },
+        locales: "en",
       };
     });
     return {
+      // paths: [...pathsEN, pathsID],
       paths,
       fallback: true,
     };
