@@ -139,7 +139,7 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
         params: {
           id: blog?._id,
         },
-        locales: "en",
+        locale: "en",
       };
     });
     const pathsEN = blogs?.map((blog: any) => {
@@ -147,7 +147,7 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
         params: {
           id: blog?._id,
         },
-        locales: "id",
+        locale: "id",
       };
     });
 
