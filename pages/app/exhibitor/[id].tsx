@@ -59,6 +59,7 @@ import { useMediaQuery, useOs } from "@mantine/hooks";
 import RunningText from "@/components/RunningText";
 import ReactPlayer from "react-player";
 import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
+import { matchYoutubeUrl } from "utils/youtube";
 
 export const pulse = keyframes({
   "from, to": { opacity: 1 },
@@ -75,6 +76,7 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     height: "100%",
     aspectRatio: "2 / 1",
+    overflowX: "hidden",
   },
   logoContainer: {
     position: "absolute",
@@ -143,11 +145,23 @@ const useStyles = createStyles((theme) => ({
   },
   videoButtonContainer: {
     position: "absolute",
-    width: "5%",
-    height: "5%",
-    top: "31.7%",
-    right: "5.3%",
-    perspective: "110px",
+    width: "21%",
+    height: "25%",
+    top: "20.8%",
+    right: "-0.8%",
+    // transform: "rotateY(-30.5deg)",
+    // perspective: "500px",
+    perspective: "500px",
+  },
+  videoBackground: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    transform: "rotateY(-18deg) rotateZ(-7deg) rotateX(11deg)",
+    transformOrigin: "right",
+    backgroundColor: "transparent",
   },
   videoButton: {
     padding: "0.5vw",
@@ -326,7 +340,11 @@ const ExhibitorBooth: NextPage = () => {
     isSuccess,
   } = useExhibitor(router.query.id ? String(router.query.id) : "");
   const { data: settings } = useSettings();
-  console.log({ settings });
+
+  const defaultVideo =
+    "https://www.youtube.com/watch?v=c-jBYuYOuD0&ab_channel=HospitalEngineeringExpo";
+  const videoId = matchYoutubeUrl(exhibitor?.company_video_url || defaultVideo);
+  const previewURL = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -517,16 +535,31 @@ const ExhibitorBooth: NextPage = () => {
                 Catalog & Name Card
               </UnstyledButton>
             </div>
+
             <div className={classes.videoButtonContainer}>
-              <Tooltip label="Play Video">
-                <UnstyledButton
-                  className={classes.videoButton}
-                  onClick={() => setIsOpenVideo(true)}
-                >
-                  <PlayerPlay color="teal" size={"2vw"} />
-                </UnstyledButton>
-              </Tooltip>
+              <Box
+                className={classes.videoBackground}
+                style={{
+                  backgroundImage: exhibitor?.company_video_url
+                    ? `url(${previewURL})`
+                    : undefined,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                  overflow: "hidden",
+                }}
+              >
+                <Tooltip label="Play Video">
+                  <UnstyledButton
+                    className={classes.videoButton}
+                    onClick={() => setIsOpenVideo(true)}
+                  >
+                    <PlayerPlay color="teal" size={"2vw"} />
+                  </UnstyledButton>
+                </Tooltip>
+              </Box>
             </div>
+
             {/* <div className={classes.marqueContainer}>
           <Marquee speed={80} gradientWidth={0} className={classes.marque}>
             <Text className={classes.marqueText} weight={700}>
@@ -811,6 +844,32 @@ const ExhibitorBooth: NextPage = () => {
       {settings?.is_chat === "1" && exhibitor && (
         <ChatButton exhibitor={exhibitor} />
       )}
+      {exhibitor?.mobile ? (
+        <UnstyledButton
+          sx={(theme) => ({
+            width: 65,
+            height: 65,
+            backgroundColor: "white",
+            position: "absolute",
+            right: 120,
+            bottom: 35,
+            borderRadius: 1000,
+            overflow: "hidden",
+            [theme.fn.smallerThan("sm")]: {
+              bottom: 80,
+              right: 100,
+            },
+            boxShadow: theme.shadows.xl,
+          })}
+          component="a"
+          aria-label="whatsapp button"
+          href={`https://wa.me/${exhibitor?.mobile}`}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <Image src="/hef-2022/whatsapp.png" alt="" />
+        </UnstyledButton>
+      ) : null}
     </SocketProvider>
   );
 };
