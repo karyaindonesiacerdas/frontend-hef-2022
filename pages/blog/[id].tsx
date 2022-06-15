@@ -99,11 +99,11 @@ const AboutHEF: NextPage = (props: any) => {
   // const { t } = useTranslation("overview");
   // const theme = useMantineTheme();
 
-  const blog = props?.blog as Blog;
+  // const blog = props?.blog as Blog;
 
   return (
     <WebLayout>
-      <Container className={classes.root}>
+      {/* <Container className={classes.root}>
         <Title order={1} align="center">
           {blog?.title}
         </Title>
@@ -121,7 +121,7 @@ const AboutHEF: NextPage = (props: any) => {
         <TypographyStylesProvider mt="xl">
           <div dangerouslySetInnerHTML={{ __html: blog?.content }} />
         </TypographyStylesProvider>
-      </Container>
+      </Container> */}
     </WebLayout>
   );
 };
@@ -134,7 +134,27 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
       `${process.env.NEXT_PUBLIC_CHAT_API}/blogs/published`
     );
     const blogs = await res.json();
-    const pathsID = blogs?.map((blog: any) => {
+    // const pathsID = blogs?.map((blog: any) => {
+    //   return {
+    //     params: {
+    //       id: blog?._id,
+    //     },
+    //     locale: "en",
+    //   };
+    // });
+    // const pathsEN = blogs?.map((blog: any) => {
+    //   return {
+    //     params: {
+    //       id: blog?._id,
+    //     },
+    //     locale: "id",
+    //   };
+    // });
+
+    // const combinePaths = [...pathsEN, ...pathsID];
+    // console.log({ combinePaths });
+
+    const paths = blogs?.map((blog: any) => {
       return {
         params: {
           id: blog?._id,
@@ -142,26 +162,10 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
         locale: "en",
       };
     });
-    const pathsEN = blogs?.map((blog: any) => {
-      return {
-        params: {
-          id: blog?._id,
-        },
-        locale: "id",
-      };
-    });
-
-    // const paths = blogs?.map((blog: any) => {
-    //   return {
-    //     params: {
-    //       id: blog?._id,
-    //     },
-    //     locales: "en",
-    //   };
-    // });
+    console.log({ paths });
     return {
-      paths: [...pathsEN, pathsID],
-      // paths,
+      // paths: [...pathsEN, pathsID],
+      paths,
       fallback: true,
     };
   } catch (error) {}
