@@ -8,7 +8,9 @@ import {
   Card,
   useMantineTheme,
 } from "@mantine/core";
+import { NextLink } from "@mantine/next";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
 import { IBlog } from "types/blog";
 
 const useStyles = createStyles((theme, _params, getRef) => {
@@ -131,9 +133,8 @@ export const Blog = ({ blogs }: Props) => {
               shadow="lg"
               className={classes.card}
               radius="md"
-              component="a"
-              href={blog._id}
-              target="_blank"
+              component={NextLink}
+              href={`/blog/${blog._id}`}
             >
               <div
                 className={classes.image}
@@ -146,7 +147,12 @@ export const Blog = ({ blogs }: Props) => {
                   <Text size="xl" className={classes.title} weight={500}>
                     {blog.title}
                   </Text>
-                  <Text size="xl" className={classes.title} weight={300}>
+                  <Text
+                    size="xl"
+                    className={classes.title}
+                    weight={300}
+                    lineClamp={3}
+                  >
                     {blog.subtitle}
                   </Text>
                 </div>
