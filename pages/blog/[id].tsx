@@ -99,11 +99,11 @@ const AboutHEF: NextPage = (props: any) => {
   // const { t } = useTranslation("overview");
   // const theme = useMantineTheme();
 
-  // const blog = props?.blog as Blog;
+  const blog = props?.blog as Blog;
 
   return (
     <WebLayout>
-      {/* <Container className={classes.root}>
+      <Container className={classes.root}>
         <Title order={1} align="center">
           {blog?.title}
         </Title>
@@ -121,7 +121,7 @@ const AboutHEF: NextPage = (props: any) => {
         <TypographyStylesProvider mt="xl">
           <div dangerouslySetInnerHTML={{ __html: blog?.content }} />
         </TypographyStylesProvider>
-      </Container> */}
+      </Container>
     </WebLayout>
   );
 };
