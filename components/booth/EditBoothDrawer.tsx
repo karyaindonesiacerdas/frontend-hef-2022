@@ -172,12 +172,14 @@ const PosterForm = ({ order, label, banner }: PosterFormProps) => {
     try {
       setVisible(true);
       await uploadBanner(payload);
+      await queryClient.invalidateQueries("exhibitors");
       notifications.showNotification({
         title: "Success",
         message: "Poster updated",
         color: "green",
       });
       setVisible(false);
+      setImage(undefined);
     } catch (error: any) {
       setVisible(false);
       notifications.showNotification({
@@ -194,13 +196,15 @@ const PosterForm = ({ order, label, banner }: PosterFormProps) => {
     try {
       setDeleting(true);
       await deleteBanner(banner?.id);
-      await queryClient.invalidateQueries("exhibitor");
+      await queryClient.invalidateQueries("exhibitors");
       setDeleting(false);
+      setConfirmText("");
       notifications.showNotification({
         title: "Success",
         message: "Poster deleted",
         color: "green",
       });
+      form.reset();
     } catch (error: any) {
       setDeleting(false);
       notifications.showNotification({
@@ -237,44 +241,46 @@ const PosterForm = ({ order, label, banner }: PosterFormProps) => {
           Save
         </Button>
       </form>
-      <Accordion mt="md" offsetIcon={false}>
-        <Accordion.Item
-          label="Danger Zone"
-          styles={{
-            label: {
-              fontSize: theme.fontSizes.sm,
-              color: theme.colors.red[6],
-            },
-          }}
-        >
-          <Text size="sm" weight={700}>
-            Delete Poster
-          </Text>
-          <Text mt="sm" size="sm" color="dimmed">
-            Please type &quot;
-            <Text component="span" weight={600} size="sm" color="dark">
-              {label}
-            </Text>
-            &quot;
-          </Text>
-          <TextInput
-            mt="xs"
-            aria-label="Confirm text"
-            value={confirmText}
-            onChange={setConfirmText}
-          />
-          <Button
-            mt="xs"
-            color="red"
-            fullWidth
-            disabled={confirmText !== label}
-            onClick={handleDelete}
-            loading={deleting}
+      {banner?.id ? (
+        <Accordion mt="md" offsetIcon={false}>
+          <Accordion.Item
+            label="Danger Zone"
+            styles={{
+              label: {
+                fontSize: theme.fontSizes.sm,
+                color: theme.colors.red[6],
+              },
+            }}
           >
-            Delete
-          </Button>
-        </Accordion.Item>
-      </Accordion>
+            <Text size="sm" weight={700}>
+              Delete Poster
+            </Text>
+            <Text mt="sm" size="sm" color="dimmed">
+              Please type &quot;
+              <Text component="span" weight={600} size="sm" color="dark">
+                {banner?.display_name}
+              </Text>
+              &quot;
+            </Text>
+            <TextInput
+              mt="xs"
+              aria-label="Confirm text"
+              value={confirmText}
+              onChange={setConfirmText}
+            />
+            <Button
+              mt="xs"
+              color="red"
+              fullWidth
+              disabled={confirmText !== banner?.display_name}
+              onClick={handleDelete}
+              loading={deleting}
+            >
+              Delete
+            </Button>
+          </Accordion.Item>
+        </Accordion>
+      ) : null}
     </>
   );
 };
@@ -299,12 +305,14 @@ const NameCardForm = ({ banner }: { banner?: Banner }) => {
     try {
       setVisible(true);
       await uploadBanner(payload);
+      await queryClient.invalidateQueries("exhibitors");
       notifications.showNotification({
         title: "Success",
         message: "Name card updated",
         color: "green",
       });
       setVisible(false);
+      setImage(undefined);
     } catch (error: any) {
       setVisible(false);
       notifications.showNotification({
@@ -321,8 +329,9 @@ const NameCardForm = ({ banner }: { banner?: Banner }) => {
     try {
       setDeleting(true);
       await deleteBanner(banner?.id);
-      await queryClient.invalidateQueries("exhibitor");
+      await queryClient.invalidateQueries("exhibitors");
       setDeleting(false);
+      setConfirmText("");
       notifications.showNotification({
         title: "Success",
         message: "Name card deleted",
@@ -356,44 +365,46 @@ const NameCardForm = ({ banner }: { banner?: Banner }) => {
           Save
         </Button>
       </form>
-      <Accordion mt="md" offsetIcon={false}>
-        <Accordion.Item
-          label="Danger Zone"
-          styles={{
-            label: {
-              fontSize: theme.fontSizes.sm,
-              color: theme.colors.red[6],
-            },
-          }}
-        >
-          <Text size="sm" weight={700}>
-            Delete Name Card
-          </Text>
-          <Text mt="sm" size="sm" color="dimmed">
-            Please type &quot;
-            <Text component="span" weight={600} size="sm" color="dark">
-              {banner?.display_name}
-            </Text>
-            &quot;
-          </Text>
-          <TextInput
-            mt="xs"
-            aria-label="Confirm text"
-            value={confirmText}
-            onChange={setConfirmText}
-          />
-          <Button
-            mt="xs"
-            color="red"
-            fullWidth
-            disabled={confirmText !== banner?.display_name}
-            onClick={handleDelete}
-            loading={deleting}
+      {banner?.id ? (
+        <Accordion mt="md" offsetIcon={false}>
+          <Accordion.Item
+            label="Danger Zone"
+            styles={{
+              label: {
+                fontSize: theme.fontSizes.sm,
+                color: theme.colors.red[6],
+              },
+            }}
           >
-            Delete
-          </Button>
-        </Accordion.Item>
-      </Accordion>
+            <Text size="sm" weight={700}>
+              Delete Name Card
+            </Text>
+            <Text mt="sm" size="sm" color="dimmed">
+              Please type &quot;
+              <Text component="span" weight={600} size="sm" color="dark">
+                {banner?.display_name}
+              </Text>
+              &quot;
+            </Text>
+            <TextInput
+              mt="xs"
+              aria-label="Confirm text"
+              value={confirmText}
+              onChange={setConfirmText}
+            />
+            <Button
+              mt="xs"
+              color="red"
+              fullWidth
+              disabled={confirmText !== banner?.display_name}
+              onClick={handleDelete}
+              loading={deleting}
+            >
+              Delete
+            </Button>
+          </Accordion.Item>
+        </Accordion>
+      ) : null}
     </>
   );
 };
@@ -421,6 +432,7 @@ const CatalogForm = ({ banner }: { banner?: Banner }) => {
     try {
       setVisible(true);
       await uploadBanner(payload);
+      await queryClient.invalidateQueries("exhibitors");
       notifications.showNotification({
         title: "Success",
         message: "Catalog updated",
@@ -443,8 +455,9 @@ const CatalogForm = ({ banner }: { banner?: Banner }) => {
     try {
       setDeleting(true);
       await deleteBanner(banner?.id);
-      await queryClient.invalidateQueries("exhibitor");
+      await queryClient.invalidateQueries("exhibitors");
       setDeleting(false);
+      setConfirmText("");
       notifications.showNotification({
         title: "Success",
         message: "Name card deleted",
@@ -496,44 +509,46 @@ const CatalogForm = ({ banner }: { banner?: Banner }) => {
           Save
         </Button>
       </form>
-      <Accordion mt="md" offsetIcon={false}>
-        <Accordion.Item
-          label="Danger Zone"
-          styles={{
-            label: {
-              fontSize: theme.fontSizes.sm,
-              color: theme.colors.red[6],
-            },
-          }}
-        >
-          <Text size="sm" weight={700}>
-            Delete Name Card
-          </Text>
-          <Text mt="sm" size="sm" color="dimmed">
-            Please type &quot;
-            <Text component="span" weight={600} size="sm" color="dark">
-              {banner?.display_name}
-            </Text>
-            &quot;
-          </Text>
-          <TextInput
-            mt="xs"
-            aria-label="Confirm text"
-            value={confirmText}
-            onChange={setConfirmText}
-          />
-          <Button
-            mt="xs"
-            color="red"
-            fullWidth
-            disabled={confirmText !== banner?.display_name}
-            onClick={handleDelete}
-            loading={deleting}
+      {banner?.id ? (
+        <Accordion mt="md" offsetIcon={false}>
+          <Accordion.Item
+            label="Danger Zone"
+            styles={{
+              label: {
+                fontSize: theme.fontSizes.sm,
+                color: theme.colors.red[6],
+              },
+            }}
           >
-            Delete
-          </Button>
-        </Accordion.Item>
-      </Accordion>
+            <Text size="sm" weight={700}>
+              Delete Name Card
+            </Text>
+            <Text mt="sm" size="sm" color="dimmed">
+              Please type &quot;
+              <Text component="span" weight={600} size="sm" color="dark">
+                {banner?.display_name}
+              </Text>
+              &quot;
+            </Text>
+            <TextInput
+              mt="xs"
+              aria-label="Confirm text"
+              value={confirmText}
+              onChange={setConfirmText}
+            />
+            <Button
+              mt="xs"
+              color="red"
+              fullWidth
+              disabled={confirmText !== banner?.display_name}
+              onClick={handleDelete}
+              loading={deleting}
+            >
+              Delete
+            </Button>
+          </Accordion.Item>
+        </Accordion>
+      ) : null}
     </>
   );
 };
