@@ -134,27 +134,7 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
       `${process.env.NEXT_PUBLIC_CHAT_API}/blogs/published`
     );
     const blogs = await res.json();
-    // const pathsID = blogs?.map((blog: any) => {
-    //   return {
-    //     params: {
-    //       id: blog?._id,
-    //     },
-    //     locale: "en",
-    //   };
-    // });
-    // const pathsEN = blogs?.map((blog: any) => {
-    //   return {
-    //     params: {
-    //       id: blog?._id,
-    //     },
-    //     locale: "id",
-    //   };
-    // });
-
-    // const combinePaths = [...pathsEN, ...pathsID];
-    // console.log({ combinePaths });
-
-    const paths = blogs?.map((blog: any) => {
+    const pathsID = blogs?.map((blog: any) => {
       return {
         params: {
           id: blog?._id,
@@ -162,10 +142,30 @@ export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
         locale: "en",
       };
     });
-    console.log({ paths });
+    const pathsEN = blogs?.map((blog: any) => {
+      return {
+        params: {
+          id: blog?._id,
+        },
+        locale: "id",
+      };
+    });
+
+    const combinePaths = [...pathsEN, ...pathsID];
+    // console.log({ combinePaths });
+
+    // const paths = blogs?.map((blog: any) => {
+    //   return {
+    //     params: {
+    //       id: blog?._id,
+    //     },
+    //     locale: "en",
+    //   };
+    // });
+    // console.log({ paths });
     return {
-      // paths: [...pathsEN, pathsID],
-      paths,
+      paths: combinePaths,
+      // paths,
       fallback: true,
     };
   } catch (error) {}
