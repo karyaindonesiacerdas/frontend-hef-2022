@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+  Accordion,
+  Anchor,
   Button,
   createStyles,
   Drawer,
@@ -26,8 +28,13 @@ import {
 } from "services/auth.service";
 import { getFileUrl } from "utils/file-storage";
 import { useNotifications } from "@mantine/notifications";
-import { uploadBanner, UploadBannerPayload } from "services/banner";
+import {
+  deleteBanner,
+  uploadBanner,
+  UploadBannerPayload,
+} from "services/banner";
 import { useQueryClient } from "react-query";
+import { useInputState } from "@mantine/hooks";
 
 type Props = {
   opened: boolean;
@@ -139,6 +146,9 @@ const PosterForm = ({ order, label, banner }: PosterFormProps) => {
   const theme = useMantineTheme();
   const [visible, setVisible] = useState(false);
   const notifications = useNotifications();
+  const queryClient = useQueryClient();
+  const [confirmText, setConfirmText] = useInputState("");
+  const [deleting, setDeleting] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -178,6 +188,29 @@ const PosterForm = ({ order, label, banner }: PosterFormProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!banner?.id) return;
+
+    try {
+      setDeleting(true);
+      await deleteBanner(banner?.id);
+      await queryClient.invalidateQueries("exhibitor");
+      setDeleting(false);
+      notifications.showNotification({
+        title: "Success",
+        message: "Poster deleted",
+        color: "green",
+      });
+    } catch (error: any) {
+      setDeleting(false);
+      notifications.showNotification({
+        title: "Error",
+        message: error?.message || "Error delete poster",
+        color: "red",
+      });
+    }
+  };
+
   return (
     <>
       <Title order={3} style={{ fontSize: theme.fontSizes.md }}>
@@ -204,6 +237,44 @@ const PosterForm = ({ order, label, banner }: PosterFormProps) => {
           Save
         </Button>
       </form>
+      <Accordion mt="md" offsetIcon={false}>
+        <Accordion.Item
+          label="Danger Zone"
+          styles={{
+            label: {
+              fontSize: theme.fontSizes.sm,
+              color: theme.colors.red[6],
+            },
+          }}
+        >
+          <Text size="sm" weight={700}>
+            Delete Poster
+          </Text>
+          <Text mt="sm" size="sm" color="dimmed">
+            Please type &quot;
+            <Text component="span" weight={600} size="sm" color="dark">
+              {label}
+            </Text>
+            &quot;
+          </Text>
+          <TextInput
+            mt="xs"
+            aria-label="Confirm text"
+            value={confirmText}
+            onChange={setConfirmText}
+          />
+          <Button
+            mt="xs"
+            color="red"
+            fullWidth
+            disabled={confirmText !== label}
+            onClick={handleDelete}
+            loading={deleting}
+          >
+            Delete
+          </Button>
+        </Accordion.Item>
+      </Accordion>
     </>
   );
 };
@@ -214,6 +285,9 @@ const NameCardForm = ({ banner }: { banner?: Banner }) => {
   const theme = useMantineTheme();
   const [visible, setVisible] = useState(false);
   const notifications = useNotifications();
+  const queryClient = useQueryClient();
+  const [confirmText, setConfirmText] = useInputState("");
+  const [deleting, setDeleting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -241,6 +315,29 @@ const NameCardForm = ({ banner }: { banner?: Banner }) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!banner?.id) return;
+
+    try {
+      setDeleting(true);
+      await deleteBanner(banner?.id);
+      await queryClient.invalidateQueries("exhibitor");
+      setDeleting(false);
+      notifications.showNotification({
+        title: "Success",
+        message: "Name card deleted",
+        color: "green",
+      });
+    } catch (error: any) {
+      setDeleting(false);
+      notifications.showNotification({
+        title: "Error",
+        message: error?.message || "Error delete name card",
+        color: "red",
+      });
+    }
+  };
+
   return (
     <>
       <Title order={3} style={{ fontSize: theme.fontSizes.md }}>
@@ -259,6 +356,44 @@ const NameCardForm = ({ banner }: { banner?: Banner }) => {
           Save
         </Button>
       </form>
+      <Accordion mt="md" offsetIcon={false}>
+        <Accordion.Item
+          label="Danger Zone"
+          styles={{
+            label: {
+              fontSize: theme.fontSizes.sm,
+              color: theme.colors.red[6],
+            },
+          }}
+        >
+          <Text size="sm" weight={700}>
+            Delete Name Card
+          </Text>
+          <Text mt="sm" size="sm" color="dimmed">
+            Please type &quot;
+            <Text component="span" weight={600} size="sm" color="dark">
+              {banner?.display_name}
+            </Text>
+            &quot;
+          </Text>
+          <TextInput
+            mt="xs"
+            aria-label="Confirm text"
+            value={confirmText}
+            onChange={setConfirmText}
+          />
+          <Button
+            mt="xs"
+            color="red"
+            fullWidth
+            disabled={confirmText !== banner?.display_name}
+            onClick={handleDelete}
+            loading={deleting}
+          >
+            Delete
+          </Button>
+        </Accordion.Item>
+      </Accordion>
     </>
   );
 };
@@ -269,6 +404,9 @@ const CatalogForm = ({ banner }: { banner?: Banner }) => {
   const theme = useMantineTheme();
   const [visible, setVisible] = useState(false);
   const notifications = useNotifications();
+  const queryClient = useQueryClient();
+  const [confirmText, setConfirmText] = useInputState("");
+  const [deleting, setDeleting] = useState(false);
 
   console.log({ banner });
 
@@ -299,6 +437,29 @@ const CatalogForm = ({ banner }: { banner?: Banner }) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!banner?.id) return;
+
+    try {
+      setDeleting(true);
+      await deleteBanner(banner?.id);
+      await queryClient.invalidateQueries("exhibitor");
+      setDeleting(false);
+      notifications.showNotification({
+        title: "Success",
+        message: "Name card deleted",
+        color: "green",
+      });
+    } catch (error: any) {
+      setDeleting(false);
+      notifications.showNotification({
+        title: "Error",
+        message: error?.message || "Error delete name card",
+        color: "red",
+      });
+    }
+  };
+
   return (
     <>
       <Title order={3} style={{ fontSize: theme.fontSizes.md }}>
@@ -306,6 +467,17 @@ const CatalogForm = ({ banner }: { banner?: Banner }) => {
       </Title>
       <form onSubmit={handleSubmit} style={{ position: "relative" }}>
         <LoadingOverlay visible={visible} />
+        {banner?.image ? (
+          <Anchor
+            href={getFileUrl(banner?.image, "banner")}
+            target="_blank"
+            rel="noopener noreferrer"
+            size="xs"
+            mt="md"
+          >
+            {getFileUrl(banner?.image, "banner")}
+          </Anchor>
+        ) : null}
         <InputWrapper mt="md">
           <input
             type="file"
@@ -324,6 +496,44 @@ const CatalogForm = ({ banner }: { banner?: Banner }) => {
           Save
         </Button>
       </form>
+      <Accordion mt="md" offsetIcon={false}>
+        <Accordion.Item
+          label="Danger Zone"
+          styles={{
+            label: {
+              fontSize: theme.fontSizes.sm,
+              color: theme.colors.red[6],
+            },
+          }}
+        >
+          <Text size="sm" weight={700}>
+            Delete Name Card
+          </Text>
+          <Text mt="sm" size="sm" color="dimmed">
+            Please type &quot;
+            <Text component="span" weight={600} size="sm" color="dark">
+              {banner?.display_name}
+            </Text>
+            &quot;
+          </Text>
+          <TextInput
+            mt="xs"
+            aria-label="Confirm text"
+            value={confirmText}
+            onChange={setConfirmText}
+          />
+          <Button
+            mt="xs"
+            color="red"
+            fullWidth
+            disabled={confirmText !== banner?.display_name}
+            onClick={handleDelete}
+            loading={deleting}
+          >
+            Delete
+          </Button>
+        </Accordion.Item>
+      </Accordion>
     </>
   );
 };
