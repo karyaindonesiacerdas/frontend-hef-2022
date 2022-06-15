@@ -149,7 +149,14 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
                 }
                 style={{ fontSize: theme.fontSizes.lg * 0.9 }}
               >
-                {exhibitor?.company_website}
+                <Anchor
+                  size="sm"
+                  href={exhibitor?.company_website}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {exhibitor?.company_website}
+                </Anchor>
               </List.Item>
               <List.Item
                 icon={
