@@ -1,6 +1,6 @@
 import { createStyles } from "@mantine/core";
 import React from "react";
-import { matchYoutubeUrl } from "utils/youtube";
+import { extractYoutubeParams } from "utils/youtube";
 
 const useStyles = createStyles((theme) => ({
   leftAdvertisementContainer: {
@@ -24,7 +24,10 @@ const LeftAdvertisement = ({ url }: { url?: string }) => {
   const defaultVideo =
     "https://www.youtube.com/watch?v=jS0qVrpKjY4&ab_channel=HospitalEngineeringExpo";
 
-  const youtubeId = matchYoutubeUrl(url || defaultVideo);
+  const { id, list } = extractYoutubeParams(url || defaultVideo);
+  const params = list
+    ? `?listType=playlist&autoplay=1&list=${list}&mute=1&loop=1&index=${Math.floor(Math.random() * 4)}`
+    : `${id}?version=3&autoplay=1&playlist=${id}&mute=1&loop=1`;
 
   return (
     <div className={classes.leftAdvertisementContainer}>
@@ -32,7 +35,7 @@ const LeftAdvertisement = ({ url }: { url?: string }) => {
         <iframe
           width="100%"
           height="100%"
-          src={`https://www.youtube.com/embed/${youtubeId}?version=3&autoplay=1&playlist=${youtubeId}&mute=1&loop=1`}
+          src={`https://www.youtube.com/embed/${params}`}
           title="YouTube video player"
           frameBorder="0"
           allow="autoplay; loop; fullscreen"

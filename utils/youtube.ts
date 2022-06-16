@@ -7,3 +7,10 @@ export const matchYoutubeUrl = (url: string) => {
   }
   return false;
 };
+
+export const extractYoutubeParams = (url: string) => {
+  const id = matchYoutubeUrl(url);
+  const searchParams = new URLSearchParams(url.substring(url.indexOf('?')));
+  const list = searchParams.get('list');
+  return { id, list };
+};
