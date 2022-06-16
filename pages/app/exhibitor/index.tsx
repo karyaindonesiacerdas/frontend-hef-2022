@@ -994,7 +994,7 @@ const Exhibitor = () => {
             </SimpleGrid>
             <SimpleGrid spacing="xs" cols={3} px="md">
               {exhibitors
-                ?.filter((exhibitor) => exhibitor.position > 6)
+                ?.filter((exhibitor) => exhibitor.position > 2)
                 ?.map((exhibitor) => (
                   <UnstyledButton
                     key={exhibitor.id}
