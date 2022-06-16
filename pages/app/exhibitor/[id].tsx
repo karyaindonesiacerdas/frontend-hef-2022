@@ -18,7 +18,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ClipboardList,
@@ -60,10 +60,16 @@ import RunningText from "@/components/RunningText";
 import ReactPlayer from "react-player";
 import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
 import { matchYoutubeUrl } from "utils/youtube";
+import Marquee from "react-fast-marquee";
 
 export const pulse = keyframes({
   "from, to": { opacity: 1 },
   "50%": { opacity: 0.3 },
+});
+
+export const pulseAlt = keyframes({
+  "from, to": { opacity: 0.9 },
+  "50%": { opacity: 0.4 },
 });
 
 const useStyles = createStyles((theme) => ({
@@ -110,7 +116,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: "1vw",
     fontWeight: 600,
     border: "4px solid teal",
-    animation: `${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
+    animation: `${pulseAlt} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
     cursor: "pointer",
     "&:hover": {
       opacity: 1,
@@ -137,7 +143,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     border: "4px solid teal",
-    animation: `${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
+    animation: `${pulseAlt} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
     cursor: "pointer",
     "&:hover": {
       opacity: 1,
@@ -332,6 +338,9 @@ const ExhibitorBooth: NextPage = () => {
   const largerThanXs = useMediaQuery(`(min-width: ${theme.breakpoints.xs}px)`);
   const [openPoster, setOpenPoster] = useState(false);
   const [selectedPoster, setSelectedPoster] = useState("");
+  const [posterIndex, setPosterIndex] = useState(1);
+  const [posterPreview, setPosterPreview] = useState("");
+  const timerRef = useRef(null);
   const os = useOs();
 
   const {
@@ -361,14 +370,27 @@ const ExhibitorBooth: NextPage = () => {
   //   }
   // }, [router, isInitialized, isAuthenticated, user?.role]);
 
-  console.log({ package: exhibitor?.package_id });
-  console.log({ isLoading });
+  // console.log({ package: exhibitor?.package_id });
+  // console.log({ isLoading });
 
   useEffect(() => {
     if (!exhibitor?.exhibitor_type && isSuccess) {
       router.push("/app/exhibitor");
     }
   }, [exhibitor?.exhibitor_type, isSuccess, router]);
+
+  useEffect(() => {
+    timerRef.current = setTimeout(() => {
+      clearTimeout(timerRef.current);
+      const nextIndex = posterIndex % 5 + 1;
+      const poster = exhibitor?.banners?.find((banner) => banner.order === nextIndex);
+      if (poster) {
+        setPosterPreview(getFileUrl(poster.image, "banner"));
+      }
+      setPosterIndex(nextIndex);
+    }, 4000);
+    return () => clearTimeout(timerRef.current);
+  }, [exhibitor?.banners, posterIndex]);
 
   const handleAddContact = async () => {
     if (!user?.id || !exhibitor?.id) return;
@@ -429,6 +451,7 @@ const ExhibitorBooth: NextPage = () => {
   };
 
   const nameCard = exhibitor?.banners?.find((banner) => banner.order === 11);
+  const nameCardUrl = nameCard ? getFileUrl(nameCard.image, "banner") : null;
   const catalog = exhibitor?.banners?.find((banner) => banner.order === 12);
 
   const isMobile = os === "android" || os === "ios";
@@ -510,12 +533,15 @@ const ExhibitorBooth: NextPage = () => {
                     ? getFileUrl(exhibitor.company_logo, "companies")
                     : "/hef-2022/logoipsum.svg"
                 }
-                alt="Panasonic"
+                alt={exhibitor?.company_name}
                 className={classes.logo}
               />
               {/* ) : null} */}
             </div>
-            <div className={classes.catalogContainer}>
+            <div
+              className={classes.catalogContainer}
+              style={posterPreview ? { backgroundImage: `url("${posterPreview}")`, backgroundSize: 'cover', backgroundClip: 'text' } : {}}
+            >
               <UnstyledButton
                 className={classes.catalog}
                 onClick={() => {
@@ -526,7 +552,10 @@ const ExhibitorBooth: NextPage = () => {
                 Poster
               </UnstyledButton>
             </div>
-            <div className={classes.profileContainer}>
+            <div
+              className={classes.profileContainer}
+              style={nameCardUrl ? { backgroundImage: `url("${nameCardUrl}")`, backgroundSize: 'cover', backgroundClip: 'text' } : {}}
+            >
               <UnstyledButton
                 className={classes.profile}
                 onClick={() => setIsOpenAboutUs(true)}
@@ -536,7 +565,7 @@ const ExhibitorBooth: NextPage = () => {
               </UnstyledButton>
             </div>
 
-            <div className={classes.videoButtonContainer}>
+            {exhibitor?.company_video_url && <div className={classes.videoButtonContainer}>
               <Box
                 className={classes.videoBackground}
                 style={{
@@ -558,15 +587,16 @@ const ExhibitorBooth: NextPage = () => {
                   </UnstyledButton>
                 </Tooltip>
               </Box>
-            </div>
+            </div>}
 
             {/* <div className={classes.marqueContainer}>
-          <Marquee speed={80} gradientWidth={0} className={classes.marque}>
-            <Text className={classes.marqueText} weight={700}>
-              Panasonic - A Better Life, A Better World.
-            </Text>
-          </Marquee>
-        </div> */}
+              <Marquee speed={80} gradientWidth={0} className={classes.marque}>
+                <Text className={classes.marqueText} weight={700}>
+                  Panasonic - A Better Life, A Better World.
+                </Text>
+              </Marquee>
+            </div> */}
+
             <div className={classes.deskContainer}>
               {/* {exhibitor?.company_logo ? ( */}
               <Image
@@ -576,7 +606,7 @@ const ExhibitorBooth: NextPage = () => {
                     ? getFileUrl(exhibitor.company_logo, "companies")
                     : "/hef-2022/logoipsum.svg"
                 }
-                alt="Desk logo"
+                alt={exhibitor?.company_name}
               />
               {/* ) : null} */}
             </div>
