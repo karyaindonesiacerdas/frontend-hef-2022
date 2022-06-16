@@ -689,7 +689,7 @@ const ExhibitorBooth: NextPage = () => {
                   <Phone size={20} />
                   <Anchor
                     size="sm"
-                    href={`https://wa.me/${exhibitor?.mobile}`}
+                    href={`https://wa.me/${exhibitor?.mobile?.replace(/^0/, '62')}`}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -863,7 +863,7 @@ const ExhibitorBooth: NextPage = () => {
           })}
           component="a"
           aria-label="whatsapp button"
-          href={`https://wa.me/${exhibitor?.mobile}`}
+          href={`https://wa.me/${exhibitor?.mobile?.replace(/^0/, '62')}`}
           rel="noopener noreferrer"
           target="_blank"
         >

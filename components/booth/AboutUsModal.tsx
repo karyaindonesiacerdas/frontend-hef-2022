@@ -181,7 +181,7 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
               >
                 <Anchor
                   size="sm"
-                  href={`https://wa.me/${exhibitor?.mobile}`}
+                  href={`https://wa.me/${exhibitor?.mobile?.replace(/^0/, '62')}`}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
