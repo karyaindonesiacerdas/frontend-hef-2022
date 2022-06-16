@@ -567,6 +567,7 @@ const CompanyInfoForm = ({ exhibitor }: { exhibitor: Exhibitor }) => {
       mobile: "",
       company_website: "",
       company_video_url: "",
+      company_running_text: "",
     },
   });
   const { setValues } = form;
@@ -576,6 +577,7 @@ const CompanyInfoForm = ({ exhibitor }: { exhibitor: Exhibitor }) => {
       company_name: exhibitor.company_name,
       company_video_url: exhibitor.company_video_url,
       company_website: exhibitor.company_website,
+      company_running_text: exhibitor.company_running_text,
       email: exhibitor.email,
       mobile: exhibitor.mobile,
     });
@@ -587,6 +589,7 @@ const CompanyInfoForm = ({ exhibitor }: { exhibitor: Exhibitor }) => {
       company_name: values.company_name,
       company_video_url: values.company_video_url,
       company_website: values.company_website,
+      company_running_text: values.company_running_text,
       email: values.email,
     };
     try {
@@ -632,6 +635,12 @@ const CompanyInfoForm = ({ exhibitor }: { exhibitor: Exhibitor }) => {
         mb="md"
         label="Company Video URL"
         {...form.getInputProps("company_video_url")}
+      />
+      <TextInput
+        mt="md"
+        mb="md"
+        label="Company Running Text"
+        {...form.getInputProps("company_running_text")}
       />
       <SimpleGrid cols={2} style={{ alignItems: "center" }}>
         <ImageInput

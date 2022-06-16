@@ -29,6 +29,7 @@ export type Exhibitor = {
   company_order: string;
   company_website: string;
   company_video_url: string;
+  company_running_text: string;
   name: string;
   email: string;
   package_id: number;

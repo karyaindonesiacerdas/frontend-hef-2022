@@ -396,6 +396,7 @@ export type UpdateExhibitorPayload = {
   company_website?: string;
   company_logo?: File;
   company_video_url?: string;
+  company_running_text?: string;
   email?: string;
 };
 
@@ -407,6 +408,7 @@ export const updateExhibitor = async (payload: UpdateExhibitorPayload) => {
     company_name,
     company_video_url,
     company_website,
+    company_running_text,
     email,
   } = payload;
 
@@ -416,6 +418,7 @@ export const updateExhibitor = async (payload: UpdateExhibitorPayload) => {
   company_name && formData.append("company_name", company_name);
   company_video_url && formData.append("company_video_url", company_video_url);
   company_website && formData.append("company_website", company_website);
+  company_running_text && formData.append("company_running_text", company_running_text);
   email && formData.append("email", email);
 
   const res = await fetch(URL, {

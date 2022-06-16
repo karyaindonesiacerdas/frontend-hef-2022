@@ -33,6 +33,7 @@ import {
 import dynamic from "next/dynamic";
 // import Marquee from "react-fast-marquee";
 // import Marquee from "react-easy-marquee";
+import Ticker from "react-ticker";
 
 import AppLayout from "@/components/app-layout/AppLayout";
 // import AboutUsModal from "@/components/booth/AboutUsModal";
@@ -60,16 +61,10 @@ import RunningText from "@/components/RunningText";
 import ReactPlayer from "react-player";
 import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
 import { matchYoutubeUrl } from "utils/youtube";
-import Marquee from "react-fast-marquee";
 
 export const pulse = keyframes({
   "from, to": { opacity: 1 },
   "50%": { opacity: 0.3 },
-});
-
-export const pulseAlt = keyframes({
-  "from, to": { opacity: 0.9 },
-  "50%": { opacity: 0.4 },
 });
 
 const useStyles = createStyles((theme) => ({
@@ -108,7 +103,6 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     height: "100%",
     backgroundColor: "white",
-    opacity: 0.2,
     transform: "rotateY(10deg) rotateZ(0.5deg)",
     display: "flex",
     justifyContent: "center",
@@ -116,11 +110,29 @@ const useStyles = createStyles((theme) => ({
     fontSize: "1vw",
     fontWeight: 600,
     border: "4px solid teal",
-    animation: `${pulseAlt} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
+    overflow: "clip",
+  },
+  catalogImg: {
+    opacity: 0.7,
     cursor: "pointer",
     "&:hover": {
       opacity: 1,
     },
+    position: "absolute",
+    left: 0,
+    top: 0,
+    maxWidth: "100%",
+    objectFit: "cover",
+  },
+  catalogText: {
+    fontSize: "0.9vw",
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: "white",
+    textAlign: "center",
+    padding: "4px 2px",
+    animation: `${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
   },
   profileContainer: {
     position: "absolute",
@@ -134,7 +146,6 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     height: "100%",
     backgroundColor: "white",
-    opacity: 0.4,
     fontSize: "1vw",
     fontWeight: 600,
     transform: "rotateY(-3.5deg) rotateZ(-1.5deg)",
@@ -143,11 +154,29 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     border: "4px solid teal",
-    animation: `${pulseAlt} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
+    overflow: "clip",
+  },
+  profileImg: {
+    opacity: 0.7,
     cursor: "pointer",
     "&:hover": {
       opacity: 1,
     },
+    position: "absolute",
+    left: 0,
+    top: 0,
+    maxWidth: "100%",
+    objectFit: "cover",
+  },
+  profileText: {
+    fontSize: "0.9vw",
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: "white",
+    textAlign: "center",
+    padding: "4px 2px",
+    animation: `${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
   },
   videoButtonContainer: {
     position: "absolute",
@@ -188,7 +217,7 @@ const useStyles = createStyles((theme) => ({
   },
   marqueContainer: {
     position: "absolute",
-    width: "33%",
+    width: "31%",
     height: "5%",
     top: "13%",
     left: "15.5%",
@@ -201,6 +230,8 @@ const useStyles = createStyles((theme) => ({
   },
   marqueText: {
     fontSize: "1.1vw",
+    whiteSpace: "nowrap",
+    paddingLeft: "60px",
   },
   deskContainer: {
     position: "absolute",
@@ -340,7 +371,7 @@ const ExhibitorBooth: NextPage = () => {
   const [selectedPoster, setSelectedPoster] = useState("");
   const [posterIndex, setPosterIndex] = useState(1);
   const [posterPreview, setPosterPreview] = useState("");
-  const timerRef = useRef(null);
+  const timerRef: { current: NodeJS.Timeout | null } = useRef(null);
   const os = useOs();
 
   const {
@@ -381,7 +412,7 @@ const ExhibitorBooth: NextPage = () => {
 
   useEffect(() => {
     timerRef.current = setTimeout(() => {
-      clearTimeout(timerRef.current);
+      if (timerRef?.current) clearTimeout(timerRef.current);
       const nextIndex = posterIndex % 5 + 1;
       const poster = exhibitor?.banners?.find((banner) => banner.order === nextIndex);
       if (poster) {
@@ -389,7 +420,9 @@ const ExhibitorBooth: NextPage = () => {
       }
       setPosterIndex(nextIndex);
     }, 4000);
-    return () => clearTimeout(timerRef.current);
+    return () => {
+      if (timerRef?.current) clearTimeout(timerRef.current);
+    }
   }, [exhibitor?.banners, posterIndex]);
 
   const handleAddContact = async () => {
@@ -451,7 +484,7 @@ const ExhibitorBooth: NextPage = () => {
   };
 
   const nameCard = exhibitor?.banners?.find((banner) => banner.order === 11);
-  const nameCardUrl = nameCard ? getFileUrl(nameCard.image, "banner") : null;
+  const nameCardUrl = nameCard ? getFileUrl(nameCard.image, "banner") : undefined;
   const catalog = exhibitor?.banners?.find((banner) => banner.order === 12);
 
   const isMobile = os === "android" || os === "ios";
@@ -538,10 +571,7 @@ const ExhibitorBooth: NextPage = () => {
               />
               {/* ) : null} */}
             </div>
-            <div
-              className={classes.catalogContainer}
-              style={posterPreview ? { backgroundImage: `url("${posterPreview}")`, backgroundSize: 'cover', backgroundClip: 'text' } : {}}
-            >
+            <div className={classes.catalogContainer}>
               <UnstyledButton
                 className={classes.catalog}
                 onClick={() => {
@@ -549,19 +579,18 @@ const ExhibitorBooth: NextPage = () => {
                   handleClickPoster();
                 }}
               >
-                Poster
+                <img src={posterPreview} alt=" " className={classes.catalogImg} />
+                <div className={classes.catalogText}>Poster</div>
               </UnstyledButton>
             </div>
-            <div
-              className={classes.profileContainer}
-              style={nameCardUrl ? { backgroundImage: `url("${nameCardUrl}")`, backgroundSize: 'cover', backgroundClip: 'text' } : {}}
-            >
+            <div className={classes.profileContainer}>
               <UnstyledButton
                 className={classes.profile}
                 onClick={() => setIsOpenAboutUs(true)}
                 style={{ textAlign: "center" }}
               >
-                Catalog & Name Card
+                <img src={nameCardUrl} alt=" " className={classes.profileImg} />
+                <div className={classes.profileText}>Catalog & Name Card</div>
               </UnstyledButton>
             </div>
 
@@ -589,13 +618,15 @@ const ExhibitorBooth: NextPage = () => {
               </Box>
             </div>}
 
-            {/* <div className={classes.marqueContainer}>
-              <Marquee speed={80} gradientWidth={0} className={classes.marque}>
-                <Text className={classes.marqueText} weight={700}>
-                  Panasonic - A Better Life, A Better World.
-                </Text>
-              </Marquee>
-            </div> */}
+            <div className={[classes.marqueContainer, classes.marque].join(' ')}>
+              <Ticker move={true}>
+                {() => (
+                  <Text className={classes.marqueText} weight={700}>
+                    {exhibitor?.company_running_text || exhibitor?.company_name}
+                  </Text>
+                )}
+              </Ticker>
+            </div>
 
             <div className={classes.deskContainer}>
               {/* {exhibitor?.company_logo ? ( */}
