@@ -54,7 +54,8 @@ import {
   allowToHaveCatalog,
   allowToHaveCatalogAndNameCard,
   allowToHaveLiveChat,
-  allowToHaveNameCard
+  allowToHaveNameCard,
+  getMobileLink
 } from "services/exhibitor/exhibitor";
 import { useQueryClient } from "react-query";
 import { getFileUrl } from "utils/file-storage";
@@ -759,7 +760,7 @@ const ExhibitorBooth: NextPage = () => {
                   <Phone size={20} />
                   <Anchor
                     size="sm"
-                    href={allowToHaveLiveChat(exhibitor?.id) ? `https://wa.me/${exhibitor?.mobile?.replace(/^0/, '62')}` : `tel:${exhibitor?.mobile}`}
+                    href={getMobileLink(exhibitor?.id, exhibitor?.mobile)}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -937,7 +938,7 @@ const ExhibitorBooth: NextPage = () => {
           })}
           component="a"
           aria-label="whatsapp button"
-          href={`https://wa.me/${exhibitor?.mobile?.replace(/^0/, '62')}`}
+          href={getMobileLink(exhibitor?.id, exhibitor?.mobile)}
           rel="noopener noreferrer"
           target="_blank"
         >
