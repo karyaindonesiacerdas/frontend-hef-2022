@@ -45,3 +45,7 @@ export const getExhibitor = async (id: string) => {
 
   return json.data;
 };
+
+export const allowToHaveCatalog = (id: number | null | undefined) => id && ![5267, 5270, 5565].includes(id);
+export const allowToHaveNameCard = (id: number | null | undefined) => id && ![5270, 5565].includes(id);
+export const allowToHaveCatalogAndNameCard = (id: number | null | undefined) => id && ![5270, 5565].includes(id);

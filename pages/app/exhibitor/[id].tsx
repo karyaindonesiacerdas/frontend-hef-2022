@@ -50,6 +50,11 @@ import ChatButton from "@/components/chat/ChatButton";
 import { createConversation } from "services/chat/conversation";
 import { useNotifications } from "@mantine/notifications";
 import { useExhibitor } from "services/exhibitor/hooks";
+import {
+  allowToHaveCatalog,
+  allowToHaveCatalogAndNameCard,
+  allowToHaveNameCard
+} from "services/exhibitor/exhibitor";
 import { useQueryClient } from "react-query";
 import { getFileUrl } from "utils/file-storage";
 import EditBoothDrawer from "@/components/booth/EditBoothDrawer";
@@ -484,7 +489,7 @@ const ExhibitorBooth: NextPage = () => {
   };
 
   const nameCard = exhibitor?.banners?.find((banner) => banner.order === 11);
-  const nameCardUrl = nameCard ? getFileUrl(nameCard.image, "banner") : undefined;
+  const nameCardUrl = allowToHaveCatalogAndNameCard(exhibitor?.id) && nameCard ? getFileUrl(nameCard.image, "banner") : undefined;
   const catalog = exhibitor?.banners?.find((banner) => banner.order === 12);
 
   const isMobile = os === "android" || os === "ios";
@@ -578,6 +583,7 @@ const ExhibitorBooth: NextPage = () => {
                   setIsOpenCatalog(true);
                   handleClickPoster();
                 }}
+                style={{ opacity: posterPreview ? 1 : 0.5 }}
               >
                 <img src={posterPreview} alt=" " className={classes.catalogImg} />
                 <div className={classes.catalogText}>Poster</div>
@@ -587,10 +593,12 @@ const ExhibitorBooth: NextPage = () => {
               <UnstyledButton
                 className={classes.profile}
                 onClick={() => setIsOpenAboutUs(true)}
-                style={{ textAlign: "center" }}
+                style={{ opacity: nameCardUrl ? 1 : 0.5 }}
               >
                 <img src={nameCardUrl} alt=" " className={classes.profileImg} />
-                <div className={classes.profileText}>Catalog & Name Card</div>
+                <div className={classes.profileText}>
+                  {allowToHaveCatalogAndNameCard(exhibitor?.id) ? 'Catalog & Name Card' : 'Company Information'}
+                </div>
               </UnstyledButton>
             </div>
 
@@ -827,78 +835,82 @@ const ExhibitorBooth: NextPage = () => {
                   </Paper>
                 ))}
             </Box>
-            <Text mt={40} px="sm" size="lg" weight={600} mb="sm">
-              Download
-            </Text>
-            <SimpleGrid cols={2} px="sm">
-              {catalog ? (
-                <UnstyledButton
-                  p="xl"
-                  sx={(theme) => ({
-                    backgroundColor: theme.colors[theme.primaryColor][0],
-                    borderRadius: theme.radius.md,
-                    "&:hover": {
-                      backgroundColor: theme.colors[theme.primaryColor][1],
-                    },
-                  })}
-                  component="a"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={
-                    catalog?.image ? getFileUrl(catalog?.image, "banner") : ""
-                  }
-                >
-                  <Stack align="center" spacing="xs">
-                    <ClipboardList
-                      size={32}
-                      color={theme.colors[theme.primaryColor][9]}
-                    />
-                    <Text
-                      align="center"
-                      weight={700}
+            {allowToHaveCatalogAndNameCard(exhibitor?.id) && (
+              <>
+                <Text mt={40} px="sm" size="lg" weight={600} mb="sm">
+                  Download
+                </Text>
+                <SimpleGrid cols={2} px="sm">
+                  {allowToHaveCatalog(exhibitor?.id) && catalog ? (
+                    <UnstyledButton
+                      p="xl"
                       sx={(theme) => ({
-                        color: theme.colors[theme.primaryColor][9],
+                        backgroundColor: theme.colors[theme.primaryColor][0],
+                        borderRadius: theme.radius.md,
+                        "&:hover": {
+                          backgroundColor: theme.colors[theme.primaryColor][1],
+                        },
                       })}
+                      component="a"
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={
+                        catalog?.image ? getFileUrl(catalog?.image, "banner") : ""
+                      }
                     >
-                      Catalog
-                    </Text>
-                  </Stack>
-                </UnstyledButton>
-              ) : null}
-              {nameCard ? (
-                <UnstyledButton
-                  p="xl"
-                  sx={(theme) => ({
-                    backgroundColor: theme.colors[theme.primaryColor][0],
-                    borderRadius: theme.radius.md,
-                    "&:hover": {
-                      backgroundColor: theme.colors[theme.primaryColor][1],
-                    },
-                  })}
-                  component="a"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={
-                    nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""
-                  }
-                >
-                  <Stack align="center" spacing="xs">
-                    <Id size={32} color={theme.colors[theme.primaryColor][9]} />
-                    <Text
-                      align="center"
-                      weight={700}
+                      <Stack align="center" spacing="xs">
+                        <ClipboardList
+                          size={32}
+                          color={theme.colors[theme.primaryColor][9]}
+                        />
+                        <Text
+                          align="center"
+                          weight={700}
+                          sx={(theme) => ({
+                            color: theme.colors[theme.primaryColor][9],
+                          })}
+                        >
+                          Catalog
+                        </Text>
+                      </Stack>
+                    </UnstyledButton>
+                  ) : null}
+                  {allowToHaveNameCard(exhibitor?.id) && nameCard ? (
+                    <UnstyledButton
+                      p="xl"
                       sx={(theme) => ({
-                        color: theme.colors[theme.primaryColor][9],
+                        backgroundColor: theme.colors[theme.primaryColor][0],
+                        borderRadius: theme.radius.md,
+                        "&:hover": {
+                          backgroundColor: theme.colors[theme.primaryColor][1],
+                        },
                       })}
+                      component="a"
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={
+                        nameCard?.image ? getFileUrl(nameCard?.image, "banner") : ""
+                      }
                     >
-                      Name Card
-                    </Text>
-                  </Stack>
-                </UnstyledButton>
-              ) : null}
-            </SimpleGrid>
+                      <Stack align="center" spacing="xs">
+                        <Id size={32} color={theme.colors[theme.primaryColor][9]} />
+                        <Text
+                          align="center"
+                          weight={700}
+                          sx={(theme) => ({
+                            color: theme.colors[theme.primaryColor][9],
+                          })}
+                        >
+                          Name Card
+                        </Text>
+                      </Stack>
+                    </UnstyledButton>
+                  ) : null}
+                </SimpleGrid>
+              </>
+            )}
           </Stack>
         </div>
       )}

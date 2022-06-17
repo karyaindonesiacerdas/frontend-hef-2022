@@ -17,6 +17,11 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { Exhibitor } from "services/exhibitor/hooks";
+import {
+  allowToHaveCatalog,
+  allowToHaveCatalogAndNameCard,
+  allowToHaveNameCard
+} from "services/exhibitor/exhibitor";
 import { getFileUrl } from "utils/file-storage";
 import { Building, Download, Mail, Phone, World } from "tabler-icons-react";
 import fileDownload from "js-file-download";
@@ -191,110 +196,116 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
               </List.Item>
             </SimpleGrid>
           </List>
-          <SimpleGrid mt="xl" cols={2}>
-            <Paper p="md" radius="md" shadow="xs" withBorder>
-              <Text mb="sm" align="center" weight={500}>
-                Name Card
-              </Text>
-              {!!nameCard?.image ? (
-                <>
-                  <a
-                    // download
-                    // target="_blank"
-                    // rel="noopener noreferrer"
-                    // href={
-                    //   nameCard?.image
-                    //     ? getFileUrl(nameCard?.image, "banner")
-                    //     : ""
-                    // }
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowNameCard(true);
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <Image
-                      src={
-                        nameCard?.image
-                          ? getFileUrl(nameCard?.image, "banner")
-                          : "/hef-2022/logoipsum.svg"
-                      }
-                      alt="Name card"
-                      height={200}
-                      fit="contain"
-                    />
-                  </a>
-                  <Group position="center">
-                    <Button
-                      component="a"
-                      pl="xs"
-                      size="xs"
-                      mt="md"
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      leftIcon={<Download size={16} />}
-                      href={
-                        nameCard?.image
-                          ? getFileUrl(nameCard?.image, "banner")
-                          : ""
-                      }
-                    >
-                      Download Name Card
-                    </Button>
-                  </Group>
-                </>
-              ) : (
-                <Center
-                  style={{
-                    height: "90%",
-                    // borderWidth: "2px",
-                    // border: "1px solid #ddd",
-                  }}
-                >
-                  <Text size="xl" weight={600}>
-                    Empty
+          {allowToHaveCatalogAndNameCard(exhibitor?.id) && (
+            <SimpleGrid mt="xl" cols={2}>
+              {allowToHaveNameCard(exhibitor?.id) && (
+                <Paper p="md" radius="md" shadow="xs" withBorder>
+                  <Text mb="sm" align="center" weight={500}>
+                    Name Card
                   </Text>
-                </Center>
-              )}
-            </Paper>
-            <Paper p="md" radius="md" shadow="xs" withBorder>
-              <Text mb="sm" align="center" weight={500}>
-                Catalog
-              </Text>
-              {catalog ? (
-                <div>
-                  <Group position="center">
-                    <Button
-                      component="a"
-                      href={getFileUrl(catalog.image, "banner")}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      leftIcon={<Download size={16} />}
-                      pl="xs"
-                      size="xs"
-                      mt="md"
+                  {!!nameCard?.image ? (
+                    <>
+                      <a
+                        // download
+                        // target="_blank"
+                        // rel="noopener noreferrer"
+                        // href={
+                        //   nameCard?.image
+                        //     ? getFileUrl(nameCard?.image, "banner")
+                        //     : ""
+                        // }
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setShowNameCard(true);
+                        }}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <Image
+                          src={
+                            nameCard?.image
+                              ? getFileUrl(nameCard?.image, "banner")
+                              : "/hef-2022/logoipsum.svg"
+                          }
+                          alt="Name card"
+                          height={200}
+                          fit="contain"
+                        />
+                      </a>
+                      <Group position="center">
+                        <Button
+                          component="a"
+                          pl="xs"
+                          size="xs"
+                          mt="md"
+                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          leftIcon={<Download size={16} />}
+                          href={
+                            nameCard?.image
+                              ? getFileUrl(nameCard?.image, "banner")
+                              : ""
+                          }
+                        >
+                          Download Name Card
+                        </Button>
+                      </Group>
+                    </>
+                  ) : (
+                    <Center
+                      style={{
+                        height: "90%",
+                        // borderWidth: "2px",
+                        // border: "1px solid #ddd",
+                      }}
                     >
-                      Download Catalog
-                    </Button>
-                  </Group>
-                </div>
-              ) : (
-                <Center
-                  style={{
-                    height: "90%",
+                      <Text size="xl" weight={600}>
+                        Empty
+                      </Text>
+                    </Center>
+                  )}
+                </Paper>
+              )}
+              {allowToHaveCatalog(exhibitor?.id) && (
+                <Paper p="md" radius="md" shadow="xs" withBorder>
+                  <Text mb="sm" align="center" weight={500}>
+                    Catalog
+                  </Text>
+                  {catalog ? (
+                    <div>
+                      <Group position="center">
+                        <Button
+                          component="a"
+                          href={getFileUrl(catalog.image, "banner")}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          leftIcon={<Download size={16} />}
+                          pl="xs"
+                          size="xs"
+                          mt="md"
+                        >
+                          Download Catalog
+                        </Button>
+                      </Group>
+                    </div>
+                  ) : (
+                    <Center
+                      style={{
+                        height: "90%",
 
-                    // borderWidth: "2px",
-                    // border: "1px solid #ddd",
-                  }}
-                >
-                  <Text size="xl" weight={600}>
-                    Empty
-                  </Text>
-                </Center>
+                        // borderWidth: "2px",
+                        // border: "1px solid #ddd",
+                      }}
+                    >
+                      <Text size="xl" weight={600}>
+                        Empty
+                      </Text>
+                    </Center>
+                  )}
+                </Paper>
               )}
-            </Paper>
-          </SimpleGrid>
+            </SimpleGrid>
+          )}
         </Box>
       )}
     </Modal>
