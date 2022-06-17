@@ -97,7 +97,7 @@ const RunningText = ({ showJoinZoom = true }: { showJoinZoom?: boolean }) => {
             alt="Logo"
           />
           <Text weight={500} color="white" size={largerThanSm ? "md" : "sm"}>
-            Kunjungin website kami{" "}
+            Kunjungi website kami{" "}
           </Text>
           <Anchor
             href="https://www.selaraslawangsewu.com"
@@ -168,7 +168,7 @@ const RunningText = ({ showJoinZoom = true }: { showJoinZoom?: boolean }) => {
             alt="Logo"
           />
           <Text weight={500} color="white" size={largerThanSm ? "md" : "sm"}>
-            Kunjungin website kami{" "}
+            Kunjungi website kami{" "}
           </Text>
           <Anchor
             href="https://www.dekkson.com"
@@ -250,6 +250,40 @@ const RunningText = ({ showJoinZoom = true }: { showJoinZoom?: boolean }) => {
               </Text>
             </Group>
           </Anchor>
+        </Group>
+        <Group mr={100} align="center">
+          <Anchor
+            href="https://www.sahabatmitra.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src="https://res.cloudinary.com/darwxdfjz/image/upload/v1655479531/HEF-2022/yxxwe7p6mek4dda74hpk.png"
+              width={45}
+              height={largerThanSm ? 30 : 26}
+              alt="Logo"
+            />
+          </Anchor>
+          <Text weight={500} color="white" size={largerThanSm ? "md" : "sm"}>
+            GOPOWER adalah distributor resmi terbesar dengan pengalaman lebih dari 20 tahun untuk produk elektrikal ternama dari seluruh dunia, mulai dari Autonics, Mersen, Palazzoli hingga Phoenix Contact.
+          </Text>
+        </Group>
+        <Group mr={100} align="center">
+          <Anchor
+            href="https://www.adiwarna.co.id/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src="https://res.cloudinary.com/darwxdfjz/image/upload/v1654871648/HEF-2022/ch9wljevgtxwiutni0x3.png"
+              width={45}
+              height={largerThanSm ? 30 : 26}
+              alt="Logo"
+            />
+          </Anchor>
+          <Text weight={500} color="white" size={largerThanSm ? "md" : "sm"}>
+            PT. Adiwarna Anugerah Abadi - Fire Protection Specialists
+          </Text>
         </Group>
       </Group>
     </Box>
