@@ -53,6 +53,7 @@ import { useExhibitor } from "services/exhibitor/hooks";
 import {
   allowToHaveCatalog,
   allowToHaveCatalogAndNameCard,
+  allowToHaveLiveChat,
   allowToHaveNameCard
 } from "services/exhibitor/exhibitor";
 import { useQueryClient } from "react-query";
@@ -758,7 +759,7 @@ const ExhibitorBooth: NextPage = () => {
                   <Phone size={20} />
                   <Anchor
                     size="sm"
-                    href={`https://wa.me/${exhibitor?.mobile?.replace(/^0/, '62')}`}
+                    href={allowToHaveLiveChat(exhibitor?.id) ? `https://wa.me/${exhibitor?.mobile?.replace(/^0/, '62')}` : `tel:${exhibitor?.mobile}`}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -914,23 +915,23 @@ const ExhibitorBooth: NextPage = () => {
           </Stack>
         </div>
       )}
-      {settings?.is_chat === "1" && exhibitor && (
+      {false && settings?.is_chat === "1" && exhibitor && (
         <ChatButton exhibitor={exhibitor} />
       )}
-      {exhibitor?.mobile ? (
+      {allowToHaveLiveChat(exhibitor?.id) && exhibitor?.mobile ? (
         <UnstyledButton
           sx={(theme) => ({
             width: 65,
             height: 65,
             backgroundColor: "white",
             position: "fixed",
-            right: 120,
+            right: 35,
             bottom: 35,
             borderRadius: 1000,
             overflow: "hidden",
             [theme.fn.smallerThan("sm")]: {
               bottom: 80,
-              right: 100,
+              right: 20,
             },
             boxShadow: theme.shadows.xl,
           })}

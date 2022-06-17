@@ -612,7 +612,6 @@ const Exhibitor = () => {
     return null;
   }
 
-  console.log({ exhibitor2 });
   const isMobile = os === "android" || os === "ios";
 
   return (

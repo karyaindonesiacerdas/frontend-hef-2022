@@ -10,6 +10,9 @@ import {
   createStyles,
   Image,
   Text,
+  Divider,
+  SimpleGrid,
+  Anchor,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useNotifications } from "@mantine/notifications";
@@ -21,6 +24,7 @@ import { useAuth } from "contexts/auth.context";
 import { NextLink } from "@mantine/next";
 import { GetStaticPropsContext } from "next";
 import { trimString } from "utils/string";
+import Link from "next/link";
 // import { registerWithPhone } from "services/auth.service";
 
 const useStyles = createStyles((theme) => ({
@@ -163,6 +167,20 @@ export default function RegisterWithPhonePage() {
               {t("register")}
             </Button>
           </form>
+
+          <Divider my="xs" />
+
+          <SimpleGrid
+            cols={1}
+            mt="md"
+            breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+          >
+            <Link href="/login" passHref>
+              <Anchor component="a" size="sm" align="center">
+                Already have an account? Click here to login
+              </Anchor>
+            </Link>
+          </SimpleGrid>
         </Paper>
       </Container>
     </div>

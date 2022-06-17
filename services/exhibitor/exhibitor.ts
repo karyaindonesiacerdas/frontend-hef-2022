@@ -49,3 +49,4 @@ export const getExhibitor = async (id: string) => {
 export const allowToHaveCatalog = (id: number | null | undefined) => id && ![5267, 5270, 5565].includes(id);
 export const allowToHaveNameCard = (id: number | null | undefined) => id && ![5270, 5565].includes(id);
 export const allowToHaveCatalogAndNameCard = (id: number | null | undefined) => id && ![5270, 5565].includes(id);
+export const allowToHaveLiveChat = (id: number | null | undefined) => id && [5196, 5241, 5267, 5280, 5283, 5417, 5563].includes(id);

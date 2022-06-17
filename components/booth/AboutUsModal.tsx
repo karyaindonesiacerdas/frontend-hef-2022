@@ -20,6 +20,7 @@ import { Exhibitor } from "services/exhibitor/hooks";
 import {
   allowToHaveCatalog,
   allowToHaveCatalogAndNameCard,
+  allowToHaveLiveChat,
   allowToHaveNameCard
 } from "services/exhibitor/exhibitor";
 import { getFileUrl } from "utils/file-storage";
@@ -186,7 +187,7 @@ const AboutUsModal = ({ opened, setOpened, exhibitor }: Props) => {
               >
                 <Anchor
                   size="sm"
-                  href={`https://wa.me/${exhibitor?.mobile?.replace(/^0/, '62')}`}
+                  href={allowToHaveLiveChat(exhibitor?.id) ? `https://wa.me/${exhibitor?.mobile?.replace(/^0/, '62')}` : `tel:${exhibitor?.mobile}`}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
