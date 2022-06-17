@@ -66,7 +66,7 @@ const RunningText = ({ showJoinZoom = true }: { showJoinZoom?: boolean }) => {
                 },
               }}
               component="a"
-              href="https://us02web.zoom.us/j/88390108381?pwd=OWdFSEk5RHhrV2wwc2xIUWx0ZHdydz09"
+              href="https://us02web.zoom.us/j/86818493338?pwd=bTBZbUY1cUFyVDJoemRCQkV5MzRJZz09"
               target="_blank"
               rel="noopener noreferrer"
               size="xs"
