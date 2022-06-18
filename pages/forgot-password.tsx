@@ -14,6 +14,7 @@ import {
   LoadingOverlay,
   Image,
 } from "@mantine/core";
+import { useRouter } from "next/router";
 import { ArrowLeft } from "tabler-icons-react";
 import Link from "next/link";
 import { useForm, zodResolver } from "@mantine/form";
@@ -66,32 +67,33 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const schema = z.object({
-  email: z.string().email().nonempty(),
+  mobileOrEmail: z.string().nonempty(),
 });
 
 export default function ForgotPasswordPage() {
   const { classes } = useStyles();
   const [visible, setVisible] = useState(false);
   const notifications = useNotifications();
+  const router = useRouter();
 
   const form = useForm({
     schema: zodResolver(schema),
     initialValues: {
-      email: "",
+      mobileOrEmail: "",
     },
   });
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
       setVisible(true);
-      await userResetPassword(values.email);
-      setVisible(false);
+      await userResetPassword(values.mobileOrEmail);
       notifications.showNotification({
         title: "Success",
-        message: "Check your email",
+        message: "Your new password is 12345",
         color: "green",
       });
-      form.reset();
+      setVisible(false);
+      router.replace("/app");
     } catch (error: any) {
       setVisible(false);
       notifications.showNotification({
@@ -138,13 +140,13 @@ export default function ForgotPasswordPage() {
             Forgot your password?
           </Title>
           <Text color="dimmed" size="sm" align="center" mb="md">
-            Enter your email to reset password
+            Enter your phone or email to reset password
           </Text>
           <TextInput
-            label="Your email"
+            label="Your phone or email"
             placeholder="me@mantine.dev"
             required
-            {...form.getInputProps("email")}
+            {...form.getInputProps("mobileOrEmail")}
           />
           <Group position="apart" mt="lg" className={classes.controls}>
             <Link href="/login" passHref>

@@ -437,19 +437,17 @@ export const updateExhibitor = async (payload: UpdateExhibitorPayload) => {
   return json.data;
 };
 
-export const userResetPassword = async (email: string) => {
-  const cookies = Cookies.get("accessToken");
-
-  if (!email) {
+export const userResetPassword = async (mobileOrEmail: string) => {
+  if (!mobileOrEmail) {
     throw new Error("Invalid Payload");
   }
 
   const data = {
-    email,
+    mobileOrEmail,
   };
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/auth/reset/email`,
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/reset/password/all`,
     {
       method: "POST",
       headers: {
@@ -465,5 +463,17 @@ export const userResetPassword = async (email: string) => {
 
   const json = await res.json();
 
-  return json;
+  Cookies.set("accessToken", json?.data?.token);
+
+  const userData = await me();
+
+  Cookies.set("user", userData.data);
+
+  return {
+    ...json,
+    data: {
+      ...json.data,
+      user: userData.data,
+    },
+  };
 };
