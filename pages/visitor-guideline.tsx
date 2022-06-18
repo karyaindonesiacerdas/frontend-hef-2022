@@ -107,9 +107,9 @@ const VisitorGuideline: NextPage = () => {
           >
             <List.Item className={classes.paragraph}>
               {t("visitor-guideline.guideline-1")}{" "}
-              <Link href="/register/visitor" passHref>
+              <Link href="/register/phone" passHref>
                 <Anchor>
-                  https://hospital-engineering-expo.com/register/visitor
+                  https://hospital-engineering-expo.com/register/phone
                 </Anchor>
               </Link>
             </List.Item>

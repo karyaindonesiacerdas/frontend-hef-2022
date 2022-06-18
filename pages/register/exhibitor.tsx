@@ -444,7 +444,7 @@ export default function RegisterExhibitor() {
               mt="md"
               breakpoints={[{ maxWidth: "xs", cols: 1 }]}
             >
-              <Link href="/register/visitor" passHref>
+              <Link href="/register/phone" passHref>
                 <Button component="a" variant="outline">
                   {t("register-as-visitor")}
                 </Button>

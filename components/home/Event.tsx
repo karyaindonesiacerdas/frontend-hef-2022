@@ -126,7 +126,7 @@ const links = [
   },
   {
     image: "register-visitor.svg",
-    link: "/register/visitor",
+    link: "/register/phone",
     text: "Register as Visitor",
     value: "register-as-visitor",
   },

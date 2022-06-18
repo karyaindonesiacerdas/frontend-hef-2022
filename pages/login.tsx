@@ -183,7 +183,7 @@ export default function LoginPage() {
                 {t("register-as-exhibitor")}
               </Button>
             </Link> */}
-            <Link href="/register/visitor" passHref>
+            <Link href="/register/phone" passHref>
               <Button component="a" variant="outline">
                 {t("register-as-visitor")}
               </Button>

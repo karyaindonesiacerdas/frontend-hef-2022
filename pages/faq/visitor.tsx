@@ -97,7 +97,7 @@ const FAQVisitor: NextPage = () => {
               <List listStyleType="none" spacing="xs">
                 <List.Item>
                   {t(`visitor.faq-1.answer.1`)}{" "}
-                  <Anchor component={Link} href="/register/visitor">
+                  <Anchor component={Link} href="/register/phone">
                     Register
                   </Anchor>
                 </List.Item>
