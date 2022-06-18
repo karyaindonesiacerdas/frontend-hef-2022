@@ -186,7 +186,7 @@ const GuestBookDrawer = ({ opened, setOpened }: Props) => {
       onClose={() => setOpened(false)}
       title={
         <Title order={1} style={{ fontSize: theme.fontSizes.xl }}>
-          Booth Visitors
+          Booth Visitors: {visitorViews?.total}
         </Title>
       }
       padding="xl"
