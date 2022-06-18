@@ -31,7 +31,8 @@ export default async function handler(
     }
 
     await res.unstable_revalidate(pageUrl);
-    // console.log({ response });
+    const response = await res.unstable_revalidate(`/id`);
+    console.log({ response });
     return res.json({ revalidated: true });
   } catch (err) {
     // If there was an error, Next.js will continue
