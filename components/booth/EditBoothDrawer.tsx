@@ -45,8 +45,6 @@ type Props = {
 const EditBoothDrawer = ({ exhibitor, opened, setOpened }: Props) => {
   const theme = useMantineTheme();
 
-  console.log({ exhibitor });
-
   return (
     <Drawer
       opened={opened}

@@ -69,6 +69,7 @@ const ReactTable = ({
   extraPaddingBottom = true,
   initialState = {},
   downloadable = false,
+  sortable = true,
 }) => {
   const { classes, cx } = useStyles();
   const [scrolled, setScrolled] = useState(false);
@@ -174,13 +175,14 @@ const ReactTable = ({
                   <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                     <Group>
                       <span>{column.render("Header")}</span>
-                      {column.isSorted ? (
+                      {sortable && column.isSorted && (
                         column.isSortedDesc ? (
                           <ChevronDown size={14} />
                         ) : (
                           <ChevronUp size={14} />
                         )
-                      ) : (
+                      )}
+                      {sortable && !column.isSorted && (
                         <Selector size={14} />
                       )}
                     </Group>

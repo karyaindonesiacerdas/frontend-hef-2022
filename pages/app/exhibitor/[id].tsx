@@ -60,6 +60,7 @@ import {
 import { useQueryClient } from "react-query";
 import { getFileUrl } from "utils/file-storage";
 import EditBoothDrawer from "@/components/booth/EditBoothDrawer";
+import GuestBookDrawer from "@/components/booth/GuestBookDrawer";
 import { postActivity } from "services/activity/activity";
 import { useSettings } from "services/settings/hooks";
 import BottomNav from "@/components/app-layout/BottomNav";
@@ -68,6 +69,7 @@ import RunningText from "@/components/RunningText";
 import ReactPlayer from "react-player";
 import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
 import { matchYoutubeUrl } from "utils/youtube";
+import { Notebook } from "tabler-icons-react";
 
 export const pulse = keyframes({
   "from, to": { opacity: 1 },
@@ -330,9 +332,30 @@ const useStyles = createStyles((theme) => ({
     width: "3%",
     height: "3%",
     top: "2%",
-    right: "2%",
+    right: "6%",
   },
   editBoothButton: {
+    padding: "0.5vw",
+    borderRadius: "1000px",
+    backgroundColor: "white",
+    opacity: 0.4,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    border: "4px solid teal",
+    cursor: "pointer",
+    "&:hover": {
+      opacity: 1,
+    },
+  },
+  guestBookButtonContainer: {
+    position: "absolute",
+    width: "3%",
+    height: "3%",
+    top: "2%",
+    right: "2%",
+  },
+  guestBookButton: {
     padding: "0.5vw",
     borderRadius: "1000px",
     backgroundColor: "white",
@@ -367,6 +390,7 @@ const ExhibitorBooth: NextPage = () => {
   const [isOpenCatalog, setIsOpenCatalog] = useState(false);
   const [isOpenAboutUs, setIsOpenAboutUs] = useState(false);
   const [isOpenEditContent, setIsOpenEditContent] = useState(false);
+  const [isOpenGuestBook, setIsOpenGuestBook] = useState(false);
   const [isOpenVideo, setIsOpenVideo] = useState(false);
   const notifications = useNotifications();
   const [isLoadingAddContact, setIsLoadingAddContact] = useState(false);
@@ -564,6 +588,12 @@ const ExhibitorBooth: NextPage = () => {
               exhibitor={exhibitor}
             />
           )}
+          {String(user?.id) === String(router.query.id) && (
+            <GuestBookDrawer
+              opened={isOpenGuestBook}
+              setOpened={setIsOpenGuestBook}
+            />
+          )}
           <div className={classes.container}>
             <div className={classes.logoContainer}>
               {/* {exhibitor?.company_logo ? ( */}
@@ -684,6 +714,18 @@ const ExhibitorBooth: NextPage = () => {
                     onClick={() => setIsOpenEditContent(true)}
                   >
                     <Edit color="teal" size={"2vw"} />
+                  </UnstyledButton>
+                </Tooltip>
+              </div>
+            )}
+            {String(user?.id) === String(router.query.id) && (
+              <div className={classes.guestBookButtonContainer}>
+                <Tooltip label="Booth Visitors">
+                  <UnstyledButton
+                    className={classes.guestBookButton}
+                    onClick={() => setIsOpenGuestBook(true)}
+                  >
+                    <Notebook color="teal" size={"2vw"} />
                   </UnstyledButton>
                 </Tooltip>
               </div>
