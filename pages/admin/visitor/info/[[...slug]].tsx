@@ -1,21 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import {
-  Drawer,
+  AppShell,
+  Container,
   Title,
-  useMantineTheme,
 } from "@mantine/core";
 
+import AdminSidebar from "components/admin-layout/AdminSidebar";
 import KamalReactTable from "components/table/KamalReactTable";
 import { useAuth } from "contexts/auth.context";
 import { useVisitorViews } from "services/counter-booth/hooks";
-import { ChevronLeft, ChevronRight } from "tabler-icons-react";
 import dayjs from 'dayjs'
-
-type Props = {
-  opened: boolean;
-  setOpened: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
 type KamalReactTableParams = {
   pageIndex?: number;
@@ -27,8 +23,7 @@ type KamalReactTableParams = {
   }
 }
 
-const GuestBookDrawer = ({ opened, setOpened }: Props) => {
-  const theme = useMantineTheme();
+const AdminVisitorInfo: NextPage = () => {
   const router = useRouter();
   const { isAuthenticated, isInitialized, user } = useAuth();
   const [pageSize, setPageSize] = useState(25);
@@ -36,18 +31,21 @@ const GuestBookDrawer = ({ opened, setOpened }: Props) => {
   const [filter, setFilter] = useState('');
   const [sortColumn, setSortColumn] = useState('');
   const [sortDirection, setSortDirection] = useState('');
+  const slug = router.query.slug || []
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
       router.replace("/login");
+    } else if (isInitialized && isAuthenticated && user?.role !== "admin") {
+      router.replace("/main-hall");
     }
-  }, [router, isInitialized, isAuthenticated]);
+  }, [router, isInitialized, isAuthenticated, user?.role]);
 
   const {
     data: visitorViews,
     isSuccess: isSuccessVisitorViews,
     isLoading: isLoadingVisitorViews,
-  } = useVisitorViews({ page: pageIndex, limit: pageSize, filter, sortColumn, sortDirection });
+  } = useVisitorViews({ exhibitorId: slug[0], page: pageIndex, limit: pageSize, filter, sortColumn, sortDirection });
 
   const data = useMemo(
     () =>
@@ -60,6 +58,8 @@ const GuestBookDrawer = ({ opened, setOpened }: Props) => {
         mobile: visitorView?.visitor?.mobile,
         province: visitorView?.visitor?.province,
         institution_name: visitorView?.visitor?.institution_name,
+        exhibitor: visitorView?.exhibitor?.company_name,
+        referral: visitorView?.visitor?.referral,
         created_at: dayjs(visitorView?.created_at).format('YYYY-MM-DD HH:mm'),
       })),
     [visitorViews, isSuccessVisitorViews]
@@ -97,6 +97,16 @@ const GuestBookDrawer = ({ opened, setOpened }: Props) => {
       accessor: "institution_name",
     },
     {
+      Header: "Exhibitor",
+      Footer: "Exhibitor",
+      accessor: "exhibitor",
+    },
+    {
+      Header: "Referral",
+      Footer: "Referral",
+      accessor: "referral",
+    },
+    {
       Header: "Datetime",
       Footer: "Datetime",
       accessor: "created_at",
@@ -110,7 +120,7 @@ const GuestBookDrawer = ({ opened, setOpened }: Props) => {
   const handleParamsChange = (params: KamalReactTableParams) => {
     if (params.pageIndex) setPageIndex(params.pageIndex);
     if (params.pageSize) setPageSize(params.pageSize);
-    if (params.filter) setFilter(params.filter);
+    if (params.filter !== undefined) setFilter(params.filter);
     if (params.sort) {
       if (params.sort.sortColumn === '-') {
         setSortColumn('');
@@ -123,38 +133,38 @@ const GuestBookDrawer = ({ opened, setOpened }: Props) => {
   }
 
   return (
-    <Drawer
-      opened={opened}
-      onClose={() => setOpened(false)}
-      title={
-        <Title order={1} style={{ fontSize: theme.fontSizes.xl }}>
-          Booth Visitors: {visitorViews?.total}
-        </Title>
-      }
-      padding="xl"
-      size="90vw"
-      styles={{
-        drawer: {
+    <AppShell
+      navbar={<AdminSidebar />}
+      styles={(theme) => ({
+        main: {
+          height: "100vh",
           overflow: "auto",
+          padding: theme.spacing.xs,
+          paddingTop: theme.spacing.sm,
+          paddingBottom: theme.spacing.sm,
         },
-      }}
+      })}
     >
-      <KamalReactTable
-        showFooter={false}
-        data={data || []}
-        total={visitorViews?.total || 0}
-        columns={columns}
-        searchable={false}
-        sortable={false}
-        pagination={true}
-        downloadable={true}
-        skeletonCols={8}
-        isLoading={isLoadingVisitorViews}
-        initialState={{ pageIndex, pageSize }}
-        onParamsChange={handleParamsChange}
-      />
-    </Drawer>
+      <Container size={1700}>
+        <Title order={2} px={3}>
+          Visitor Info
+        </Title>
+        <KamalReactTable
+          showFooter={false}
+          data={data || []}
+          total={visitorViews?.total || 0}
+          columns={columns}
+          searchable={true}
+          pagination={true}
+          downloadable={true}
+          skeletonCols={8}
+          isLoading={isLoadingVisitorViews}
+          initialState={{ pageIndex, pageSize }}
+          onParamsChange={handleParamsChange}
+        />
+      </Container>
+    </AppShell>
   );
 };
 
-export default GuestBookDrawer;
+export default AdminVisitorInfo;

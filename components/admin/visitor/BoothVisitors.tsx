@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { createStyles, Group, Paper, SimpleGrid, Text } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
@@ -33,10 +34,16 @@ interface BoothVisitorsProps {
 }
 
 export function BoothVisitors({ data }: BoothVisitorsProps) {
+  const router = useRouter();
   const { classes } = useStyles();
+
+  const handleClick = (exhibitorId: string) => {
+    router.push(`/admin/visitor/info/${exhibitorId}`);
+  }
+
   const stats = data.map((stat) => {
     return (
-      <Paper withBorder p="md" radius="md" key={stat.company_name}>
+      <Paper withBorder p="md" radius="md" key={stat.company_name} onClick={() => handleClick(stat.id)} style={{ cursor: 'pointer' }}>
         <Group position="center">
           <Text size="xs" color="dimmed" className={classes.title}>
             {stat.company_name}
@@ -50,6 +57,7 @@ export function BoothVisitors({ data }: BoothVisitorsProps) {
       </Paper>
     );
   });
+
   return (
     <div className={classes.root}>
       <SimpleGrid

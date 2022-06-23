@@ -5,6 +5,7 @@ import { getVisitorViews, GetVisitorViewsParams } from "../counter-booth";
 type VisitorViews = {
   current_page: number;
   last_page: number;
+  from: number;
   total: number;
   data: {
     id: number;

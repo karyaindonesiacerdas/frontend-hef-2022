@@ -20,16 +20,24 @@ export const getBoothVisitors = async () => {
 };
 
 export type GetVisitorViewsParams = {
+  exhibitorId?: string;
   page?: number;
   limit?: number;
+  filter?: string;
+  sortColumn?: string;
+  sortDirection?: string;
 };
 
 export const getVisitorViews = async ({
-  limit = 100,
+  exhibitorId = '',
   page = 1,
+  limit = 100,
+  filter = "",
+  sortColumn = "",
+  sortDirection = "",
 }: GetVisitorViewsParams) => {
   const accessToken = Cookies.get("accessToken");
-  const URL = `${process.env.NEXT_PUBLIC_API_URL}/list-visitor-views?page=${page}&limit=${limit}`;
+  const URL = `${process.env.NEXT_PUBLIC_API_URL}/list-visitor-views?exhibitor_id=${exhibitorId}&page=${page}&limit=${limit}&filter=${filter}&sortColumn=${sortColumn}&sortDirection=${sortDirection}`;
 
   const res = await fetch(URL, {
     method: "GET",
