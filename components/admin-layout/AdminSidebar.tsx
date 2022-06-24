@@ -39,7 +39,10 @@ const mockdata = [
     icon: Users,
     links: [
       { label: "Booth Visitor", link: "/admin/visitor/booth" },
-      { label: "Visitor Info", link: "/admin/visitor/info" },
+      { label: "Booth Visitor Info", link: "/admin/visitor/info" },
+      { label: "Webinar Visitor", link: "/admin/visitor/webinar" },
+      { label: "Webinar Visitor Info", link: "/admin/visitor/webinar-info" },
+      { label: "Randomizer", link: "/admin/visitor/randomizer" },
     ],
   },
   { label: "Reward", icon: Trophy, link: "/admin/reward" },

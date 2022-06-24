@@ -144,8 +144,8 @@ const GuestBookDrawer = ({ opened, setOpened }: Props) => {
         data={data || []}
         total={visitorViews?.total || 0}
         columns={columns}
-        searchable={false}
-        sortable={false}
+        searchable={true}
+        sortable={true}
         pagination={true}
         downloadable={true}
         skeletonCols={8}

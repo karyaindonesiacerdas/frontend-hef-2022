@@ -1,6 +1,17 @@
 import { useQuery } from "react-query";
 
-import { getVisitorViews, GetVisitorViewsParams } from "../counter-booth";
+import { getRandomVisitor, GetRandomVisitorParams, getVisitorViews, GetVisitorViewsParams } from "../counter-booth";
+
+export type Visitor = {
+  id: number;
+  name: string;
+  institution_name?: string;
+  email?: string;
+  mobile?: string;
+  province?: string;
+  referral?: string;
+  allow_share_info?: 0 | 1;
+}
 
 type VisitorViews = {
   current_page: number;
@@ -17,17 +28,14 @@ type VisitorViews = {
       id: number;
       company_name: string;
     };
-    visitor: {
-      id: number;
-      name: string;
-      institution_name: string;
-      email: string;
-      mobile: string;
-      province: string;
-      referral: string;
-      allow_share_info: 0 | 1;
-    };
+    visitor: Visitor;
   }[];
+};
+
+type RandomVisitor = {
+  total: number;
+  winner: Visitor;
+  list: string[];
 };
 
 export const useVisitorViews = (params: GetVisitorViewsParams) => {
@@ -36,6 +44,16 @@ export const useVisitorViews = (params: GetVisitorViewsParams) => {
     () => getVisitorViews(params),
     {
       staleTime: 1000 * 60 * 1,
+    }
+  );
+};
+
+export const useRandomVisitor = (params: GetRandomVisitorParams) => {
+  return useQuery<RandomVisitor, Error>(
+    ["random-visitor", params],
+    () => getRandomVisitor(params),
+    {
+      staleTime: 1000 * 5,
     }
   );
 };
