@@ -8,10 +8,10 @@ type BoothVisitors = {
   total_visitors: number;
 };
 
-export const useBoothVisitors = () => {
+export const useBoothVisitors = (full = false) => {
   return useQuery<BoothVisitors[], Error>(
-    ["booth-visitors"],
-    getBoothVisitors,
+    ["booth-visitors", full],
+    () => getBoothVisitors(full),
     {
       staleTime: 1000 * 60 * 1,
     }

@@ -40,9 +40,9 @@ const mockdata = [
     links: [
       { label: "Booth Visitor", link: "/admin/visitor/booth" },
       { label: "Booth Visitor Info", link: "/admin/visitor/info" },
-      { label: "Webinar Visitor", link: "/admin/visitor/webinar" },
-      { label: "Webinar Visitor Info", link: "/admin/visitor/webinar-info" },
-      { label: "Randomizer", link: "/admin/visitor/randomizer" },
+      { label: "Webinar Attendee", link: "/admin/visitor/webinar" },
+      { label: "Webinar Attendee Info", link: "/admin/visitor/webinar-info" },
+      { label: "Doorprize", link: "/admin/visitor/randomizer" },
     ],
   },
   { label: "Reward", icon: Trophy, link: "/admin/reward" },
@@ -56,6 +56,7 @@ const mockdata = [
     icon: Adjustments,
     links: [
       { label: "App Settings", link: "/admin/settings/app-settings" },
+      { label: "Doorprize", link: "/admin/settings/doorprize" },
       { label: "Reset Password", link: "/admin/settings/reset-password" },
     ],
   },

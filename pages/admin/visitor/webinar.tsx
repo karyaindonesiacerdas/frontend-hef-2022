@@ -2,11 +2,11 @@ import type { NextPage } from "next";
 import { AppShell, Container, Title } from "@mantine/core";
 
 import AdminSidebar from "components/admin-layout/AdminSidebar";
-import { BoothVisitors } from "components/admin/visitor/BoothVisitors";
-import { useBoothVisitors } from "services/counter-booth/hooks";
+import { WebinarAttendees } from "components/admin/visitor/WebinarAttendees";
+import { useWebinarAttendees } from "services/counter-booth/hooks";
 
 const AdminVisitorBooth: NextPage = () => {
-  const { data: boothVisitors, isSuccess } = useBoothVisitors();
+  const { data: webinarAttendees, isSuccess } = useWebinarAttendees();
 
   return (
     <AppShell
@@ -23,13 +23,13 @@ const AdminVisitorBooth: NextPage = () => {
     >
       <Container size={1700}>
         <Title order={2} px={3}>
-          Booth Visitors
+          Webinar Attendees
         </Title>
-        {isSuccess && boothVisitors && (
-          <BoothVisitors
-            data={boothVisitors
-              ?.filter((s) => parseInt(s.id) > 0 && s.total_visitors > 0)
-              ?.sort((a, b) => b.total_visitors - a.total_visitors)}
+        {isSuccess && webinarAttendees && (
+          <WebinarAttendees
+            data={webinarAttendees
+              ?.filter((s) => parseInt(s.id) > 0 && s.total_attendees?.surveyed > 0)
+              ?.sort((a, b) => b.total_attendees.surveyed - a.total_attendees.surveyed)}
           />
         )}
       </Container>

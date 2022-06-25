@@ -32,34 +32,37 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface BoothVisitorsProps {
+interface WebinarAttendeesProps {
   data: {
     id: string;
-    company_name: string;
-    total_visitors: number;
+    name: string;
+    total_attendees: {
+      registered: number;
+      surveyed: number;
+    }
   }[];
 }
 
-export function BoothVisitors({ data }: BoothVisitorsProps) {
+export function WebinarAttendees({ data }: WebinarAttendeesProps) {
   const router = useRouter();
   const { classes } = useStyles();
 
-  const handleClick = (exhibitorId: string) => {
-    router.push(`/admin/visitor/info/${exhibitorId}`);
+  const handleClick = (id: string) => {
+    router.push(`/admin/visitor/webinar-info/${id}`);
   }
 
   const stats = data.map((stat) => {
     return (
-      <Paper withBorder p="md" radius="md" key={stat.company_name} onClick={() => handleClick(stat.id)} style={{ cursor: 'pointer' }}>
+      <Paper withBorder p="md" radius="md" key={stat.name} onClick={() => handleClick(stat.id)} style={{ cursor: 'pointer' }}>
         <Group className={classes.titleContainer}>
           <Text size="xs" color="dimmed" className={classes.title}>
-            {stat.company_name}
+            {stat.name}
           </Text>
         </Group>
 
         <Group direction="column" align="center" spacing={4} mt="xs">
-          <Text className={classes.value}>{stat.total_visitors}</Text>
-          <Text className={classes.visitor}>Visits</Text>
+          <Text className={classes.value}>{stat.total_attendees.surveyed}</Text>
+          <Text className={classes.visitor}>Attendees</Text>
         </Group>
       </Paper>
     );

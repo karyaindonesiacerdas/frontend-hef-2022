@@ -13,7 +13,7 @@ export type Visitor = {
   allow_share_info?: 0 | 1;
 }
 
-type VisitorViews = {
+export type VisitorViews = {
   current_page: number;
   last_page: number;
   from: number;

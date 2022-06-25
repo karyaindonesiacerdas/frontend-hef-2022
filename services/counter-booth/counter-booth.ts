@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
 
-export const getBoothVisitors = async () => {
+export const getBoothVisitors = async (full = false) => {
   const accessToken = Cookies.get("accessToken");
-  const URL = `${process.env.NEXT_PUBLIC_API_URL}/admin/list-visitor-views`;
+  const URL = `${process.env.NEXT_PUBLIC_API_URL}/admin/list-visitor-views?full=${full ? 1 : 0}`;
 
   const res = await fetch(URL, {
     method: "GET",
