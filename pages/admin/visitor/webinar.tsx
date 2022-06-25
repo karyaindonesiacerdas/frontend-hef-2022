@@ -5,7 +5,7 @@ import AdminSidebar from "components/admin-layout/AdminSidebar";
 import { WebinarAttendees } from "components/admin/visitor/WebinarAttendees";
 import { useWebinarAttendees } from "services/counter-booth/hooks";
 
-const AdminVisitorBooth: NextPage = () => {
+const WebinarAttendeesSummary: NextPage = () => {
   const { data: webinarAttendees, isSuccess } = useWebinarAttendees();
 
   return (
@@ -37,4 +37,4 @@ const AdminVisitorBooth: NextPage = () => {
   );
 };
 
-export default AdminVisitorBooth;
+export default WebinarAttendeesSummary;

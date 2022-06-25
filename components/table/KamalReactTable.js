@@ -253,7 +253,7 @@ const KamalReactTable = ({
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  <th {...column.getHeaderProps({ ...column.getSortByToggleProps(), style: { minWidth: column.minWidth } })}>
                     <Group onClick={() => handleSortChange(column)}>
                       <span>{column.render("Header")}</span>
                       {sortable && column.isSorted && (

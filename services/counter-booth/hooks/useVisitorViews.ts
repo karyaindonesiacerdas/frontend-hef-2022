@@ -10,6 +10,7 @@ export type Visitor = {
   mobile?: string;
   province?: string;
   referral?: string;
+  surveyed_package_id?: string[];
   allow_share_info?: 0 | 1;
 }
 

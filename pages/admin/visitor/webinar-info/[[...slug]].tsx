@@ -23,7 +23,7 @@ type KamalReactTableParams = {
   }
 }
 
-const AdminVisitorInfo: NextPage = () => {
+const WebinarAttendeesList: NextPage = () => {
   const router = useRouter();
   const { isAuthenticated, isInitialized, user } = useAuth();
   const [pageSize, setPageSize] = useState(25);
@@ -59,9 +59,10 @@ const AdminVisitorInfo: NextPage = () => {
         mobile: visitorView?.mobile,
         province: visitorView?.province,
         institution_name: visitorView?.institution_name,
+        webinar: <ul style={{ padding: 0 }}>{packages?.filter(p => visitorView?.surveyed_package_id?.includes(String(p.id))).map(p => <li key={p.id}>{p.name}</li>)}</ul>,
         referral: visitorView?.referral,
       })),
-    [visitorViews, isSuccessVisitorViews]
+    [visitorViews, isSuccessVisitorViews, packages]
   );
 
   const columns = [
@@ -94,6 +95,12 @@ const AdminVisitorInfo: NextPage = () => {
       Header: "Institution Name",
       Footer: "Institution Name",
       accessor: "institution_name",
+    },
+    {
+      Header: "Webinar",
+      Footer: "Webinar",
+      accessor: "webinar",
+      minWidth: 300,
     },
     {
       Header: "Referral",
@@ -165,4 +172,4 @@ const AdminVisitorInfo: NextPage = () => {
   );
 };
 
-export default AdminVisitorInfo;
+export default WebinarAttendeesList;
