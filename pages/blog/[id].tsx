@@ -118,7 +118,7 @@ const AboutHEF: NextPage = (props: any) => {
         {blog?.image?.src && (
           <Image mt="lg" src={blog?.image.src} alt="Preview" height={300} />
         )}
-        <TypographyStylesProvider mt="xl">
+        <TypographyStylesProvider mt="xl" className="rich-text-image">
           <div dangerouslySetInnerHTML={{ __html: blog?.content }} />
         </TypographyStylesProvider>
       </Container>

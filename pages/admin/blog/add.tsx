@@ -134,6 +134,23 @@ const AdminAddBlog: NextPage = () => {
     }
   };
 
+  const handleRichTextImageUpload = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      fetch(`${process.env.NEXT_PUBLIC_CHAT_API}/upload`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log({ result });
+          resolve(result.data.path);
+        })
+        .catch(() => reject(new Error("Upload failed")));
+    });
+
   const handleSubmit = async (values: typeof form.values) => {
     if (!image) {
       setImageError("Required");
@@ -279,7 +296,11 @@ const AdminAddBlog: NextPage = () => {
                 />
               </InputWrapper>
               <InputWrapper label="Content" required error={contentError}>
-                <RichText value={content} onChange={setContent} />
+                <RichText
+                  value={content}
+                  onChange={setContent}
+                  onImageUpload={handleRichTextImageUpload}
+                />
               </InputWrapper>
               <Group mt="lg" position="right">
                 <Button type="submit">Add</Button>
@@ -297,7 +318,7 @@ const AdminAddBlog: NextPage = () => {
               {form.values.title && formatDate(new Date().toISOString())}
             </Text>
             {image?.src && <Image src={image.src} alt="Preview" height={300} />}
-            <TypographyStylesProvider>
+            <TypographyStylesProvider className="rich-text-image">
               <div dangerouslySetInnerHTML={{ __html: content }} />
             </TypographyStylesProvider>
           </Paper>
