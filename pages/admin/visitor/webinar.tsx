@@ -29,7 +29,7 @@ const WebinarAttendeesSummary: NextPage = () => {
           <WebinarAttendees
             data={webinarAttendees
               ?.filter((s) => parseInt(s.id) > 0 && s.total_attendees?.surveyed > 0)
-              ?.sort((a, b) => b.total_attendees.surveyed - a.total_attendees.surveyed)}
+              ?.sort((a, b) => a.order - b.order)}
           />
         )}
       </Container>

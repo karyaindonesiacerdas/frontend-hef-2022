@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
@@ -7,19 +7,25 @@ import {
   Box,
   Container,
   SimpleGrid,
-  Stack,
   Title,
 } from "@mantine/core";
 
 import AdminSidebar from "components/admin-layout/AdminSidebar";
 import { useAuth } from "contexts/auth.context";
 import { StatsGrid } from "components/admin/analytics/StatsGrid";
-import { useGraphAccumulative, useGraphTotal } from "services/tracker/hooks";
 import { usePageCounters } from "services/counter/hook";
 import { useTotalVisitorByRegistrationMethod } from "services/admin/useTotalVisitorByRegistrationMethod";
+import { useBoothVisitors, useWebinarAttendees } from "services/counter-booth/hooks";
 
-const StatsGraph = dynamic(
-  () => import("components/admin/analytics/StatsGraph"),
+const VisitorDistribution = dynamic(
+  () => import("components/admin/analytics/VisitorDistribution"),
+  {
+    ssr: false,
+  }
+);
+
+const VisitorDemographic = dynamic(
+  () => import("components/admin/analytics/VisitorDemographic"),
   {
     ssr: false,
   }
@@ -28,8 +34,8 @@ const StatsGraph = dynamic(
 const AdminDashboard: NextPage = () => {
   const router = useRouter();
   const { isAuthenticated, isInitialized, user } = useAuth();
-  const { data: graphTotal } = useGraphTotal();
-  const { data: graphAccumulative } = useGraphAccumulative();
+  const { data: webinarAttendees } = useWebinarAttendees();
+  const { data: boothVisitors } = useBoothVisitors(true);
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -39,19 +45,9 @@ const AdminDashboard: NextPage = () => {
     }
   }, [router, isInitialized, isAuthenticated, user?.role]);
 
-  const totalVisitor = graphTotal?.reduce((acc: any, cur: any) => {
-    return acc + cur.total;
-  }, 0);
-
-  const totalUniqueVisitor = graphAccumulative?.map(
-    (statistic: any) => statistic.total
-  )[graphAccumulative.length - 1];
-
   const { data: pageCounters } = usePageCounters();
-  console.log({ pageCounters });
   const { data: totalVisitorByRegistration } =
     useTotalVisitorByRegistrationMethod();
-  console.log({ totalVisitorByRegistration });
   const registeredVisitors = [
     {
       label: "Full Form",
@@ -81,38 +77,9 @@ const AdminDashboard: NextPage = () => {
       })}
     >
       <Container size={1700}>
-        <Title order={2} px={3}>
+        <Title order={2} px={3} style={{ marginBottom: 20 }}>
           Dashboard
         </Title>
-        <StatsGrid
-          data={[
-            {
-              title: "Visitor",
-              value: totalVisitor,
-              icon: "visitor",
-              diff: 18,
-            },
-            {
-              title: "Unique Visitor",
-              value: totalUniqueVisitor,
-              icon: "uniqueVisitor",
-              diff: 10,
-            },
-            {
-              title: "Exhibitor",
-              value: "21",
-              icon: "exhibitor",
-              diff: 10,
-            },
-            {
-              title: "Consultation",
-              value: "50",
-              icon: "consultation",
-              diff: 20,
-            },
-          ]}
-        />
-        <StatsGraph />
         <SimpleGrid cols={2} breakpoints={[{ maxWidth: "lg", cols: 1 }]}>
           <Box>
             <Title
@@ -154,6 +121,58 @@ const AdminDashboard: NextPage = () => {
             />
           </Box>
         </SimpleGrid>
+        <SimpleGrid cols={2} breakpoints={[{ maxWidth: "lg", cols: 1 }]}>
+          <Box>
+            <Title
+              px={3}
+              mb={-8}
+              sx={(theme) => ({ fontSize: theme.fontSizes.xl })}
+            >
+              Webinar Attendees
+            </Title>
+            <StatsGrid
+              data={[
+                {
+                  title: "Attended All",
+                  value: String(webinarAttendees?.at(1)?.total_attendees.surveyed || 0),
+                  icon: "visitor",
+                },
+                {
+                  title: "At Least One Webinar",
+                  value: String(webinarAttendees?.at(0)?.total_attendees.surveyed || 0),
+                  icon: "uniqueVisitor",
+                }
+              ]}
+              columns={2}
+            />
+          </Box>
+          <Box>
+            <Title
+              px={3}
+              mb={-8}
+              sx={(theme) => ({ fontSize: theme.fontSizes.xl })}
+            >
+              Booth Visitors
+            </Title>
+            <StatsGrid
+              data={[
+                {
+                  title: "Visited All",
+                  value: String(boothVisitors?.at(1)?.total_visitors || 0),
+                  icon: "exhibitor",
+                },
+                {
+                  title: "At Least One Booth",
+                  value: String(boothVisitors?.at(0)?.total_visitors || 0),
+                  icon: "consultation",
+                },
+              ]}
+              columns={2}
+            />
+          </Box>
+        </SimpleGrid>
+        <VisitorDemographic />
+        <VisitorDistribution />
       </Container>
     </AppShell>
   );

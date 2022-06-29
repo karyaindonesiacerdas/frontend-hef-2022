@@ -5,6 +5,7 @@ import { getWebinarAttendees } from "../counter-webinar";
 type WebinarAttendees = {
   id: string;
   name: string;
+  order: number;
   total_attendees: {
     registered: number;
     surveyed: number;
@@ -16,7 +17,7 @@ export const useWebinarAttendees = () => {
     ["webinar-attendees"],
     getWebinarAttendees,
     {
-      staleTime: 1000 * 60 * 1,
+      staleTime: 1000 * 60 * 5,
     }
   );
 };
