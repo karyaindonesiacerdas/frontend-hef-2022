@@ -98,6 +98,7 @@ const AdminSettingsAppSettings: NextPage = () => {
       zoom_business_link: values.zoom_business_link,
       zoom_link: values.zoom_link,
       is_chat: values.is_chat ? 1 : 0,
+      doorprize: settings?.doorprize
     };
 
     setVisible(true);

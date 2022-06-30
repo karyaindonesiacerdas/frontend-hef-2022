@@ -55,14 +55,14 @@ export const getVisitorViews = async ({
 };
 
 export type GetRandomVisitorParams = {
-  boothId?: string;
-  webinarId?: string;
+  boothIds?: string[];
+  webinarIds?: string[];
   winners: number[];
 };
 
-export const getRandomVisitor = async ({ boothId = '', webinarId = '', winners = []}: GetRandomVisitorParams) => {
+export const getRandomVisitor = async ({ boothIds = [], webinarIds = [], winners = []}: GetRandomVisitorParams) => {
   const accessToken = Cookies.get("accessToken");
-  const URL = `${process.env.NEXT_PUBLIC_API_URL}/random-visitor?booth_id=${boothId}&webinar_id=${webinarId}&winners=${winners.join(',')}`;
+  const URL = `${process.env.NEXT_PUBLIC_API_URL}/random-visitor?booth_ids=${boothIds.join(',')}&webinar_ids=${webinarIds.join(',')}&winners=${winners.join(',')}`;
 
   const res = await fetch(URL, {
     method: "GET",

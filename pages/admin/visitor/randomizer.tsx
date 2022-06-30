@@ -1,16 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { AppShell, Center, Container, Grid, Group, Paper, Select, Text, Title, createStyles, Button } from "@mantine/core";
+import { AppShell, Center, Container, Grid, Group, Image, MultiSelect, Paper, Select, Text, Title, createStyles, Button } from "@mantine/core";
+import { useNotifications } from "@mantine/notifications";
 
 import AdminSidebar from "components/admin-layout/AdminSidebar";
 import { useAuth } from "contexts/auth.context";
 import { useBoothVisitors, useRandomVisitor, Visitor } from "services/counter-booth/hooks";
 import { usePackages } from "services/package/hooks/usePackages";
+import type { ImageItemType } from "services/settings";
+import { useSettings } from "services/settings/hooks";
 
 interface SelProps {
-  selBooth?: string | null;
-  selWebinar?: string | null;
+  selBooths?: string[];
+  selWebinars?: string[];
+}
+interface PrizeWinnerType {
+  visitor?: Visitor;
+  prize?: ImageItemType;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -47,17 +54,21 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Randomizer: NextPage = () => {
-  const [selBooth, setSelBooth] = useState('one');
-  const [selWebinar, setSelWebinar] = useState('one');
+  const [selBooths, setSelBooths] = useState(['one']);
+  const [selWebinars, setSelWebinars] = useState(['one']);
+  const [selReward, setSelReward] = useState('0');
   const [isRandomizing, setRandomizing] = useState(false);
   const [tempWinner, setTempWinner] = useState<Visitor | null>();
-  const [winners, setWinners] = useState<Visitor[]>([]);
+  const [wlWinner, setWlWinner] = useState<PrizeWinnerType | null>();
+  const [winners, setWinners] = useState<PrizeWinnerType[]>([]);
   const [censored, setCensored] = useState(true);
   const router = useRouter();
   const { isAuthenticated, isInitialized, user } = useAuth();
   const { data: booths } = useBoothVisitors();
   const { data: webinars } = usePackages();
+  const { data: settings } = useSettings();
   const { classes } = useStyles();
+  const notifications = useNotifications();
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -70,8 +81,8 @@ const Randomizer: NextPage = () => {
   const {
     data,
     isLoading,
-  } = useRandomVisitor({ boothId: selBooth, webinarId: selWebinar, winners: winners.map(w => w.id) });
-  
+  } = useRandomVisitor({ boothIds: selBooths, webinarIds: selWebinars, winners: winners.map(w => w.visitor?.id || 0) });
+
   const boothOpts = useMemo(() => {
     const defaultOpts = [
       { value: 'one', label: '== At least one booth ==' },
@@ -80,7 +91,7 @@ const Randomizer: NextPage = () => {
     const filtered = booths?.filter(booth => booth.total_visitors > 0) || [];
     const sorted = filtered.sort((a, b) => a.company_name > b.company_name ? 1 : -1);
     return defaultOpts.concat(sorted.map(booth => ({ value: `${booth.id}`, label: booth.company_name })))
-  } , [booths]);
+  }, [booths]);
 
   const webinarOpts = useMemo(() => {
     const defaultOpts = [
@@ -88,25 +99,51 @@ const Randomizer: NextPage = () => {
       { value: 'all', label: '== All webinars ==' },
     ];
     return defaultOpts.concat(webinars?.map(webinar => ({ value: `${webinar.id}`, label: webinar.name })) || [])
-  } , [webinars]);
+  }, [webinars]);
 
-  const handleParamsChange = ({ selBooth, selWebinar }: SelProps) => {
-    if (selBooth) setSelBooth(selBooth);
-    if (selWebinar) setSelWebinar(selWebinar);
+  const rewardOpts = useMemo(() => settings?.doorprize?.rewards.map(reward => ({ value: `${reward.id}`, label: reward.name })), [settings])
+  const reward = (idx: string | number) => settings?.doorprize?.rewards[parseInt(`${idx}`)]
+  const rewardSrc = (idx: string | number) => reward(idx)?.image?.src;
+  const rewardName = (idx: string | number) => reward(idx)?.name;
+
+  const handleParamsChange = ({ selBooths, selWebinars }: SelProps) => {
+    if (selBooths) {
+      if (selBooths.length > 1) {
+        const firstBooth = selBooths[0];
+        const lastBooth = selBooths[selBooths.length - 1];
+        if (['one', 'all'].includes(firstBooth) || ['one', 'all'].includes(lastBooth)) {
+          selBooths = [lastBooth];
+        }
+      } else if (selBooths.length === 0) {
+        selBooths = ['one'];
+      }
+      setSelBooths(selBooths);
+    }
+    if (selWebinars) {
+      if (selWebinars.length > 1) {
+        const firstWebinar = selWebinars[0];
+        const lastWebinar = selWebinars[selWebinars.length - 1];
+        if (['one', 'all'].includes(firstWebinar) || ['one', 'all'].includes(lastWebinar)) {
+          selWebinars = [lastWebinar];
+        }
+      } else if (selWebinars.length === 0) {
+        selWebinars = ['one'];
+      }
+      setSelWebinars(selWebinars);
+    }
   }
+
+  const calcRandomizerN = (delta: number, f = 60) => Math.round((((0 - 1 - 2 * f) + Math.sqrt(Math.pow(1 + 2 * f, 2) + 8 * (delta + 780 + f * 40))) / 2) - 40)
 
   const startRandomizing = () => {
     setRandomizing(true);
-    searchWinner(0, 60);
+    searchWinner(0, calcRandomizerN(settings?.doorprize?.randomizer_time || 5000));
   }
-  
+
   const searchWinner = (i: number, limit: number) => {
     if (i === limit) {
       setTempWinner(null);
-      if (data) {
-        setWinners([data.winner, ...winners]);
-      }
-      setRandomizing(false);
+      setWlWinner({ visitor: data?.winner, prize: reward(selReward) });
     } else {
       setTempWinner({ id: i, name: data?.list[i % data?.list.length] || '' });
       setTimeout(() => {
@@ -115,7 +152,27 @@ const Randomizer: NextPage = () => {
     }
   }
 
+  const rejectWinner = () => {
+    setWlWinner(null);
+    setRandomizing(false);
+  }
+
+  const confirmWinner = () => {
+    if (wlWinner) {
+      notifications.showNotification({
+        title: "Congratulations!",
+        message: `${wlWinner.visitor?.name} won ${wlWinner.prize?.name || ''}`,
+        color: "green",
+      });
+      setWinners([wlWinner, ...winners]);
+    }
+    setWlWinner(null);
+    setRandomizing(false);
+  }
+
   const censorNumber = (mobile: string | undefined) => mobile?.replace(/(\d{4})\d{0,6}(\d{4})/, '$1****$2');
+
+  const sponsor = settings?.doorprize?.sponsors?.at(0);
 
   return (
     <AppShell
@@ -132,30 +189,56 @@ const Randomizer: NextPage = () => {
     >
       <Container size={1700}>
         <Title order={2} px={3}>
-          Randomizer
+          Doorprize
         </Title>
         <Grid className={classes.root}>
-          <Grid.Col span={6}>
-            <Select
+          <Grid.Col span={3}>
+            <MultiSelect
               label="Visited"
               data={boothOpts}
-              value={selBooth}
-              onChange={selBooth => handleParamsChange({ selBooth })}
-              disabled={winners.length > 0}
-              searchable
-              />
-          </Grid.Col>
-          <Grid.Col span={6}>
-            <Select
-              label="Attended"
-              data={webinarOpts}
-              value={selWebinar}
-              onChange={selWebinar => handleParamsChange({ selWebinar })}
-              disabled={winners.length > 0}
+              value={selBooths}
+              onChange={selBooths => handleParamsChange({ selBooths })}
+              disabled={isRandomizing || winners.length > 0}
               searchable
             />
           </Grid.Col>
-          <Grid.Col span={12}>
+          <Grid.Col span={3}>
+            <MultiSelect
+              label="Attended"
+              data={webinarOpts}
+              value={selWebinars}
+              onChange={selWebinars => handleParamsChange({ selWebinars })}
+              disabled={isRandomizing || winners.length > 0}
+              searchable
+            />
+          </Grid.Col>
+          <Grid.Col span={3}>
+            <Select
+              label="Doorprize"
+              data={rewardOpts || []}
+              value={selReward}
+              onChange={reward => reward && setSelReward(reward)}
+              disabled={isRandomizing}
+              searchable
+            />
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Center>
+              <Paper>
+                <Group position="center">
+                  <Text size="xs" color="dimmed" className={classes.title}>
+                    These Doorprizes are sponsored by
+                  </Text>
+                </Group>
+                <Group direction="column" align="center" spacing={4} mt="xs">
+                  {sponsor && sponsor.image.src && (
+                    <Image mt="lg" src={sponsor.image.src} alt="Our sponsors" height={200} />
+                  )}
+                </Group>
+              </Paper>
+            </Center>
+          </Grid.Col>
+          <Grid.Col span={4}>
             <Center>
               <Paper>
                 <Group position="center">
@@ -172,7 +255,25 @@ const Randomizer: NextPage = () => {
                 </Group>
               </Paper>
             </Center>
-            {(tempWinner || winners.length > 0) && (
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Center>
+              <Paper>
+                <Group position="center">
+                  <Text size="xs" color="dimmed" className={classes.title}>
+                    Current Doorprize
+                  </Text>
+                </Group>
+                <Group direction="column" align="center" spacing={4} mt="xs">
+                  {rewardSrc(selReward) && (
+                    <Image mt="lg" src={rewardSrc(selReward)} alt={rewardName(selReward)} height={200} />
+                  )}
+                </Group>
+              </Paper>
+            </Center>
+          </Grid.Col>
+          <Grid.Col span={12}>
+            {(tempWinner || wlWinner || winners.length > 0) && (
               <Center style={{ marginTop: 60 }}>
                 <Paper>
                   <Group position="center">
@@ -182,10 +283,22 @@ const Randomizer: NextPage = () => {
                   </Group>
                   <Group direction="column" align="center" spacing={4} mt="xs">
                     {tempWinner && <div className={classes.winnerContainer}><Text className={classes.tempWinner}>{tempWinner?.name}</Text></div>}
+                    {wlWinner && (
+                      <div className={classes.winnerContainer}>
+                        <Text align="center">{wlWinner.prize?.name}</Text>
+                        <Text className={classes.value} align="center">{wlWinner.visitor?.name}</Text>
+                        <Text align="center">{censored ? censorNumber(wlWinner.visitor?.mobile) : wlWinner.visitor?.mobile}</Text>
+                        <Center>
+                          <a href="#" onClick={confirmWinner} style={{ marginRight: 10 }}>Confirm</a>
+                          <a href="#" onClick={rejectWinner}>Remove</a>
+                        </Center>
+                      </div>
+                    )}
                     {winners.map(winner => (
-                      <div key={winner.id} className={classes.winnerContainer}>
-                        <Text className={classes.value} align="center">{winner.name}</Text>
-                        <Text align="center">{censored ? censorNumber(winner.mobile) : winner.mobile}</Text>
+                      <div key={winner.visitor?.id} className={classes.winnerContainer}>
+                        <Text align="center">{winner.prize?.name}</Text>
+                        <Text className={classes.value} align="center">{winner.visitor?.name}</Text>
+                        <Text align="center">{censored ? censorNumber(winner.visitor?.mobile) : winner.visitor?.mobile}</Text>
                       </div>
                     ))}
                   </Group>

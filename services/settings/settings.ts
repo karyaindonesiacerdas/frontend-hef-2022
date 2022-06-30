@@ -19,6 +19,15 @@ export const getSettings = async () => {
   return json.data;
 };
 
+export type ImageItemType = {
+  id: number;
+  name: string;
+  image: {
+    src: string;
+    filename: string;
+  };
+}
+
 export type UpdateAppSettingsPayload = {
   youtube_link: string;
   zoom_business_link: string;
@@ -27,6 +36,11 @@ export type UpdateAppSettingsPayload = {
   ads2_link: string;
   webinar_link: string;
   is_chat: 1 | 0; // 1 enabled, 0 disabled
+  doorprize?: {
+    randomizer_time: number,
+    sponsors: ImageItemType[],
+    rewards: ImageItemType[],
+  };
 };
 
 export const updateAppSettings = async (payload: UpdateAppSettingsPayload) => {
