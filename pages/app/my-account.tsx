@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import {
   Container,
@@ -7,6 +7,7 @@ import {
   Paper,
   Text,
   Title,
+  Tooltip,
 } from "@mantine/core";
 
 import { useAuth } from "contexts/auth.context";
@@ -65,7 +66,7 @@ const MyAccount = () => {
   const { classes } = useStyles();
   const os = useOs();
 
-  const { data: activity } = useActivityList();
+  const { data: activity } = useActivityList(1000);
 
   const isMobile = os === "android" || os === "ios";
 
@@ -75,8 +76,21 @@ const MyAccount = () => {
     }
   }, [router, isInitialized, isAuthenticated]);
 
+  const rewards = useMemo(() => activity?.data?.filter((reward: any) => !(
+    ['booth', 'view_poster'].includes(reward.subject_name) &&
+    (reward.subject === null || reward.subject.company_name === null)
+  )) || [], [activity?.data])
+
   if (!isInitialized || !isAuthenticated) {
     return null;
+  }
+
+  const getRewardLabel = (reward: any) => {
+    if (reward.subject_name === 'register') return 'Registration';
+    if (reward.subject_name === 'update_profile') return 'Profile Update';
+    if (reward.subject_name === 'booth') return `Booth: ${reward.subject?.company_name}`;
+    if (reward.subject_name === 'view_poster') return `Poster: ${reward.subject?.company_name}`;
+    return reward.subject_name;
   }
 
   return (
@@ -135,11 +149,13 @@ const MyAccount = () => {
               })}
               order={2}
             >
-              Reward
+              Reward ({rewards.length})
             </Title>
             <Group mt="md" spacing="xs">
-              {activity?.data?.map((_: any, i: number) => (
-                <Trophy key={i} size={36} color="	#FFD700" />
+              {rewards.map((reward: any, i: number) => (
+                <Tooltip key={i} withArrow label={getRewardLabel(reward)}>
+                  <Trophy size={36} color="#FFD700" cursor='pointer' />
+                </Tooltip>
               ))}
             </Group>
           </Paper>

@@ -9,6 +9,6 @@ import { getActivityList } from "../activity";
 //   total_reward: number;
 // };
 
-export const useActivityList = () => {
-  return useQuery(["activity-list"], getActivityList);
+export const useActivityList = (limit? : number) => {
+  return useQuery(["activity-list"], () => getActivityList(limit));
 };

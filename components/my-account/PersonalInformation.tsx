@@ -142,8 +142,6 @@ const PersonalInformation = ({ title }: Props) => {
       value: String(p.id),
     })) || [];
 
-  console.log({ data });
-
   useEffect(() => {
     if (data) {
       setValues({

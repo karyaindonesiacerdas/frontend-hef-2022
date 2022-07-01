@@ -40,9 +40,9 @@ export const postActivity = async ({
   return json.data;
 };
 
-export const getActivityList = async () => {
+export const getActivityList = async (limit? : number) => {
   const accessToken = Cookies.get("accessToken");
-  const URL = `${process.env.NEXT_PUBLIC_API_URL}/activity?limit=50&subject_type=reward`;
+  const URL = `${process.env.NEXT_PUBLIC_API_URL}/activity?limit=${limit || 50}&subject_type=reward`;
 
   const res = await fetch(URL, {
     method: "GET",
