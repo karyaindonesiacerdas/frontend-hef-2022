@@ -17,7 +17,7 @@ type IProps = {
   msg: {
     en: string;
     id: string;
-  },
+  } | any,
   visible: boolean;
   onClose: any;
 }
