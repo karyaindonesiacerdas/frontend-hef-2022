@@ -372,6 +372,7 @@ const PersonalInformation = ({ title }: Props) => {
               key={i}
               value={topic.value}
               checked={packageId?.includes(topic.value)}
+              disabled={i < 4}
               label={
                 <div>
                   <Text

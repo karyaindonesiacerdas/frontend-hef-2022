@@ -586,7 +586,7 @@ export const UpdateProfileModal = () => {
                     key={i}
                     value={topic.value}
                     checked={packageId?.includes(topic.value)}
-                    disabled={i === 0 || i === 1}
+                    disabled={i < 4}
                     label={
                       <div>
                         <Text

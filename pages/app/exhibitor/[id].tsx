@@ -35,6 +35,7 @@ import dynamic from "next/dynamic";
 // import Marquee from "react-easy-marquee";
 import Ticker from "react-ticker";
 
+import RewardModal from "@/components/RewardModal";
 import AppLayout from "@/components/app-layout/AppLayout";
 // import AboutUsModal from "@/components/booth/AboutUsModal";
 const AboutUsModal = dynamic(() => import("@/components/booth/AboutUsModal"), {
@@ -44,6 +45,7 @@ import CatalogModal from "@/components/booth/CatalogModal";
 import VideoModal from "@/components/booth/VideoModal";
 import { useRouter } from "next/router";
 import { useAuth } from "contexts/auth.context";
+import { useAppModal } from "contexts/modal.context";
 import { NextLink } from "@mantine/next";
 import { SocketProvider, useSocket } from "contexts/socket.context";
 import ChatButton from "@/components/chat/ChatButton";
@@ -383,6 +385,17 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+const msg: Record<string, object> = {
+  booth: {
+    en: 'You get points for visiting this booth for the first time',
+    id: 'Anda mendapatkan point karena mengunjungi booth ini untuk pertama kalinya'
+  },
+  poster: {
+    en: 'You get points for viewing this poster for the first time',
+    id: 'Anda mendapatkan point karena melihat poster ini untuk pertama kalinya'
+  }
+}
+
 const ExhibitorBooth: NextPage = () => {
   const router = useRouter();
   const { isAuthenticated, isInitialized, user } = useAuth();
@@ -404,6 +417,8 @@ const ExhibitorBooth: NextPage = () => {
   const [posterPreview, setPosterPreview] = useState("");
   const timerRef: { current: NodeJS.Timeout | null } = useRef(null);
   const os = useOs();
+  const [rewardVisibility, setRewardVisibility] = useState(false);
+  const [rewardMsg, setRewardMsg] = useState('booth');
 
   const {
     data: exhibitor,
@@ -456,6 +471,13 @@ const ExhibitorBooth: NextPage = () => {
     }
   }, [exhibitor?.banners, posterIndex]);
 
+  useEffect(() => {
+    if (exhibitor?.rewarded) {
+      setRewardVisibility(true);
+    }
+  }, [exhibitor?.rewarded])
+  
+
   const handleAddContact = async () => {
     if (!user?.id || !exhibitor?.id) return;
 
@@ -499,7 +521,6 @@ const ExhibitorBooth: NextPage = () => {
 
   const handleClickPoster = async () => {
     if (!exhibitor?.id || !user?.id) return;
-
     try {
       setPostingActivity(true);
       await postActivity({
@@ -508,10 +529,9 @@ const ExhibitorBooth: NextPage = () => {
         subject_name: `view_poster`,
         causer_id: user?.id,
       });
-      setPostingActivity(false);
-    } catch (error) {
-      setPostingActivity(false);
-    }
+      setRewardMsg('poster');
+    } catch (error) { }
+    setPostingActivity(false);
   };
 
   const nameCard = exhibitor?.banners?.find((banner) => banner.order === 11);
@@ -549,6 +569,14 @@ const ExhibitorBooth: NextPage = () => {
       >
         <BottomNav />
       </div>
+      <RewardModal
+        msg={msg[rewardMsg]}
+        visible={rewardVisibility}
+        onClose={() => {
+          setRewardVisibility(false);
+          setRewardMsg('booth');
+        }}
+      />
 
       {largerThanXs ? (
         <>
@@ -563,7 +591,10 @@ const ExhibitorBooth: NextPage = () => {
           </NextLink>
           <CatalogModal
             opened={isOpenCatalog}
-            setOpened={setIsOpenCatalog}
+            setOpened={visible => {
+              setIsOpenCatalog(visible);
+              if (!visible && rewardMsg === 'poster') setRewardVisibility(true);
+            }}
             posters={
               exhibitor?.banners?.filter((banner) =>
                 [1, 2, 3, 4, 5].includes(banner.order)
@@ -736,7 +767,10 @@ const ExhibitorBooth: NextPage = () => {
         <div style={{ height: "100vh", overflow: "auto", paddingBottom: 160 }}>
           <ModalPoster
             opened={openPoster}
-            setOpened={setOpenPoster}
+            setOpened={visible => {
+              setOpenPoster(visible);
+              if (!visible && rewardMsg === 'poster') setRewardVisibility(true);
+            }}
             url={selectedPoster}
           />
           <Stack
@@ -831,7 +865,7 @@ const ExhibitorBooth: NextPage = () => {
               />
             )}
             <Text px="sm" mt="xl" size="lg" weight={600} mb="sm">
-              Poster
+              Posters
             </Text>
             <Box
               sx={{
