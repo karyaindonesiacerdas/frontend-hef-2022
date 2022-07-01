@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import {
   Container,
@@ -13,9 +13,11 @@ import { useAuth } from "contexts/auth.context";
 import AppLayout from "@/components/app-layout/AppLayout";
 import PersonalInformation from "@/components/my-account/PersonalInformation";
 import ChangePassword from "@/components/my-account/ChangePassword";
+import { postActivity } from "services/activity/activity";
 import { useActivityList } from "services/activity/hooks";
 import { usePackages } from "services/package/hooks/usePackages";
 import { Trophy } from "tabler-icons-react";
+import RewardModal from "@/components/RewardModal";
 import BottomNav from "@/components/app-layout/BottomNav";
 import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
 import { useOs } from "@mantine/hooks";
@@ -65,17 +67,46 @@ const MyAccount = () => {
   const { isAuthenticated, isInitialized, user } = useAuth();
   const { classes } = useStyles();
   const os = useOs();
+  const [rewardVisibility, setRewardVisibility] = useState(false);
 
   const { data: activity } = useActivityList(1000);
   const { data: packages } = usePackages();
 
   const isMobile = os === "android" || os === "ios";
 
+  const postReward = useCallback(async (id: number) => {
+    try {
+      if (user?.id) {
+        await postActivity({
+          subject_id: id,
+          subject_type: "reward",
+          subject_name: "webinar",
+          causer_id: user.id,
+        });
+        setRewardVisibility(true);
+      }
+    } catch (error) { }
+  }, [user?.id]);
+
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
       router.replace("/login");
     }
   }, [router, isInitialized, isAuthenticated]);
+
+  useEffect(() => {
+    if (router.query?.from) {
+      const surveyMapper: Record<any, number> = {
+        '/survey/rehabilitasi-medis': 6,
+        '/survey/smart-hospital': 3,
+      };
+      const from = Array.isArray(router.query.from) ? router.query.from.at(0) : router.query.from;
+      const surveyId = surveyMapper[from || ''];
+      if (surveyId) {
+        postReward(surveyId);
+      }
+    }
+  }, [router.query, postReward]);
 
   const rewards = useMemo(() => activity?.data?.filter((reward: any) => !(
     ['booth', 'view_poster'].includes(reward.subject_name) &&
@@ -107,6 +138,14 @@ const MyAccount = () => {
 
   return (
     <div className={classes.root}>
+      <RewardModal
+        msg={{
+          en: 'You get points for completing webinar survey',
+          id: 'Anda mendapatkan point karena telah berpartisipasi dalam webinar dan mengisi survey terkait webinar tersebut'
+        }}
+        visible={rewardVisibility}
+        onClose={() => setRewardVisibility(false)}
+      />
       {isMobile ? (
         <div style={{ position: "absolute", top: 20, left: 16, zIndex: 100 }}>
           <AppMobileLayout />
