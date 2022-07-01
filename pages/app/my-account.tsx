@@ -5,7 +5,6 @@ import {
   createStyles,
   Group,
   Paper,
-  Text,
   Title,
   Tooltip,
 } from "@mantine/core";
@@ -15,6 +14,7 @@ import AppLayout from "@/components/app-layout/AppLayout";
 import PersonalInformation from "@/components/my-account/PersonalInformation";
 import ChangePassword from "@/components/my-account/ChangePassword";
 import { useActivityList } from "services/activity/hooks";
+import { usePackages } from "services/package/hooks/usePackages";
 import { Trophy } from "tabler-icons-react";
 import BottomNav from "@/components/app-layout/BottomNav";
 import AppMobileLayout from "@/components/app-layout/AppMobileLayout";
@@ -67,6 +67,7 @@ const MyAccount = () => {
   const os = useOs();
 
   const { data: activity } = useActivityList(1000);
+  const { data: packages } = usePackages();
 
   const isMobile = os === "android" || os === "ios";
 
@@ -79,7 +80,7 @@ const MyAccount = () => {
   const rewards = useMemo(() => activity?.data?.filter((reward: any) => !(
     ['booth', 'view_poster'].includes(reward.subject_name) &&
     (reward.subject === null || reward.subject.company_name === null)
-  )) || [], [activity?.data])
+  )) || [], [activity?.data]);
 
   if (!isInitialized || !isAuthenticated) {
     return null;
@@ -90,7 +91,18 @@ const MyAccount = () => {
     if (reward.subject_name === 'update_profile') return 'Profile Update';
     if (reward.subject_name === 'booth') return `Booth: ${reward.subject?.company_name}`;
     if (reward.subject_name === 'view_poster') return `Poster: ${reward.subject?.company_name}`;
+    if (reward.subject_name === 'webinar') {
+      const webinarName = packages?.filter(p => p.id === reward.subject_id)?.at(0)?.name;
+      return `Webinar: ${webinarName || reward.subject_id}`;
+    }
     return reward.subject_name;
+  }
+
+  const getRewardColor = (reward: any) => {
+    if (reward.subject_name === 'booth') return '#008ffb';
+    if (reward.subject_name === 'view_poster') return '#00e396';
+    if (reward.subject_name === 'webinar') return '#feb019';
+    return "#ff4560";
   }
 
   return (
@@ -154,7 +166,7 @@ const MyAccount = () => {
             <Group mt="md" spacing="xs">
               {rewards.map((reward: any, i: number) => (
                 <Tooltip key={i} withArrow label={getRewardLabel(reward)}>
-                  <Trophy size={36} color="#FFD700" cursor='pointer' />
+                  <Trophy size={36} color={getRewardColor(reward)} cursor='pointer' />
                 </Tooltip>
               ))}
             </Group>
