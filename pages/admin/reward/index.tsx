@@ -1,82 +1,36 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import {
   AppShell,
-  Badge,
-  Button,
   Container,
-  createStyles,
-  Group,
-  Input,
-  ScrollArea,
-  Switch,
-  Table,
-  Text,
   Title,
 } from "@mantine/core";
-import Fuse from "fuse.js";
-import debounce from "lodash.debounce";
-import { Search, Trophy } from "tabler-icons-react";
 
-import { useAuth } from "contexts/auth.context";
 import AdminSidebar from "components/admin-layout/AdminSidebar";
-import { UpdatePackageModal } from "components/admin/exhibitor/UpdatePackageModal";
-import { TableSkeleton } from "components/TableSkeleton";
-import ReactHTMLTableToExcel from "components/table/ReactHTMLTableToExcel";
-import { useExhibitors } from "services/exhibitor/hooks";
-import { useActivityList } from "services/activity/hooks";
+import KamalReactTable from "components/table/KamalReactTable";
+import { useAuth } from "contexts/auth.context";
+import { useUserRewardsList } from "services/activity/hooks";
 
-const useStyles = createStyles((theme) => ({
-  root: {
-    padding: theme.spacing.xs * 0.5,
-    paddingTop: theme.spacing.md,
-    paddingBottom: theme.spacing.md,
-  },
+type KamalReactTableParams = {
+  pageIndex?: number;
+  pageSize?: number;
+  filter?: string;
+  sort?: {
+    sortColumn: string,
+    sortDirection: string
+  }
+}
 
-  header: {
-    position: "sticky",
-    top: 0,
-    zIndex: 10,
-    backgroundColor:
-      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-    transition: "box-shadow 150ms ease",
-
-    "&::after": {
-      content: '""',
-      position: "absolute",
-      left: 0,
-      right: 0,
-      bottom: 0,
-      borderBottom: `1px solid ${
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[3]
-          : theme.colors.gray[2]
-      }`,
-    },
-  },
-
-  scrolled: {
-    boxShadow: theme.shadows.sm,
-  },
-}));
-
-const AdminAward: NextPage = () => {
+const RewardListPage: NextPage = () => {
   const router = useRouter();
   const { isAuthenticated, isInitialized, user } = useAuth();
-  const { classes, cx } = useStyles();
-  const [scrolled, setScrolled] = useState(false);
-  const [openedUpdateModal, setOpenedUpdateModal] = useState(false);
-  const [selectedExhibitor, setSelectedExhibitor] = useState<{
-    id: number;
-    name: string;
-    company: string;
-    package_id: number;
-    package_name: string;
-  }>();
-  const [confirm, setConfirm] = useState<"confirm" | "all">("all");
-  const [mode, setMode] = useState<"print" | "action">("action");
-  const [querySearch, setQuerySearch] = useState("");
+  const [pageSize, setPageSize] = useState(25);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [filter, setFilter] = useState('');
+  const [sortColumn, setSortColumn] = useState('');
+  const [sortDirection, setSortDirection] = useState('');
+  const slug = router.query.slug || []
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -86,108 +40,71 @@ const AdminAward: NextPage = () => {
     }
   }, [router, isInitialized, isAuthenticated, user?.role]);
 
-  // const {
-  //   data: exhibitors,
-  //   isSuccess: isSuccessExhibitors,
-  //   isLoading: isLoadingExhibitors,
-  // } = useExhibitors({});
-  // console.log({ exhibitors });
+  const {
+    data: userRewards,
+    isSuccess: isSuccessuserRewards,
+    isLoading: isLoadinguserRewards,
+  } = useUserRewardsList({ page: pageIndex, limit: pageSize, filter, sortColumn, sortDirection });
 
-  const { data: activities, isLoading: isLoadingActivities } =
-    useActivityList();
-
-  // ==== Handle Search ====
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setQuerySearch(event.target.value);
-  };
-
-  const debounceHandleSearchChange = useMemo(
-    () => debounce(handleSearchChange, 500),
-    []
+  const data = useMemo(
+    () =>
+      isSuccessuserRewards &&
+      userRewards?.data?.map((userReward, i) => ({
+        no: i + userRewards?.from,
+        id: userReward?.id,
+        name: userReward?.name,
+        email: userReward?.email,
+        mobile: userReward?.mobile,
+        rewards: userReward?.rewards,
+      })),
+    [userRewards, isSuccessuserRewards]
   );
 
-  useEffect(() => {
-    return () => debounceHandleSearchChange.cancel();
-  }, [debounceHandleSearchChange]);
-  // ==== End Handle Search ====
-
-  const fuse = new Fuse(activities || [], {
-    keys: ["name", "email"],
-    includeScore: true,
-    isCaseSensitive: false,
-  });
-
-  const results = fuse.search(querySearch);
-  const activitiesResult = querySearch
-    ? results.map((result) => result.item)
-    : activities;
-
-  const ths = (
-    <tr>
-      {mode === "action" && <th>ID</th>}
-      <th>Name</th>
-      <th>Email</th>
-      <th>Total Reward</th>
-    </tr>
-  );
-
-  const rows = isLoadingActivities ? (
-    <TableSkeleton rows={3} cols={5} />
-  ) : (
-    activitiesResult?.map((activity: any) => (
-      <tr key={activity.id}>
-        {mode === "action" && <td>{activity.id}</td>}
-        <td>{activity.name}</td>
-        <td>{activity.email}</td>
-        <td>
-          <Group spacing={4}>
-            <Text sx={{ fontFamily: "monospace" }}>
-              {activity.total_reward}
-            </Text>
-            <Trophy size={20} color="	#FFD700" />
-          </Group>
-        </td>
-      </tr>
-    ))
-  );
-
-  const action = (
-    <Group mb={5} position="apart">
-      <Input
-        icon={<Search size={16} />}
-        placeholder="Search..."
-        type="text"
-        aria-label="Search"
-        onChange={debounceHandleSearchChange}
-      />
-
-      <Group>
-        <ReactHTMLTableToExcel
-          id="test-table-xls-button"
-          className="download-table-xls-button"
-          table="table-to-xls"
-          filename="tablexls"
-          sheet="tablexls"
-          buttonText="Download as XLS"
-        />
-        <Switch
-          label="Print Mode"
-          value={mode}
-          onChange={() => setMode((v) => (v === "print" ? "action" : "print"))}
-        />
-        <Switch
-          label="Confirm"
-          value={confirm}
-          onChange={() =>
-            setConfirm((v) => (v === "confirm" ? "all" : "confirm"))
-          }
-        />
-      </Group>
-    </Group>
-  );
+  const columns = [
+    {
+      Header: "No",
+      Footer: "No",
+      accessor: "no",
+    },
+    {
+      Header: "Name",
+      Footer: "Name",
+      accessor: "name",
+    },
+    {
+      Header: "Email",
+      Footer: "Email",
+      accessor: "email",
+    },
+    {
+      Header: "Mobile",
+      Footer: "Mobile",
+      accessor: "mobile",
+    },
+    {
+      Header: "Total Reward",
+      Footer: "Total Reward",
+      accessor: "rewards",
+    },
+  ];
 
   if (!isInitialized || !isAuthenticated) {
     return null;
+  }
+
+  const handleParamsChange = (params: KamalReactTableParams) => {
+    if (params.pageIndex) setPageIndex(params.pageIndex);
+    if (params.pageSize) setPageSize(params.pageSize);
+    if (params.filter !== undefined) setFilter(params.filter);
+    if (params.sort) {
+      if (params.sort.sortColumn === '-') {
+        setSortColumn('');
+        setSortDirection('');
+      } else {
+        setSortColumn(params.sort.sortColumn);
+        setSortDirection(params.sort.sortDirection);
+      }
+    }
   }
 
   return (
@@ -207,25 +124,22 @@ const AdminAward: NextPage = () => {
         <Title order={2} px={3}>
           Reward
         </Title>
-        <div className={classes.root}>
-          {action}
-          <ScrollArea
-            sx={{ height: "75vh" }}
-            onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
-          >
-            <Table id="table-to-xls">
-              <thead
-                className={cx(classes.header, { [classes.scrolled]: scrolled })}
-              >
-                {ths}
-              </thead>
-              <tbody>{rows}</tbody>
-            </Table>
-          </ScrollArea>
-        </div>
+        <KamalReactTable
+          showFooter={false}
+          data={data || []}
+          total={userRewards?.total || 0}
+          columns={columns}
+          searchable={true}
+          pagination={true}
+          downloadable={true}
+          skeletonCols={5}
+          isLoading={isLoadinguserRewards}
+          initialState={{ pageIndex, pageSize }}
+          onParamsChange={handleParamsChange}
+        />
       </Container>
     </AppShell>
   );
 };
 
-export default AdminAward;
+export default RewardListPage;
