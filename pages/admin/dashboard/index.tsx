@@ -51,11 +51,11 @@ const AdminDashboard: NextPage = () => {
   const registeredVisitors = [
     {
       label: "Full Form",
-      value: totalVisitorByRegistration?.total_full_registration,
+      value: totalVisitorByRegistration?.total_full_registration || 0,
     },
     {
       label: "By Phone",
-      value: totalVisitorByRegistration?.total_phone_registration,
+      value: totalVisitorByRegistration?.total_phone_registration || 0,
     },
   ];
 

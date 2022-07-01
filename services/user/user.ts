@@ -38,9 +38,9 @@ export const getMe = async () => {
   return json.data;
 };
 
-export const getDemographic = async () => {
+export const getDemographic = async (filter: string) => {
   const accessToken = Cookies.get("accessToken");
-  const URL = `${process.env.NEXT_PUBLIC_API_URL}/user/demographic`;
+  const URL = `${process.env.NEXT_PUBLIC_API_URL}/user/demographic?filter=${filter}`;
 
   const res = await fetch(URL, {
     method: "GET",

@@ -14,10 +14,10 @@ type VisitorDemographic = {
   institution_types: VisitorDemographicDetail,
 }
 
-export const useVisitorDemographic = () => {
+export const useVisitorDemographic = (filter: string) => {
   return useQuery<VisitorDemographic, Error>(
-    ["visitor-demographic"],
-    getDemographic,
+    ["visitor-demographic", filter],
+    () => getDemographic(filter),
     { staleTime: 1000 * 60 * 5 }
   );
 };
