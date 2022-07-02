@@ -48,16 +48,18 @@ const AdminDashboard: NextPage = () => {
   const { data: pageCounters } = usePageCounters();
   const { data: totalVisitorByRegistration } =
     useTotalVisitorByRegistrationMethod();
-  const registeredVisitors = [
-    {
-      label: "Full Form",
-      value: totalVisitorByRegistration?.total_full_registration || 0,
-    },
-    {
-      label: "By Phone",
-      value: totalVisitorByRegistration?.total_phone_registration || 0,
-    },
-  ];
+  const counters = useMemo(() => {
+    if (pageCounters) {
+      return pageCounters[0].totalVisit + pageCounters[1].totalVisit;
+    }
+    return 0;
+  }, [pageCounters]);
+  const registeredVisitors = useMemo(() => {
+    if (totalVisitorByRegistration) {
+      return totalVisitorByRegistration.total_full_registration + totalVisitorByRegistration.total_phone_registration;
+    }
+    return 0;
+  }, [totalVisitorByRegistration]);
 
   if (!isInitialized || !isAuthenticated) {
     return null;
@@ -93,12 +95,12 @@ const AdminDashboard: NextPage = () => {
               data={[
                 {
                   title: 'Registered Visitors',
-                  value: String((registeredVisitors?.at(0)?.value || 0) + (registeredVisitors?.at(1)?.value || 0)),
+                  value: `${registeredVisitors}`,
                   icon: 'visitor',
                 },
                 {
                   title: 'Visit Counter',
-                  value: String((pageCounters?.at(0)?.totalVisit || 0) + (pageCounters?.at(1)?.totalVisit || 0)),
+                  value: `${counters}`,
                   icon: 'visitor',
                 }
               ]}
