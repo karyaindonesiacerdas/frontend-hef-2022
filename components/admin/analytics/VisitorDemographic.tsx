@@ -40,13 +40,18 @@ const VisitorDemographic = () => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Title order={2} px={3} sx={(theme) => ({ fontSize: theme.fontSizes.xl })}>
-          Demographic
-        </Title>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <Select data={packageOpts} value={filter} onChange={v => setFilter(v || 'all')} style={{ marginRight: 10, width: 400 }} />
+        <SimpleGrid
+          cols={3}
+          breakpoints={[
+            { maxWidth: "lg", cols: 1 },
+          ]}
+        >
+          <Title order={2} px={3} sx={(theme) => ({ fontSize: theme.fontSizes.xl })}>
+            Demographic
+          </Title>
+          <Select data={packageOpts} value={filter} onChange={v => setFilter(v || 'all')} style={{ marginRight: 10, width: 400, maxWidth: '100%' }} />
           <Select data={modeOpts} value={mode} onChange={v => setMode(v || 'actual')} />
-        </div>
+        </SimpleGrid>
       </div>
       <SimpleGrid
         cols={2}
@@ -71,6 +76,7 @@ const VisitorDemographic = () => {
                 },
               }}
               width="100%"
+              height={400}
             />
           )}
         </Paper>
@@ -89,6 +95,7 @@ const VisitorDemographic = () => {
                 },
               }}
               width="100%"
+              height={400}
             />
           )}
         </Paper>
