@@ -31,19 +31,10 @@ const VisitorDemographic = dynamic(
   }
 );
 
-const AdminDashboard: NextPage = () => {
+const PublicDashboard: NextPage = () => {
   const router = useRouter();
-  const { isAuthenticated, isInitialized, user } = useAuth();
   const { data: webinarAttendees } = useWebinarAttendees();
   const { data: boothVisitors } = useBoothVisitors(true);
-
-  useEffect(() => {
-    if (isInitialized && !isAuthenticated) {
-      router.replace("/login");
-    } else if (isInitialized && isAuthenticated && user?.role !== "admin") {
-      router.replace("/main-hall");
-    }
-  }, [router, isInitialized, isAuthenticated, user?.role]);
 
   const { data: pageCounters } = usePageCounters();
   const { data: totalVisitorByRegistration } =
@@ -59,13 +50,8 @@ const AdminDashboard: NextPage = () => {
     },
   ];
 
-  if (!isInitialized || !isAuthenticated) {
-    return null;
-  }
-
   return (
     <AppShell
-      navbar={<AdminSidebar />}
       styles={(theme) => ({
         main: {
           height: "100vh",
@@ -163,4 +149,4 @@ const AdminDashboard: NextPage = () => {
   );
 };
 
-export default AdminDashboard;
+export default PublicDashboard;
