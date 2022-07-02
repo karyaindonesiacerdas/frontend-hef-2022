@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { AppShell, Center, Container, Grid, Group, Image, MultiSelect, Paper, Select, Text, Title, createStyles, Button } from "@mantine/core";
+import { AppShell, Center, Container, Grid, Group, Image, MultiSelect, Paper, Select, Text, Title, createStyles, Button, Textarea } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 
 import AdminSidebar from "components/admin-layout/AdminSidebar";
@@ -54,9 +54,11 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Randomizer: NextPage = () => {
+  const [mode, setMode] = useState('visitor');
   const [selBooths, setSelBooths] = useState(['one']);
   const [selWebinars, setSelWebinars] = useState(['one']);
   const [selReward, setSelReward] = useState('0');
+  const [manualCandidates, setManualCandidates] = useState('');
   const [isRandomizing, setRandomizing] = useState(false);
   const [tempWinner, setTempWinner] = useState<Visitor | null>();
   const [wlWinner, setWlWinner] = useState<PrizeWinnerType | null>();
@@ -79,9 +81,17 @@ const Randomizer: NextPage = () => {
   }, [router, isInitialized, isAuthenticated, user?.role]);
 
   const {
-    data,
+    data: visitorData,
     isLoading,
   } = useRandomVisitor({ boothIds: selBooths, webinarIds: selWebinars, winners: winners.map(w => w.visitor?.id || 0) });
+
+  const getManualData = () => {
+    const list = manualCandidates.split('\n').filter(c => c && !winners.map(w => w.visitor?.name).includes(c));
+    const winner = { id: winners.length + 1, name: list[Math.floor(Math.random() * list.length)], mobile: '' };
+    return { winner, list, total: list.length };
+  }
+
+  const data = mode === 'visitor' ? visitorData : getManualData();
 
   const boothOpts = useMemo(() => {
     const defaultOpts = [
@@ -193,24 +203,38 @@ const Randomizer: NextPage = () => {
         </Title>
         <Grid className={classes.root}>
           <Grid.Col span={3}>
-            <MultiSelect
-              label="Visited"
-              data={boothOpts}
-              value={selBooths}
-              onChange={selBooths => handleParamsChange({ selBooths })}
+            <Select
+              label="Mode"
+              data={[{ value: 'manual', label: 'Manual' }, { value: 'visitor', label: 'Visitor' }]}
+              value={mode}
+              onChange={mode => mode && setMode(mode)}
               disabled={isRandomizing || winners.length > 0}
               searchable
             />
           </Grid.Col>
           <Grid.Col span={3}>
-            <MultiSelect
-              label="Attended"
-              data={webinarOpts}
-              value={selWebinars}
-              onChange={selWebinars => handleParamsChange({ selWebinars })}
-              disabled={isRandomizing || winners.length > 0}
-              searchable
-            />
+            {mode === 'visitor' && (
+              <MultiSelect
+                label="Visited"
+                data={boothOpts}
+                value={selBooths}
+                onChange={selBooths => handleParamsChange({ selBooths })}
+                disabled={isRandomizing || winners.length > 0}
+                searchable
+              />
+            )}
+          </Grid.Col>
+          <Grid.Col span={3}>
+            {mode === 'visitor' && (
+              <MultiSelect
+                label="Attended"
+                data={webinarOpts}
+                value={selWebinars}
+                onChange={selWebinars => handleParamsChange({ selWebinars })}
+                disabled={isRandomizing || winners.length > 0}
+                searchable
+              />
+            )}
           </Grid.Col>
           <Grid.Col span={3}>
             <Select
@@ -222,6 +246,16 @@ const Randomizer: NextPage = () => {
               searchable
             />
           </Grid.Col>
+          {mode === 'manual' && (
+            <Grid.Col span={12}>
+              <Textarea
+                label="Candidates"
+                value={manualCandidates}
+                onChange={e => setManualCandidates(e.currentTarget.value)}
+                minRows={8}
+              />
+            </Grid.Col>
+          )}
           <Grid.Col span={4}>
             <Center>
               <Paper>
@@ -249,7 +283,7 @@ const Randomizer: NextPage = () => {
                 <Group direction="column" align="center" spacing={4} mt="xs">
                   <Text className={classes.value}>{data?.total}</Text>
                   <Text className={classes.visitor}>Candidates</Text>
-                  <Button loading={isRandomizing || isLoading} onClick={startRandomizing}>
+                  <Button loading={isRandomizing || isLoading} disabled={!data || !data.total} onClick={startRandomizing}>
                     Randomize
                   </Button>
                 </Group>
