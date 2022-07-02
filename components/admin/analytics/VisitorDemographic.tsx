@@ -21,8 +21,9 @@ const useStyles = createStyles((theme) => ({
 
 const VisitorDemographic = () => {
   const [filter, setFilter] = useState('all');
+  const [mode, setMode] = useState('actual');
   const { classes } = useStyles();
-  const { data, isSuccess, isLoading } = useVisitorDemographic(filter);
+  const { data, isSuccess, isLoading } = useVisitorDemographic(filter, mode);
   const { data: packages } = usePackages();
 
   const packageOpts = useMemo(() => {
@@ -31,13 +32,21 @@ const VisitorDemographic = () => {
     return retval;
   }, [packages]);
 
+  const modeOpts = useMemo(() => [
+    { value: 'registered', label: 'Registered' },
+    { value: 'actual', label: 'Actual' },
+  ], []);
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
         <Title order={2} px={3} sx={(theme) => ({ fontSize: theme.fontSizes.xl })}>
           Demographic
         </Title>
-        <Select data={packageOpts} value={filter} onChange={v => setFilter(v || 'all')} style={{ width: 400 }} />
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <Select data={packageOpts} value={filter} onChange={v => setFilter(v || 'all')} style={{ marginRight: 10, width: 400 }} />
+          <Select data={modeOpts} value={mode} onChange={v => setMode(v || 'actual')} />
+        </div>
       </div>
       <SimpleGrid
         cols={2}
