@@ -40,11 +40,12 @@ const VisitorDemographic = () => {
         <Select data={packageOpts} value={filter} onChange={v => setFilter(v || 'all')} style={{ width: 400 }} />
       </div>
       <SimpleGrid
-        cols={3}
+        cols={2}
         breakpoints={[
           { maxWidth: "xl", cols: 2 },
           { maxWidth: "lg", cols: 1 },
         ]}
+        style={{ marginBottom: 30 }}
       >
         <Paper withBorder p="md" radius="md" style={{ position: "relative" }}>
           <LoadingOverlay visible={isLoading} />
@@ -82,12 +83,14 @@ const VisitorDemographic = () => {
             />
           )}
         </Paper>
+      </SimpleGrid>
+      <SimpleGrid cols={1}>
         <Paper withBorder p="md" radius="md" style={{ position: "relative" }}>
           <LoadingOverlay visible={isLoading} />
           {isSuccess && (
             <Chart
               type="bar"
-              series={[{ data: data.provinces.series }]}
+              series={data.provinces.series}
               options={{
                 title: {
                   text: data.provinces.name,
@@ -104,6 +107,7 @@ const VisitorDemographic = () => {
                 }
               }}
               width="100%"
+              height={1400}
             />
           )}
         </Paper>

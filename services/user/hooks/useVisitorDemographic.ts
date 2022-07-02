@@ -8,8 +8,17 @@ type VisitorDemographicDetail = {
   series: number[];
 }
 
+type VisitorProvinceDemographicDetail = {
+  name: string;
+  labels: string[];
+  series: {
+    data: number[];
+    name: string;
+  }[];
+}
+
 type VisitorDemographic = {
-  provinces: VisitorDemographicDetail,
+  provinces: VisitorProvinceDemographicDetail,
   positions: VisitorDemographicDetail,
   institution_types: VisitorDemographicDetail,
 }
