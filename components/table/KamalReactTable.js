@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   useTable,
   useSortBy,
@@ -76,6 +76,7 @@ const KamalReactTable = ({
   sortable = true,
   actionable = false,
   onParamsChange,
+  extraNode = <React.Fragment />,
 }) => {
   const { classes, cx } = useStyles();
   const [scrolled, setScrolled] = useState(false);
@@ -241,6 +242,8 @@ const KamalReactTable = ({
           )}
         </Group>
       </Group>
+
+      {extraNode}
 
       <ScrollArea
         sx={{ height: "75vh" }}

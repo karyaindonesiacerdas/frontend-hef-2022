@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import {
   AppShell,
   Container,
+  Group,
+  Select,
   Title,
 } from "@mantine/core";
 
@@ -11,6 +13,7 @@ import AdminSidebar from "components/admin-layout/AdminSidebar";
 import KamalReactTable from "components/table/KamalReactTable";
 import { useAuth } from "contexts/auth.context";
 import { useVisitorsList } from "services/counter-booth/hooks";
+import { usePackages } from "services/package/hooks/usePackages";
 
 type KamalReactTableParams = {
   pageIndex?: number;
@@ -28,8 +31,10 @@ const AdminVisitor: NextPage = () => {
   const [pageSize, setPageSize] = useState(25);
   const [pageIndex, setPageIndex] = useState(1);
   const [filter, setFilter] = useState('');
+  const [webinarId, setWebinarId] = useState('all');
   const [sortColumn, setSortColumn] = useState('');
   const [sortDirection, setSortDirection] = useState('');
+  const { data: packages } = usePackages();
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -43,7 +48,13 @@ const AdminVisitor: NextPage = () => {
     data: visitorViews,
     isSuccess: isSuccessVisitorViews,
     isLoading: isLoadingVisitorViews,
-  } = useVisitorsList({ page: pageIndex, limit: pageSize, filter, sortColumn, sortDirection });
+  } = useVisitorsList({ page: pageIndex, limit: pageSize, filter, webinarId, sortColumn, sortDirection });
+
+  const packageOpts = useMemo(() => {
+    const retval = packages?.sort((a, b) => a.order - b.order).map(p => ({ value: String(p.id), label: p.name })) || [];
+    retval.splice(0, 0, { value: 'all', label: '== Select One Webinar to Filter ==' });
+    return retval;
+  }, [packages]);
 
   const data = useMemo(
     () =>
@@ -117,6 +128,12 @@ const AdminVisitor: NextPage = () => {
     }
   }
 
+  const webinarFilter = (
+    <Group position="right">
+      <Select data={packageOpts} value={webinarId} onChange={v => setWebinarId(v || 'all')} style={{ width: 400, maxWidth: '100%' }} />
+    </Group>
+  )
+
   return (
     <AppShell
       navbar={<AdminSidebar />}
@@ -146,6 +163,7 @@ const AdminVisitor: NextPage = () => {
           isLoading={isLoadingVisitorViews}
           initialState={{ pageIndex, pageSize }}
           onParamsChange={handleParamsChange}
+          extraNode={webinarFilter}
         />
       </Container>
     </AppShell>
