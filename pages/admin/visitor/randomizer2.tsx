@@ -279,8 +279,8 @@ const Randomizer2: NextPage = () => {
               searchable
             />
           </Grid.Col>
-          {/* <Grid.Col span={3}>
-            {mode === 'visitor' && (
+          <Grid.Col span={3}>
+            {/* {mode === 'visitor' && (
               <MultiSelect
                 label="Visited"
                 data={boothOpts}
@@ -289,10 +289,10 @@ const Randomizer2: NextPage = () => {
                 disabled={isRandomizing || winners.length > 0}
                 searchable
               />
-            )}
+            )} */}
           </Grid.Col>
           <Grid.Col span={3}>
-            {mode === 'visitor' && (
+            {/* {mode === 'visitor' && (
               <MultiSelect
                 label="Attended"
                 data={webinarOpts}
@@ -301,18 +301,18 @@ const Randomizer2: NextPage = () => {
                 disabled={isRandomizing || winners.length > 0}
                 searchable
               />
-            )}
+            )} */}
           </Grid.Col>
           <Grid.Col span={3}>
-            <Select
+            {/* <Select
               label="Doorprize"
               data={rewardOpts || []}
               value={selReward}
               onChange={reward => reward && setSelReward(reward)}
               disabled={isRandomizing}
               searchable
-            />
-          </Grid.Col> */}
+            /> */}
+          </Grid.Col>
           {mode === "manual" && (
             <Grid.Col span={12}>
               <Textarea
