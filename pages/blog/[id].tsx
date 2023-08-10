@@ -129,46 +129,50 @@ const AboutHEF: NextPage = (props: any) => {
 export default AboutHEF;
 
 export const getStaticPaths = async ({ locales }: GetStaticPathsContext) => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_CHAT_API}/blogs/published`
-    );
-    const blogs = await res.json();
-    const pathsID = blogs?.map((blog: any) => {
-      return {
-        params: {
-          id: blog?._id,
-        },
-        locale: "en",
-      };
-    });
-    const pathsEN = blogs?.map((blog: any) => {
-      return {
-        params: {
-          id: blog?._id,
-        },
-        locale: "id",
-      };
-    });
+  // try {
+  //   const res = await fetch(
+  //     `${process.env.NEXT_PUBLIC_CHAT_API}/blogs/published`
+  //   );
+  //   const blogs = await res.json();
+  //   const pathsID = blogs?.map((blog: any) => {
+  //     return {
+  //       params: {
+  //         id: blog?._id,
+  //       },
+  //       locale: "en",
+  //     };
+  //   });
+  //   const pathsEN = blogs?.map((blog: any) => {
+  //     return {
+  //       params: {
+  //         id: blog?._id,
+  //       },
+  //       locale: "id",
+  //     };
+  //   });
 
-    const combinePaths = [...pathsEN, ...pathsID];
-    // console.log({ combinePaths });
+  //   const combinePaths = [...pathsEN, ...pathsID];
+  //   // console.log({ combinePaths });
 
-    // const paths = blogs?.map((blog: any) => {
-    //   return {
-    //     params: {
-    //       id: blog?._id,
-    //     },
-    //     locale: "en",
-    //   };
-    // });
-    // console.log({ paths });
-    return {
-      paths: combinePaths,
-      // paths,
-      fallback: true,
-    };
-  } catch (error) {}
+  //   // const paths = blogs?.map((blog: any) => {
+  //   //   return {
+  //   //     params: {
+  //   //       id: blog?._id,
+  //   //     },
+  //   //     locale: "en",
+  //   //   };
+  //   // });
+  //   // console.log({ paths });
+  //   return {
+  //     paths: combinePaths,
+  //     // paths,
+  //     fallback: true,
+  //   };
+  // } catch (error) {}
+  return {
+    paths: [],
+    fallback: true,
+  };
 };
 
 export const getStaticProps = async ({
